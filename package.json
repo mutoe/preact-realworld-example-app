@@ -1,0 +1,36 @@
+{
+  "name": "preact-realworld-example-app",
+  "version": "0.1.0",
+  "description": "> ### [Preact](https://github.com/developit/preact) codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.",
+  "keywords": [
+    "realworld",
+    "preact"
+  ],
+  "author": "mutoe <mutoe@foxmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/mutoe/preact-realworld-example-app#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mutoe/preact-realworld-example-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mutoe/preact-realworld-example-app/issues"
+  },
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack --mode=production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "preact": "^10.0.5"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  }
+}
