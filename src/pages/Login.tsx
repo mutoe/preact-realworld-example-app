@@ -1,7 +1,19 @@
 import { Component, h } from 'preact'
 import { Link } from 'preact-router'
 
-export default class Register extends Component {
+interface RegisterState {
+  errors: ResponseError
+}
+
+export default class Register extends Component<{}, RegisterState> {
+  constructor() {
+    super()
+
+    this.state = {
+      errors: {},
+    }
+  }
+
   render() {
     return (
       <div className="auth-page">
@@ -15,7 +27,9 @@ export default class Register extends Component {
               </p>
 
               <ul className="error-messages">
-                <li>That email is already taken</li>
+                {Object.entries(this.state.errors).map(([ field, errors ]) => (
+                  <li>{field} {errors[0]}</li>
+                ))}
               </ul>
 
               <form>
