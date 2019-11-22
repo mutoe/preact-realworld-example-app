@@ -18,3 +18,6 @@ Thumbs.db
 
 # Runtime files
 *.log
+
+# Test files
+/coverage
