@@ -12,7 +12,9 @@
 *.launch
 .settings/
 
-
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
+
+# Runtime files
+*.log

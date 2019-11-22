@@ -8,7 +8,7 @@ interface AppState {
   name: string
 }
 
-export class App extends Component<AppProps, AppState> {
+export default class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props)
 
