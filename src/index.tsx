@@ -1,6 +1,31 @@
-import { render, h } from 'preact'
-import App from './App'
+import { h, render } from 'preact'
+import Router from 'preact-router'
 
-console.log('Hello world')
+import Header from './layout/Header'
+import Footer from './layout/Footer'
 
-render(<App name="cool working"/>, document.querySelector('#app')!)
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Settings from './pages/Settings'
+import Article from './pages/Article'
+import Profile from './pages/Profile'
+import EditArticle from './pages/EditArticle'
+
+const Main = () => (
+  <div>
+    <Header />
+    <Router>
+      <Home path="/" />
+      <Login path="/login" />
+      <Register path="/register" />
+      <Settings path="/settings" />
+      <Article path="/article" />
+      <Profile path="/profile" />
+      <EditArticle path="/article/:id" />
+    </Router>
+    <Footer />
+  </div>
+)
+
+render(<Main />, document.querySelector('#app')!)
