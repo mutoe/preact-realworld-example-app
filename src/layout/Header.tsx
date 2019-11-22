@@ -1,6 +1,5 @@
-import { h } from 'preact'
+import { h, Component } from 'preact'
 import { Link } from 'preact-router/match'
-import { Component } from 'react'
 
 export default class Header extends Component {
   render() {

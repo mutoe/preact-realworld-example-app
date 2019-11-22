@@ -1,5 +1,6 @@
 import { h, render } from 'preact'
 import Router from 'preact-router'
+import { createHashHistory } from 'history'
 
 import Header from './layout/Header'
 import Footer from './layout/Footer'
@@ -15,7 +16,7 @@ import EditArticle from './pages/EditArticle'
 const Main = () => (
   <div>
     <Header />
-    <Router>
+    <Router history={createHashHistory()}>
       <Home path="/" />
       <Login path="/login" />
       <Register path="/register" />

@@ -24,11 +24,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "history": "^4.10.1",
     "preact": "^10.0.5",
     "preact-router": "^3.1.0"
   },
   "devDependencies": {
     "@types/enzyme": "^3.10.3",
+    "@types/history": "^4.7.3",
     "@types/jest": "^24.0.23",
     "@types/jsdom": "^12.2.4",
     "@typescript-eslint/eslint-plugin": "^2.8.0",
