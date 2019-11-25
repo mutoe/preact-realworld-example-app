@@ -3,7 +3,7 @@
 
 /// <reference types="enzyme-adapter-preact-pure"/>
 
-import { JSDOM } from 'jsdom'
+import {  JSDOM } from 'jsdom'
 
 import { configure } from "enzyme"
 import Adapter from "enzyme-adapter-preact-pure"
@@ -12,15 +12,23 @@ const dom = new JSDOM('', {
   pretendToBeVisual: true
 })
 
-// @ts-ignore
+declare global {
+  namespace NodeJS {
+    interface Global {
+      Event: typeof Event
+      Node: typeof Node
+      document: Document;
+      window: Window;
+      navigator: Navigator;
+      requestAnimationFrame: AnimationFrameProvider['requestAnimationFrame']
+    }
+  }
+}
+
 global.Event = dom.window.Event;
-// @ts-ignore
 global.Node = dom.window.Node;
-// @ts-ignore
 global.window = dom.window;
-// @ts-ignore
 global.document = dom.window.document;
-// @ts-ignore
 global.requestAnimationFrame = dom.window.requestAnimationFrame;
 
 configure({ adapter: new Adapter() })

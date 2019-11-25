@@ -18,6 +18,10 @@ Thumbs.db
 
 # Runtime files
 *.log
+report.*.json
 
 # Test files
 /coverage
+
+# Build files
+/dist
