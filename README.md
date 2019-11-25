@@ -1,5 +1,7 @@
 # ![RealWorld Example App](logo.png)
 
+> Forked from [hassanbazzi/preact-realworld-example-app](https://github.com/hassanbazzi/preact-realworld-example-app)
+
 > ### [Preact](https://github.com/developit/preact) codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
 
