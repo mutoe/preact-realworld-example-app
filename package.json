@@ -44,6 +44,7 @@
     "eslint-plugin-jest": "^23.0.4",
     "eslint-plugin-react": "^7.16.0",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^3.1.0",
     "jest": "^24.9.0",
     "jsdom": "^15.2.1",
     "mockjs": "^1.1.0",
@@ -54,6 +55,11 @@
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint --fix"
+    }
   },
   "eslintConfig": {
     "env": {
@@ -93,7 +99,9 @@
       ],
       "react/self-closing-comp": [
         "error"
-      ]
+      ],
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "react/no-unescaped-entities": "off"
     }
   },
   "jest": {

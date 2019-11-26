@@ -34,7 +34,7 @@ export default class Home extends Component {
                   <span className="date">January 20th</span>
                 </div>
                 <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i className="ion-heart"></i> 29
+                  <i className="ion-heart" /> 29
                 </button>
               </div>
               <a href="" className="preview-link">
@@ -52,7 +52,7 @@ export default class Home extends Component {
                   <span className="date">January 20th</span>
                 </div>
                 <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i className="ion-heart"></i> 32
+                  <i className="ion-heart" /> 32
                 </button>
               </div>
               <a href="" className="preview-link">

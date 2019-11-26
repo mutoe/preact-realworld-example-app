@@ -3,10 +3,10 @@ import { Link, route } from 'preact-router'
 import { postLogin } from '../services'
 
 interface RegisterState {
-  errors: ResponseError
-  email: string
-  password: string
-  loginButtonDisabled: boolean
+  errors: ResponseError;
+  email: string;
+  password: string;
+  loginButtonDisabled: boolean;
 }
 
 export default class Register extends Component<{}, RegisterState> {
@@ -64,7 +64,7 @@ export default class Register extends Component<{}, RegisterState> {
 
               <ul className="error-messages">
                 {Object.entries(this.state.errors).map(([ field, errors ]) => (
-                  <li>{field} {errors[0]}</li>
+                  <li key={field}>{field} {errors[0]}</li>
                 ))}
               </ul>
 

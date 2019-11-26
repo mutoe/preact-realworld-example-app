@@ -1,7 +1,7 @@
 interface ResponseError {
-  [field: string]: string[]
+  [field: string]: string[];
 }
 
 interface Response {
-  errors: ResponseError
+  errors: ResponseError;
 }
