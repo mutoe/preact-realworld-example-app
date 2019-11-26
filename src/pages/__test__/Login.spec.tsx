@@ -105,7 +105,7 @@ describe('# Login request', () => {
 
     await instance.onLogin()
 
-    expect(route).toBeCalled()
+    expect(route).toBeCalledWith('/')
   })
 })
 
