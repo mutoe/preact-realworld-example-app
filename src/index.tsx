@@ -1,6 +1,7 @@
 import { h, render } from 'preact'
 import Router from 'preact-router'
 import { createHashHistory } from 'history'
+import RootStateContext, { initialRootState } from './stores/globalContext'
 
 import Header from './layout/Header'
 import Footer from './layout/Footer'
@@ -14,7 +15,7 @@ import Profile from './pages/Profile'
 import EditArticle from './pages/EditArticle'
 
 const Main = () => (
-  <div>
+  <RootStateContext.Provider value={initialRootState}>
     <Header />
     <Router history={createHashHistory()}>
       <Home path="/" />
@@ -26,7 +27,7 @@ const Main = () => (
       <EditArticle path="/article/:id" />
     </Router>
     <Footer />
-  </div>
+  </RootStateContext.Provider>
 )
 
 render(<Main />, document.querySelector('#app')!)
