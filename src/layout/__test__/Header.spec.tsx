@@ -13,12 +13,11 @@ afterEach(() => {
 })
 
 describe('# Header Component', () => {
-
   it('should hidden post and settings and display logging buttons when not logged', () => {
     (useContext as jest.Mock).mockReturnValue({
       user: null,
     })
-    let wrapper = mount(<Header />)
+    const wrapper = mount(<Header />)
 
     expect(wrapper.findWhere(n => n.type() === 'a' && /Sign in/.test(n.text()))).toHaveLength(1)
     expect(wrapper.findWhere(n => n.type() === 'a' && /Sign up/.test(n.text()))).toHaveLength(1)
@@ -30,12 +29,11 @@ describe('# Header Component', () => {
     (useContext as jest.Mock).mockReturnValue({
       user: {},
     })
-    let wrapper = mount(<Header />)
+    const wrapper = mount(<Header />)
 
     expect(wrapper.findWhere(n => n.type() === 'a' && /Sign in/.test(n.text()))).toHaveLength(0)
     expect(wrapper.findWhere(n => n.type() === 'a' && /Sign up/.test(n.text()))).toHaveLength(0)
     expect(wrapper.findWhere(n => n.type() === 'a' && /Settings/.test(n.text()))).toHaveLength(1)
     expect(wrapper.findWhere(n => n.type() === 'a' && /New Post/.test(n.text()))).toHaveLength(1)
-
   })
 })
