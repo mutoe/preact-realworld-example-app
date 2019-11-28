@@ -1,7 +1,27 @@
 import { Component, h } from 'preact'
-import { Link } from 'preact-router'
 
-export default class Register extends Component {
+interface RegisterState {
+  errors: Record<string, string[]>;
+  username: string;
+  email: string;
+  password: string;
+}
+
+export default class Register extends Component<{}, RegisterState> {
+  constructor() {
+    super()
+    this.state = {
+      errors: {},
+      username: '',
+      email: '',
+      password: '',
+    }
+  }
+
+  onRegister() {
+    return
+  }
+
   render() {
     return (
       <div className="auth-page">
@@ -28,7 +48,7 @@ export default class Register extends Component {
                 <fieldset className="form-group">
                   <input className="form-control form-control-lg" type="password" placeholder="Password" />
                 </fieldset>
-                <button className="btn btn-lg btn-primary pull-xs-right">
+                <button className="btn btn-lg btn-primary pull-xs-right" onClick={this.onRegister}>
                   Sign up
                 </button>
               </form>
