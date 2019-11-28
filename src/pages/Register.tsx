@@ -31,11 +31,15 @@ export default class Register extends Component<{}, RegisterState> {
             <div className="col-md-6 offset-md-3 col-xs-12">
               <h1 className="text-xs-center">Sign up</h1>
               <p className="text-xs-center">
-                <Link href="/login">Have an account?</Link>
+                <a href="/login">Have an account?</a>
               </p>
 
               <ul className="error-messages">
-                <li>That email is already taken</li>
+                {
+                  Object.entries(this.state.errors).map(([ field, errors ]) => {
+                    return <li key={field}>{field} {errors[0]}</li>
+                  })
+                }
               </ul>
 
               <form>
