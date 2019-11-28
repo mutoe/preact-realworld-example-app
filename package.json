@@ -47,8 +47,10 @@
     "html-webpack-plugin": "^3.2.0",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
+    "jest-serializer-html-string": "^1.0.1",
     "jsdom": "^15.2.1",
     "mockjs": "^1.1.0",
+    "preact-render-to-string": "^5.1.1",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.2",
@@ -114,6 +116,9 @@
     "collectCoverageFrom": [
       "<rootDir>/src/**/*",
       "!<rootDir>/src/types/**/*"
+    ],
+    "snapshotSerializers": [
+      "jest-serializer-html-string"
     ]
   }
 }
