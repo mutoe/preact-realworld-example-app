@@ -114,7 +114,7 @@
       "<rootDir>/src/setup-test.ts"
     ],
     "collectCoverageFrom": [
-      "<rootDir>/src/**/*",
+      "<rootDir>/src/**/*.{ts,tsx}",
       "!<rootDir>/src/types/**/*"
     ],
     "snapshotSerializers": [
