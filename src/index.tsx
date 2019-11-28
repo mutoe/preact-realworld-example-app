@@ -30,4 +30,10 @@ const Main = () => (
   </RootStateContext.Provider>
 )
 
-render(<Main />, document.querySelector('#app')!)
+const container = document.querySelector('#app')
+
+if (container) {
+  render(<Main />, container)
+} else {
+  throw new Error('#app is not found')
+}
