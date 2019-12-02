@@ -18,3 +18,11 @@ export interface PostLoginForm {
 export async function postLogin(form: PostLoginForm) {
   return axios.post('/users/login', { user: form })
 }
+
+interface PostRegisterForm extends PostLoginForm {
+  username: string;
+}
+
+export async function postRegister(form: PostRegisterForm) {
+  return axios.post('/user/register', { user: form })
+}

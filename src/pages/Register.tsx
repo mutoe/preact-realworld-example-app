@@ -1,4 +1,5 @@
 import { Component, h } from 'preact'
+import { postRegister } from '../services'
 
 interface RegisterState {
   errors: Record<string, string[]>;
@@ -18,8 +19,12 @@ export default class Register extends Component<{}, RegisterState> {
     }
   }
 
-  onRegister() {
-    return
+  async onRegister() {
+    try {
+      await postRegister(this.state)
+    } catch (e) {
+      this.setState({ errors: e.errors })
+    }
   }
 
   onInputUsername(username: string) {

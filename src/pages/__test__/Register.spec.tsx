@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import { h } from 'preact'
-import { postLogin } from '../../services'
+import { postLogin, postRegister } from '../../services'
 import {route} from 'preact-router'
 import Register from '../Register'
 
@@ -69,7 +69,7 @@ describe('# Register request', () => {
   })
 
   it('can set error messages correctly when received error response', async function () {
-    (postLogin as jest.Mock).mockImplementation(() => Promise.reject({
+    (postRegister as jest.Mock).mockImplementation(() => Promise.reject({
       errors: { 'email and password': [ 'is invalid' ], }
     }))
     wrapper.setState({
@@ -79,7 +79,7 @@ describe('# Register request', () => {
 
     await instance.onRegister()
 
-    expect(postLogin).toBeCalled()
+    expect(postRegister).toBeCalled()
     expect(wrapper.state().errors).toHaveProperty('email and password')
   })
 
