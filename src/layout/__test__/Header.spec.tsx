@@ -19,7 +19,7 @@ describe('# Header Component', () => {
     })
     const html = render(<Header />)
 
-    expect(html).toMatchSnapshot()
+    expect(html).toContain('Sign in')
   })
 
   it('should display post and settings and hidden logging buttons when logged', () => {
@@ -28,6 +28,6 @@ describe('# Header Component', () => {
     })
     const html = render(<Header />)
 
-    expect(html).toMatchSnapshot()
+    expect(html).toContain('New Post')
   })
 })
