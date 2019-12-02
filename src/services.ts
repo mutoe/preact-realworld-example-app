@@ -10,11 +10,11 @@ axios.interceptors.response.use((res) => {
   return Promise.reject(err.response.data)
 })
 
-export interface postLoginForm {
-  email: string
-  password: string
+export interface PostLoginForm {
+  email: string;
+  password: string;
 }
 
-export async function postLogin(form: postLoginForm) {
+export async function postLogin(form: PostLoginForm) {
   return axios.post('/users/login', { user: form })
 }
