@@ -1,4 +1,4 @@
-import { Component, h } from 'preact'
+import { Component, createRef, h } from 'preact'
 import { postRegister } from '../services'
 
 interface RegisterState {
@@ -9,6 +9,8 @@ interface RegisterState {
 }
 
 export default class Register extends Component<{}, RegisterState> {
+  formRef = createRef<HTMLFormElement>()
+
   constructor() {
     super()
     this.state = {
@@ -20,6 +22,8 @@ export default class Register extends Component<{}, RegisterState> {
   }
 
   async onRegister() {
+    if (!this.formRef.current?.checkValidity()) return
+
     try {
       await postRegister(this.state)
     } catch (e) {
@@ -59,7 +63,7 @@ export default class Register extends Component<{}, RegisterState> {
                 }
               </ul>
 
-              <form>
+              <form ref={this.formRef}>
                 <fieldset className="form-group">
                   <input className="form-control form-control-lg"
                     type="text"

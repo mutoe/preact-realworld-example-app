@@ -85,20 +85,22 @@ describe('# Register request', () => {
 
   it('should not be send when given invalid form', function () {
     wrapper.setState({
+      username: '123',
       email: '123',
       password: '123',
     })
     wrapper.update()
-    const loginButton = wrapper.find('form button.btn-lg.btn-primary')
+    const registerButton = wrapper.find('form button.btn-lg.btn-primary')
 
-    loginButton.simulate('click')
+    registerButton.simulate('click')
 
-    expect(postLogin).not.toBeCalled()
+    expect(postRegister).not.toBeCalled()
   })
 
   it('should can goto home page when entering the correct account', async function () {
-    (postLogin as jest.Mock).mockImplementation(() => Promise.resolve())
+    (postRegister as jest.Mock).mockImplementation(() => Promise.resolve())
     wrapper.setState({
+      username: 'test_user',
       email: 'test@example.com',
       password: '123456'
     })
