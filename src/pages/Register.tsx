@@ -1,5 +1,6 @@
 import { Component, createRef, h } from 'preact'
 import { postRegister } from '../services'
+import { route } from 'preact-router'
 
 interface RegisterState {
   errors: Record<string, string[]>;
@@ -25,7 +26,8 @@ export default class Register extends Component<{}, RegisterState> {
     if (!this.formRef.current?.checkValidity()) return
 
     try {
-      await postRegister(this.state)
+      await postRegister({ username: this.state.username, email: this.state.email, password: this.state.password })
+      route('/')
     } catch (e) {
       this.setState({ errors: e.errors })
     }
