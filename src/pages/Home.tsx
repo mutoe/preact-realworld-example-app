@@ -1,4 +1,5 @@
 import { Component, h } from 'preact'
+import NavBar from '../components/NavBar'
 
 export default class Home extends Component {
   render() {
@@ -15,16 +16,7 @@ export default class Home extends Component {
         <div className="row">
 
           <div className="col-md-9">
-            <div className="feed-toggle">
-              <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <a className="nav-link disabled" href="">Your Feed</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="">Global Feed</a>
-                </li>
-              </ul>
-            </div>
+            <NavBar />
 
             <div className="article-preview">
               <div className="article-meta">
