@@ -21,7 +21,7 @@ export default class PopularTags extends Component<{}, PopularTagsStates> {
         <div className="tag-list">
           {
             this.state.tags.map(tag => (
-              <a key={tag} href="" className="tag-pill tag-default">{tag}</a>
+              <a key={tag} href={`/tag/${tag}`} className="tag-pill tag-default">{tag}</a>
             ))
           }
         </div>

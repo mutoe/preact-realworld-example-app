@@ -19,4 +19,13 @@ describe('# Popular Tags Component', () => {
     expect(wrapper.text()).toContain('node')
     expect(wrapper.text()).not.toContain('rails')
   })
+
+  it('should jump to the tag relative list when a tag clicked', function () {
+    const wrapper = shallow(<PopularTags />)
+    wrapper.setState({ tags: [ 'javascript' ] })
+    wrapper.update()
+    const targetTag = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'javascript')
+
+    expect(targetTag.props().href).toBe('/tag/javascript')
+  })
 })
