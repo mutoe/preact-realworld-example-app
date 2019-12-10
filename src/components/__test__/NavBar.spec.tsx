@@ -16,6 +16,13 @@ describe('# Navigation Bar Component', () => {
     expect(globalFeedLink.props().href).toBe('/')
   })
 
+  it('should hide "Your Feed" link when not logging', function () {
+    const wrapper = shallow(<NavBar />)
+    const myFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Your Feed')
+
+    expect(myFeedLink.props().href).toBe('/my-feed')
+  })
+
   it('should be highlighted when the label is activated', function () {
     const wrapper = shallow(<NavBar currentActive="global" />)
     const globalFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Global Feed')

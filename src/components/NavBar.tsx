@@ -10,7 +10,7 @@ export default class NavBar extends Component<NavBarProps> {
       <div className="feed-toggle">
         <ul className="nav nav-pills outline-active">
           <li className="nav-item">
-            <a className={`nav-link ${this.props.currentActive === 'global' ? 'active' : 'disabled'}`} href="">Your Feed</a>
+            <a className={`nav-link ${this.props.currentActive === 'global' ? 'active' : 'disabled'}`} href="/my-feed">Your Feed</a>
           </li>
           <li className="nav-item">
             <a className={`nav-link ${this.props.currentActive === 'global' ? 'active' : 'disabled'}`} href="/">Global Feed</a>
