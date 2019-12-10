@@ -55,6 +55,18 @@ describe('# Login form validate', () => {
 
     expect(loginButton.props().disabled).toBe(true)
   })
+
+  it('should not send form when given invalid email format', function () {
+    const loginButton = wrapper.find('form button.btn-lg.btn-primary')
+    wrapper.setState({
+      email: '123',
+      password: '123',
+    })
+
+    loginButton.simulate('click')
+
+    expect(postLogin).not.toBeCalled()
+  })
 })
 
 describe('# Login request', () => {
