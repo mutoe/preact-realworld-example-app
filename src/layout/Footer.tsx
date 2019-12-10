@@ -1,16 +1,14 @@
-import { Component, h } from 'preact'
+import { h } from 'preact'
 
-export default class Footer extends Component {
-  render() {
-    return (
-      <footer>
-        <div className="container">
-          <a href="/" className="logo-font">conduit</a>
-          <span className="attribution">
-            An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed under MIT.
-          </span>
-        </div>
-      </footer>
-    )
-  }
+export default function Footer() {
+  return (
+    <footer>
+      <div className="container">
+        <a href="/" className="logo-font">conduit</a>
+        <span className="attribution">
+          An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed under MIT.
+        </span>
+      </div>
+    </footer>
+  )
 }
