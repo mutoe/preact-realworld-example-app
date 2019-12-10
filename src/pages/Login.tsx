@@ -35,11 +35,11 @@ export default class Register extends Component<{}, RegisterState> {
   }
 
   onInputEmail(email: string) {
-    this.setState({ email, })
+    this.setState({ email })
   }
 
   onInputPassword(password: string) {
-    this.setState({ password, })
+    this.setState({ password })
   }
 
   render() {

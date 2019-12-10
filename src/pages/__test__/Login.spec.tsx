@@ -2,7 +2,7 @@ import { shallow } from 'enzyme'
 import { h } from 'preact'
 import Login from '../Login'
 import { postLogin } from '../../services'
-import {route} from 'preact-router'
+import { route } from 'preact-router'
 
 jest.mock('../../services')
 jest.mock('preact-router')
@@ -82,7 +82,7 @@ describe('# Login request', () => {
 
   it('can set error messages correctly when received error response', async function () {
     (postLogin as jest.Mock).mockImplementation(() => Promise.reject({
-      errors: { 'email and password': [ 'is invalid' ], }
+      errors: { 'email and password': [ 'is invalid' ] },
     }))
     wrapper.setState({
       email: 'bad_account@example.com',
@@ -112,7 +112,7 @@ describe('# Login request', () => {
     (postLogin as jest.Mock).mockImplementation(() => Promise.resolve())
     wrapper.setState({
       email: 'test@example.com',
-      password: '123456'
+      password: '123456',
     })
 
     await instance.onLogin()
