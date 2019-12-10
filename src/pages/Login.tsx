@@ -6,7 +6,6 @@ interface RegisterState {
   errors: ResponseError;
   email: string;
   password: string;
-  loginButtonDisabled: boolean;
 }
 
 export default class Register extends Component<{}, RegisterState> {
@@ -19,7 +18,6 @@ export default class Register extends Component<{}, RegisterState> {
       errors: {},
       email: '',
       password: '',
-      loginButtonDisabled: true,
     }
   }
 
@@ -37,17 +35,11 @@ export default class Register extends Component<{}, RegisterState> {
   }
 
   onInputEmail(email: string) {
-    this.setState({
-      email,
-      loginButtonDisabled: !email || !this.state.password,
-    })
+    this.setState({ email, })
   }
 
   onInputPassword(password: string) {
-    this.setState({
-      password,
-      loginButtonDisabled: !this.state.email || !password,
-    })
+    this.setState({ password, })
   }
 
   render() {
@@ -86,7 +78,7 @@ export default class Register extends Component<{}, RegisterState> {
                     onInput={e => this.onInputPassword(e.currentTarget.value)} />
                 </fieldset>
                 <button className="btn btn-lg btn-primary pull-xs-right"
-                  disabled={this.state.loginButtonDisabled}
+                  disabled={!this.state.email || !this.state.password}
                   type="submit"
                   onClick={this.onLogin.bind(this)}>
                   Sign in
