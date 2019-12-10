@@ -75,7 +75,7 @@ export default class Register extends Component<{}, RegisterState> {
                 </fieldset>
                 <fieldset className="form-group">
                   <input className="form-control form-control-lg"
-                    type="text"
+                    type="email"
                     placeholder="Email"
                     onInput={e => this.onInputEmail(e.currentTarget.value)}
                     value={this.state.email} />
@@ -83,13 +83,14 @@ export default class Register extends Component<{}, RegisterState> {
                 <fieldset className="form-group">
                   <input className="form-control form-control-lg"
                     type="password"
+                    minLength={8}
                     placeholder="Password"
                     onInput={e => this.onInputPassword(e.currentTarget.value)}
                     value={this.state.password} />
                 </fieldset>
                 <button className="btn btn-lg btn-primary pull-xs-right"
                   disabled={!(this.state.email && this.state.username && this.state.password)}
-                  onClick={this.onRegister}>
+                  onClick={this.onRegister.bind(this)}>
                   Sign up
                 </button>
               </form>
