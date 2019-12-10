@@ -30,10 +30,5 @@ const Main = () => (
   </RootStateContext.Provider>
 )
 
-const container = document.querySelector('#app')
-
-if (container) {
-  render(<Main />, container)
-} else {
-  throw new Error('#app is not found')
-}
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+render(<Main />, document.querySelector('#app')!)
