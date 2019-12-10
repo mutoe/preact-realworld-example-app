@@ -1,6 +1,13 @@
 import { shallow } from 'enzyme'
 import NavBar from '../NavBar'
 import { h } from 'preact'
+import { initialRootState } from '../../stores/globalContext'
+import { useContext } from 'preact/hooks'
+import render from 'preact-render-to-string'
+
+jest.mock('preact/hooks', () => ({
+  useContext: jest.fn(() => initialRootState),
+}))
 
 describe('# Navigation Bar Component', () => {
   it('should display "Global Feed" item always', function () {
@@ -16,7 +23,10 @@ describe('# Navigation Bar Component', () => {
     expect(globalFeedLink.props().href).toBe('/')
   })
 
-  it('should hide "Your Feed" link when not logging', function () {
+  it('should jump to My Feed page when "Your Feed" clicked', function () {
+    (useContext as jest.Mock).mockReturnValue({
+      user: {},
+    })
     const wrapper = shallow(<NavBar />)
     const myFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Your Feed')
 
@@ -27,7 +37,6 @@ describe('# Navigation Bar Component', () => {
     const wrapper = shallow(<NavBar currentActive="global" />)
     const globalFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Global Feed')
 
-
     expect(globalFeedLink.hasClass('active')).toBe(true)
   })
 
@@ -36,5 +45,23 @@ describe('# Navigation Bar Component', () => {
     const globalFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Global Feed')
 
     expect(globalFeedLink.hasClass('active')).toBe(false)
+  })
+
+  it('should hide "Your Feed" link when not logging', function () {
+    (useContext as jest.Mock).mockReturnValue({
+      user: null,
+    })
+
+    const html = render(<NavBar />)
+    expect(html).not.toContain('Your Feed')
+  })
+
+  it('should display "Your Feed" link when logged', function () {
+    (useContext as jest.Mock).mockReturnValue({
+      user: {},
+    })
+
+    const html = render(<NavBar />)
+    expect(html).toContain('Your Feed')
   })
 })
