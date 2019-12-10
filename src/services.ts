@@ -24,5 +24,5 @@ interface PostRegisterForm extends PostLoginForm {
 }
 
 export async function postRegister(form: PostRegisterForm) {
-  return axios.post('/user/register', { user: form })
+  return axios.post('/users', { user: form })
 }
