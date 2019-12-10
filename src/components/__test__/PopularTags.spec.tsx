@@ -8,4 +8,15 @@ describe('# Popular Tags Component', () => {
 
     expect(wrapper.text()).toContain('Popular Tags')
   })
+
+  it('should display tags those have in state', function () {
+    const wrapper = shallow(<PopularTags />)
+    wrapper.setState({ tags: [ 'javascript', 'node' ] })
+
+    wrapper.update()
+
+    expect(wrapper.text()).toContain('javascript')
+    expect(wrapper.text()).toContain('node')
+    expect(wrapper.text()).not.toContain('rails')
+  })
 })
