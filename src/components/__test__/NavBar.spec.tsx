@@ -15,4 +15,19 @@ describe('# Navigation Bar Component', () => {
 
     expect(globalFeedLink.props().href).toBe('/')
   })
+
+  it('should be highlighted when the label is activated', function () {
+    const wrapper = shallow(<NavBar currentActive="global" />)
+    const globalFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Global Feed')
+
+
+    expect(globalFeedLink.hasClass('active')).toBe(true)
+  })
+
+  it('should not be highlighted when label is inactivated', function () {
+    const wrapper = shallow(<NavBar currentActive="personal" />)
+    const globalFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Global Feed')
+
+    expect(globalFeedLink.hasClass('active')).toBe(false)
+  })
 })
