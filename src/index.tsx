@@ -3,8 +3,8 @@ import Router from 'preact-router'
 import { createHashHistory } from 'history'
 import RootStateContext, { initialRootState } from './stores/globalContext'
 
-import Header from './layout/Header'
-import Footer from './layout/Footer'
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 import Home from './pages/Home'
 import Login from './pages/Login'
