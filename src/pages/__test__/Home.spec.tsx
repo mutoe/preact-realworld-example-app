@@ -9,4 +9,10 @@ describe('# Home Page', () => {
 
     expect(wrapper.find(NavBar).prop('currentActive')).toBe('global')
   })
+
+  it('should have popular tags module', function () {
+    const wrapper = shallow(<Home />)
+
+    expect(wrapper.text()).toContain('Popular Tags')
+  })
 })
