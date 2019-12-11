@@ -1,6 +1,13 @@
 import PopularTags from '../PopularTags'
 import { shallow } from 'enzyme'
 import { h } from 'preact'
+import { getAllTags } from '../../services'
+
+jest.mock('../../services')
+
+beforeEach(() => {
+  (getAllTags as jest.Mock).mockResolvedValue([])
+})
 
 describe('# Popular Tags Component', () => {
   it('should display title', function () {
@@ -27,5 +34,20 @@ describe('# Popular Tags Component', () => {
     const targetTag = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'javascript')
 
     expect(targetTag.props().href).toBe('/tag/javascript')
+  })
+
+  it('should trigger fetch method when component did mounted', function () {
+    (getAllTags as jest.Mock).mockResolvedValue([ 'foo', 'bar' ])
+    shallow<PopularTags>(<PopularTags />)
+
+    expect(getAllTags).toBeCalled()
+  })
+
+  it('should render correct tags after fetch method',async function () {
+    (getAllTags as jest.Mock).mockResolvedValue([ 'foo', 'bar' ])
+    const wrapper = shallow<PopularTags>(<PopularTags />)
+    await wrapper.instance().fetchPopularTags()
+
+    expect(wrapper.state('tags')).toHaveLength(2)
   })
 })

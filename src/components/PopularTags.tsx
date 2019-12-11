@@ -1,4 +1,5 @@
 import { Component, h } from 'preact'
+import { getAllTags } from '../services'
 
 interface PopularTagsStates {
   tags: string[];
@@ -11,6 +12,15 @@ export default class PopularTags extends Component<{}, PopularTagsStates> {
     this.state = {
       tags: [],
     }
+  }
+
+  async fetchPopularTags() {
+    const tags = await getAllTags()
+    this.setState({ tags })
+  }
+
+  componentWillMount(): void {
+    this.fetchPopularTags()
   }
 
   render() {

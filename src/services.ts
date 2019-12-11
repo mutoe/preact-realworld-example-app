@@ -26,3 +26,7 @@ interface PostRegisterForm extends PostLoginForm {
 export async function postRegister(form: PostRegisterForm) {
   return axios.post('/users', { user: form })
 }
+
+export async function getAllTags() {
+  return axios.get<{tags: string[]}>('/tags').then(res => res.data.tags)
+}
