@@ -4,6 +4,8 @@ import { h } from 'preact'
 import NavBar from '../../components/NavBar'
 import PopularTags from '../../components/PopularTags'
 import { getAllTags, getArticlesByTag } from '../../services'
+import { generateArticles } from '../../utils/test-utils'
+import ArticlePreview from '../../components/ArticlePreview'
 
 jest.mock('../../services')
 
@@ -23,6 +25,17 @@ describe('# Home Page', () => {
     const wrapper = shallow(<Home />)
 
     expect(wrapper.find(NavBar).prop('currentActive')).toBe('global')
+  })
+
+  describe('## Feeds list', () => {
+    it('should display given feed correctly', function () {
+      const articles = generateArticles(3)
+      const wrapper = shallow<Home>(<Home />)
+      wrapper.setState({ articles, articlesCount: 3 })
+      wrapper.update()
+
+      expect(wrapper.find(ArticlePreview)).toHaveLength(3)
+    })
   })
 
   describe('## Popular Tags', () => {
@@ -54,9 +67,9 @@ describe('# Home Page', () => {
       expect(wrapper.instance().fetchFeeds).toBeCalledTimes(1)
     })
 
-    it('should request tag related article in tag page',async function () {
+    it('should request tag related article in tag page', async function () {
       (getArticlesByTag as jest.Mock).mockResolvedValue({
-        articles: [{}],
+        articles: [ {} ],
         articlesCount: 1,
       } as ArticleResponse)
       const wrapper = shallow<Home>(<Home tag="foo" />)
