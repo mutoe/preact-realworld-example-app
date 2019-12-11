@@ -1,12 +1,26 @@
 import { Component, h } from 'preact'
+
 import NavBar from '../components/NavBar'
 import PopularTags from '../components/PopularTags'
+import { getArticlesByTag } from '../services'
 
 interface HomeProps {
   tag?: string;
 }
 
-export default class Home extends Component<HomeProps> {
+interface HomeStates {
+  articles: Article[];
+  articlesCount: number;
+}
+
+export default class Home extends Component<HomeProps, HomeStates> {
+
+  async fetchFeeds() {
+    if (!this.props.tag) return
+    const { articles, articlesCount } = await getArticlesByTag(this.props.tag)
+    this.setState({ articles, articlesCount })
+  }
+
   render() {
     return (
       <div className="home-page">
