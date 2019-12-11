@@ -14,6 +14,10 @@ beforeEach(() => {
   } as ArticleResponse)
 })
 
+afterEach(() => {
+  jest.clearAllMocks()
+})
+
 describe('# Home Page', () => {
   it('should highlight NavBar "Global Feed" label', function () {
     const wrapper = shallow(<Home />)
@@ -44,11 +48,21 @@ describe('# Home Page', () => {
     })
 
     it('should fetch the tag-related feeds in tag page', async function () {
-      const wrapper = mount<Home>(<Home tag="foo" />)
+      jest.spyOn(Home.prototype, 'fetchFeeds')
+      const wrapper = shallow<Home>(<Home tag="foo" />)
+
+      expect(wrapper.instance().fetchFeeds).toBeCalledTimes(1)
+    })
+
+    it('should request tag related article in tag page',async function () {
+      (getArticlesByTag as jest.Mock).mockResolvedValue({
+        articles: [{}],
+        articlesCount: 1,
+      } as ArticleResponse)
+      const wrapper = shallow<Home>(<Home tag="foo" />)
       await wrapper.instance().fetchFeeds()
 
-      expect(getArticlesByTag).toBeCalled()
-      expect(wrapper.state().articlesCount).toBe(0)
+      expect(wrapper.state().articlesCount).toBe(1)
     })
   })
 

@@ -15,6 +15,10 @@ interface HomeStates {
 
 export default class Home extends Component<HomeProps, HomeStates> {
 
+  componentDidMount(): void {
+    this.fetchFeeds()
+  }
+
   async fetchFeeds() {
     if (!this.props.tag) return
     const { articles, articlesCount } = await getArticlesByTag(this.props.tag)
