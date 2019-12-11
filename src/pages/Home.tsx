@@ -2,7 +2,11 @@ import { Component, h } from 'preact'
 import NavBar from '../components/NavBar'
 import PopularTags from '../components/PopularTags'
 
-export default class Home extends Component {
+interface HomeProps {
+  tag?: string;
+}
+
+export default class Home extends Component<HomeProps> {
   render() {
     return (
       <div className="home-page">
@@ -18,7 +22,7 @@ export default class Home extends Component {
           <div className="row">
 
             <div className="col-md-9">
-              <NavBar currentActive="global" />
+              <NavBar currentActive={this.props.tag ? 'tag' : 'global'} {...{ tag: this.props.tag }} />
 
               <div className="article-preview">
                 <div className="article-meta">

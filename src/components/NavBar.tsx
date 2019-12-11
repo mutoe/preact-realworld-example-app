@@ -3,7 +3,8 @@ import { useContext } from 'preact/hooks'
 import RootStateContext from '../stores/globalContext'
 
 interface NavBarProps {
-  currentActive?: 'global' | 'personal';
+  currentActive?: 'global' | 'personal' | 'tag';
+  tag?: string;
 }
 
 export default function NavBar(props: NavBarProps = {}) {
@@ -27,6 +28,16 @@ export default function NavBar(props: NavBarProps = {}) {
             Global Feed
           </a>
         </li>
+        {
+          props.currentActive === 'tag' && (
+            <li className="nav-item">
+              <a className="nav-link active" href={`/tag/${props.tag}`}>
+                # {props.tag}
+              </a>
+            </li>
+          )
+        }
+
       </ul>
     </div>
   )

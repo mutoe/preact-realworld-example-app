@@ -19,6 +19,7 @@ const Main = () => (
     <Header />
     <Router history={createHashHistory()}>
       <Home path="/" />
+      <Home path="/tag/:tag" />
       <Login path="/login" />
       <Register path="/register" />
       <Settings path="/settings" />
