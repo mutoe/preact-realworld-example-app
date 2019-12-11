@@ -1,6 +1,10 @@
 import { Component, h } from 'preact'
 
-export default class ArticlePreview extends Component {
+interface ArticlePreviewProps {
+  article: Article;
+}
+
+export default class ArticlePreview extends Component<ArticlePreviewProps> {
   render() {
     return (
       <div className="article-preview">

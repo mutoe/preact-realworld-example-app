@@ -53,7 +53,7 @@ export default class Home extends Component<HomeProps, HomeStates> {
 
               {
                 this.state.articles.map(article => (
-                  <ArticlePreview key={article.slug} />
+                  <ArticlePreview key={article.slug} article={article} />
                 ))
               }
             </div>

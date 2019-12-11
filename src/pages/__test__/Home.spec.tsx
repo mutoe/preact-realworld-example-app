@@ -36,6 +36,15 @@ describe('# Home Page', () => {
 
       expect(wrapper.find(ArticlePreview)).toHaveLength(3)
     })
+
+    it('should passed article prop to ArticlePreview component', function () {
+      const articles = generateArticles(2)
+      const wrapper = shallow<Home>(<Home />)
+      wrapper.setState({ articles, articlesCount: 2 })
+      wrapper.update()
+
+      expect(wrapper.find(ArticlePreview).at(0).props().article).toBe(articles[0])
+    })
   })
 
   describe('## Popular Tags', () => {
