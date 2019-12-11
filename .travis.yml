@@ -10,4 +10,7 @@ install:
 
 script:
   - yarn lint
-  - yarn test --coverage
+  - yarn test
+
+after_script:
+  - yarn coveralls

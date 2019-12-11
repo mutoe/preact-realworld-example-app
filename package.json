@@ -22,7 +22,7 @@
     "build": "webpack --mode=production",
     "lint": "eslint src/**/*.{tsx,ts}",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -38,6 +38,7 @@
     "@types/mockjs": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^2.8.0",
     "@typescript-eslint/parser": "^2.8.0",
+    "coveralls": "^3.0.9",
     "dotenv-webpack": "^1.7.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-preact-pure": "^2.2.0",
