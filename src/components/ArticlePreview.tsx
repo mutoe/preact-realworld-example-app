@@ -9,10 +9,10 @@ export default class ArticlePreview extends Component<ArticlePreviewProps> {
     return (
       <div className="article-preview">
         <div className="article-meta">
-          <a href="profile.html"><img src="http://i.imgur.com/N4VcUeJ.jpg" /></a>
+          <a href="profile.html"><img src={this.props.article.author.image} /></a>
           <div className="info">
-            <a href="" className="author">Albert Pai</a>
-            <span className="date">January 20th</span>
+            <a href="" className="author">{this.props.article.author.username}</a>
+            <span className="date">{new Date(this.props.article.createdAt).toDateString()}</span>
           </div>
           <button className="btn btn-outline-primary btn-sm pull-xs-right">
             <i className="ion-heart" /> 32
