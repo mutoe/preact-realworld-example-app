@@ -2,7 +2,7 @@ import { Component, h } from 'preact'
 
 import NavBar from '../components/NavBar'
 import PopularTags from '../components/PopularTags'
-import { getArticlesByTag } from '../services'
+import { getArticles, getArticlesByTag } from '../services'
 import ArticlePreview from '../components/ArticlePreview'
 
 interface HomeProps {
@@ -16,7 +16,7 @@ interface HomeStates {
 
 export default class Home extends Component<HomeProps, HomeStates> {
   constructor() {
-    super();
+    super()
 
     this.state = {
       articles: [],
@@ -29,9 +29,13 @@ export default class Home extends Component<HomeProps, HomeStates> {
   }
 
   async fetchFeeds() {
-    if (!this.props.tag) return
-    const { articles = [], articlesCount = 0 } = await getArticlesByTag(this.props.tag)
-    this.setState({ articles, articlesCount })
+    if (this.props.tag) {
+      const { articles = [], articlesCount = 0 } = await getArticlesByTag(this.props.tag)
+      this.setState({ articles, articlesCount })
+    } else {
+      const { articles = [], articlesCount = 0 } = await getArticles()
+      this.setState({ articles, articlesCount })
+    }
   }
 
   render() {

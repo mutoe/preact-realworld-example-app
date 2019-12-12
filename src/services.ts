@@ -33,6 +33,12 @@ export async function getAllTags() {
   return axios.get<{ tags: string[] }>('/tags').then(res => res.data.tags)
 }
 
+export async function getArticles(page = 1) {
+  const params = { limit, offset: (page - 1) * limit }
+  return axios.get<ArticleResponse>('/articles', { params })
+    .then(res => res.data)
+}
+
 export async function getArticlesByTag(tagName: string, page = 1) {
   const params = { tag: tagName, limit, offset: (page - 1) * limit }
   return axios.get<ArticleResponse>('/articles', { params })

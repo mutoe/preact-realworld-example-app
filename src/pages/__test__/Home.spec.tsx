@@ -3,7 +3,7 @@ import Home from '../Home'
 import { h } from 'preact'
 import NavBar from '../../components/NavBar'
 import PopularTags from '../../components/PopularTags'
-import { getAllTags, getArticlesByTag } from '../../services'
+import { getAllTags, getArticles, getArticlesByTag } from '../../services'
 import { generateArticles } from '../../utils/test-utils'
 import ArticlePreview from '../../components/ArticlePreview'
 
@@ -44,6 +44,24 @@ describe('# Home Page', () => {
       wrapper.update()
 
       expect(wrapper.find(ArticlePreview).at(0).props().article).toBe(articles[0])
+    })
+
+    it('should fetch all feeds in Home page', async function () {
+      jest.spyOn(Home.prototype, 'fetchFeeds')
+      const wrapper = shallow<Home>(<Home />)
+
+      expect(wrapper.instance().fetchFeeds).toBeCalledTimes(1)
+    })
+
+    it('should request all article in Home page', async function () {
+      (getArticles as jest.Mock).mockResolvedValue({
+        articles: [ {} ],
+        articlesCount: 1,
+      } as ArticleResponse)
+      const wrapper = shallow<Home>(<Home />)
+      await wrapper.instance().fetchFeeds()
+
+      expect(wrapper.state().articlesCount).toBe(1)
     })
   })
 
