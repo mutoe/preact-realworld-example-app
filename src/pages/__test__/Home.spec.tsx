@@ -13,6 +13,10 @@ beforeEach(() => {
   (getArticlesByTag as jest.Mock).mockResolvedValue({
     articles: [],
     articlesCount: 0,
+  } as ArticleResponse);
+  (getArticles as jest.Mock).mockResolvedValue({
+    articles: [],
+    articlesCount: 0,
   } as ArticleResponse)
 })
 
