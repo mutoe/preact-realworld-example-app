@@ -9,16 +9,20 @@ export function generateAuthor() {
   })
 }
 
-export function generateArticles(count: number) {
+export function generateArticles(): Article
+export function generateArticles(count: number): Article[]
+export function generateArticles(count = 1): Article | Article[] {
+  const title = Random.title()
+  const slug = `${title.replace(/[ -]/g, '-')}-${Number(new Date()).toString(36)}`
   return mockjs.mock({
     [`articles|${count}`]: [
       {
-        title: Random.title(),
-        slug: '@/title',
+        title,
+        slug,
         body: Random.paragraph(),
-        createdAt: Random.date(),
-        updatedAt: Random.date(),
-        'tagList|3': [ Random.word() ],
+        createdAt: new Date(Random.date()),
+        updatedAt: new Date(Random.date()),
+        'tagList|3': [ () => Random.word() ],
         description: Random.sentence(),
         author: () => generateAuthor(),
         favorited: Random.boolean(),

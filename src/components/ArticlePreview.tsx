@@ -18,9 +18,9 @@ export default class ArticlePreview extends Component<ArticlePreviewProps> {
             <i className="ion-heart" /> 32
           </button>
         </div>
-        <a href="" className="preview-link">
-          <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-          <p>This is the description for the post.</p>
+        <a href={`/article/${this.props.article.slug}`} className="preview-link">
+          <h1>{this.props.article.title}</h1>
+          <p>{this.props.article.description}</p>
           <span>Read more...</span>
         </a>
       </div>
