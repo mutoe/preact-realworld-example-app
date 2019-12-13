@@ -24,8 +24,8 @@ const Main = () => (
       <Register path="/register" />
       <Settings path="/settings" />
       <Article path="/article" />
-      <Profile path="/profile" />
       <EditArticle path="/article/:id" />
+      <Profile path="/:username" />
     </Router>
     <Footer />
   </RootStateContext.Provider>

@@ -1,7 +1,18 @@
 import { Component, h } from 'preact'
 
-export default class Profile extends Component {
+interface ProfileProps {
+  username?: string;
+}
+
+export default class Profile extends Component<ProfileProps> {
+  constructor() {
+    super();
+
+  }
+
   render() {
+    const username = this.props.username?.replace(/^@/, '')
+
     return (
       <div className="profile-page">
 
@@ -11,7 +22,7 @@ export default class Profile extends Component {
 
               <div className="col-xs-12 col-md-10 offset-md-1">
                 <img src="http://i.imgur.com/Qr71crq.jpg" className="user-img" />
-                <h4>Eric Simons</h4>
+                <h4>{username}</h4>
                 <p>
                   Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger
                   Games
@@ -19,7 +30,7 @@ export default class Profile extends Component {
                 <button className="btn btn-sm btn-outline-secondary action-btn">
                   <i className="ion-plus-round" />
                   &nbsp;
-                  Follow Eric Simons
+                  Follow {username}
                 </button>
               </div>
 
