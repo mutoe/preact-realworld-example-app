@@ -28,4 +28,14 @@ describe('# Article Preview Component', () => {
     expect(userWrapper.find(".author").text()).toBe(article.author.username)
     expect(userWrapper.find(".date").text()).toBe(new Date(article.createdAt).toDateString())
   })
+
+  it('should jump to user detail page when user clicked', function () {
+    const article = generateArticles()
+    const wrapper = shallow(<ArticlePreview article={article} />)
+    const userImage = wrapper.find('.article-meta > a')
+    const userName =wrapper.find('.article-meta .author')
+
+    expect(userImage.prop('href')).toBe(`/@${article.author.username}`)
+    expect(userName.prop('href')).toBe(`/@${article.author.username}`)
+  })
 })

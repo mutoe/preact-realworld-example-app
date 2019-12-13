@@ -9,9 +9,9 @@ export default class ArticlePreview extends Component<ArticlePreviewProps> {
     return (
       <div className="article-preview">
         <div className="article-meta">
-          <a href="profile.html"><img src={this.props.article.author.image} /></a>
+          <a href={`/@${this.props.article.author.username}`}><img src={this.props.article.author.image} /></a>
           <div className="info">
-            <a href="" className="author">{this.props.article.author.username}</a>
+            <a href={`/@${this.props.article.author.username}`} className="author">{this.props.article.author.username}</a>
             <span className="date">{new Date(this.props.article.createdAt).toDateString()}</span>
           </div>
           <button className="btn btn-outline-primary btn-sm pull-xs-right">
