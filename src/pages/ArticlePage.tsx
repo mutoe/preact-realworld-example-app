@@ -1,6 +1,24 @@
 import { Component, h } from 'preact'
+import { getArticle } from '../services'
 
-export default class Article extends Component {
+interface ArticlePageProps {
+  slug?: string;
+}
+
+interface States {
+  article: Article;
+}
+
+export default class ArticlePage extends Component<ArticlePageProps, States> {
+  async fetchArticle() {
+    const article = await getArticle(this.props.slug || '')
+    this.setState({ article })
+  }
+
+  componentDidMount(): void {
+    this.fetchArticle()
+  }
+
   render() {
     return (
       <div className="article-page">

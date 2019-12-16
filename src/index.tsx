@@ -10,7 +10,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Settings from './pages/Settings'
-import Article from './pages/Article'
+import ArticlePage from './pages/ArticlePage'
 import Profile from './pages/Profile'
 import EditArticle from './pages/EditArticle'
 
@@ -23,8 +23,8 @@ const Main = () => (
       <Login path="/login" />
       <Register path="/register" />
       <Settings path="/settings" />
-      <Article path="/article" />
-      <EditArticle path="/article/:id" />
+      <ArticlePage path="/article/:slug" />
+      <EditArticle path="/article/:slug/edit" />
       <Profile path="/:username" />
     </Router>
     <Footer />

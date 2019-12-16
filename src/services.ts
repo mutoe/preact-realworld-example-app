@@ -38,6 +38,10 @@ export async function getAllTags() {
   return axios.get<{ tags: string[] }>('/tags').then(res => res.data.tags)
 }
 
+export async function getArticle(slug: string) {
+  return axios.get<ArticleResponse>(`/article/${slug}`).then(res => res.data.article)
+}
+
 export async function getArticles(page = 1) {
   const params = { limit, offset: (page - 1) * limit }
   return axios.get<ArticlesResponse>('/articles', { params })
