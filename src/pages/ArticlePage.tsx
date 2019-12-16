@@ -10,6 +10,14 @@ interface States {
 }
 
 export default class ArticlePage extends Component<ArticlePageProps, States> {
+  constructor() {
+    super()
+
+    this.state = {
+      article: {} as Article,
+    }
+  }
+
   async fetchArticle() {
     const article = await getArticle(this.props.slug || '')
     this.setState({ article })
@@ -20,13 +28,14 @@ export default class ArticlePage extends Component<ArticlePageProps, States> {
   }
 
   render() {
+
     return (
       <div className="article-page">
 
         <div className="banner">
           <div className="container">
 
-            <h1>How to build webapps that scale</h1>
+            <h1>{this.state.article.title}</h1>
 
             <div className="article-meta">
               <a href=""><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
@@ -54,11 +63,7 @@ export default class ArticlePage extends Component<ArticlePageProps, States> {
 
           <div className="row article-content">
             <div className="col-md-12">
-              <p>
-                Web development technologies have evolved at an incredible clip over the past few years.
-              </p>
-              <h2 id="introducing-ionic">Introducing RealWorld.</h2>
-              <p>It's a great solution for learning how other frameworks work.</p>
+              {this.state.article.body}
             </div>
           </div>
 

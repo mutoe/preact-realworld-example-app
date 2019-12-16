@@ -39,7 +39,7 @@ export async function getAllTags() {
 }
 
 export async function getArticle(slug: string) {
-  return axios.get<ArticleResponse>(`/article/${slug}`).then(res => res.data.article)
+  return axios.get<ArticleResponse>(`/articles/${slug}`).then(res => res.data.article)
 }
 
 export async function getArticles(page = 1) {
