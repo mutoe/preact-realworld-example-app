@@ -109,7 +109,7 @@ describe('# Login request', () => {
   })
 
   it('should can goto home page when entering the correct account', async function () {
-    (postLogin as jest.Mock).mockImplementation(() => Promise.resolve())
+    (postLogin as jest.Mock).mockResolvedValue({ token: 'foobar' })
     wrapper.setState({
       email: 'test@example.com',
       password: '123456',
@@ -118,6 +118,26 @@ describe('# Login request', () => {
     await instance.onLogin()
 
     expect(route).toBeCalledWith('/')
+  })
+
+  it('should save token locally when login successful', async function () {
+    (postLogin as jest.Mock<Promise<UserWithToken>>).mockResolvedValue({
+      id: 1,
+      email: 'test@example.com',
+      username: 'test',
+      bio: null,
+      image: null,
+      token: 'foobar',
+    })
+    jest.spyOn(window.localStorage, 'setItem')
+    wrapper.setState({
+      email: 'test@example.com',
+      password: '123456',
+    })
+
+    await instance.onLogin()
+
+    expect(window.localStorage.setItem).toBeCalledWith('token', 'foobar')
   })
 })
 

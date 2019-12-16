@@ -34,3 +34,24 @@ global.document = dom.window.document
 global.requestAnimationFrame = dom.window.requestAnimationFrame
 
 configure({ adapter: new Adapter() })
+
+// mock localStorage
+const localStorageMock = (function () {
+  let store: Record<string, any> = {}
+
+  return {
+    getItem(key: string) {
+      return store[key] || null
+    },
+    setItem(key: string, value: any) {
+      store[key] = value.toString()
+    },
+    clear() {
+      store = {}
+    },
+  }
+})()
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+})

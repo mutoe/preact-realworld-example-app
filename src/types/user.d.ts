@@ -9,7 +9,7 @@ interface UserWithToken {
   id: number;
   email: string;
   username: string;
-  bio: null;
-  image: null;
+  bio: string | null;
+  image: string | null;
   token: string;
 }
