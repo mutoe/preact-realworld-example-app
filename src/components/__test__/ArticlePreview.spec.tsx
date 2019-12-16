@@ -3,7 +3,6 @@ import ArticlePreview from '../ArticlePreview'
 import { shallow } from 'enzyme'
 import { h } from 'preact'
 import { deleteFavoriteArticle, postFavoriteArticle } from '../../services'
-import Article from '../../pages/Article'
 
 jest.mock('../../services')
 
@@ -47,6 +46,10 @@ describe('# Article Preview Component', () => {
     expect(userName.prop('href')).toBe(`/@${article.author.username}`)
   })
 
+})
+
+describe('# Favorite article', () => {
+
   it('should display favorites count correctly', function () {
     const article = generateArticles()
     const wrapper = shallow(<ArticlePreview article={article} />)
@@ -80,6 +83,4 @@ describe('# Article Preview Component', () => {
     expect(deleteFavoriteArticle).toBeCalledWith(article.slug)
   })
 
-
 })
-
