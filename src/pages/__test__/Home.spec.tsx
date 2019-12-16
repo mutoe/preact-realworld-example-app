@@ -30,84 +30,83 @@ describe('# Home Page', () => {
 
     expect(wrapper.find(NavBar).prop('currentActive')).toBe('global')
   })
+})
 
-  describe('## Feeds list', () => {
-    it('should display given feed correctly', function () {
-      const articles = generateArticles(3)
-      const wrapper = shallow<Home>(<Home />)
-      wrapper.setState({ articles, articlesCount: 3 })
-      wrapper.update()
+describe('# Feeds list', () => {
+  it('should display given feed correctly', function () {
+    const articles = generateArticles(3)
+    const wrapper = shallow<Home>(<Home />)
+    wrapper.setState({ articles, articlesCount: 3 })
+    wrapper.update()
 
-      expect(wrapper.find(ArticlePreview)).toHaveLength(3)
-    })
-
-    it('should passed article prop to ArticlePreview component', function () {
-      const articles = generateArticles(2)
-      const wrapper = shallow<Home>(<Home />)
-      wrapper.setState({ articles, articlesCount: 2 })
-      wrapper.update()
-
-      expect(wrapper.find(ArticlePreview).at(0).props().article).toBe(articles[0])
-    })
-
-    it('should fetch all feeds in Home page', async function () {
-      jest.spyOn(Home.prototype, 'fetchFeeds')
-      const wrapper = shallow<Home>(<Home />)
-
-      expect(wrapper.instance().fetchFeeds).toBeCalledTimes(1)
-    })
-
-    it('should request all article in Home page', async function () {
-      (getArticles as jest.Mock).mockResolvedValue({
-        articles: [ {} ],
-        articlesCount: 1,
-      } as ArticleResponse)
-      const wrapper = shallow<Home>(<Home />)
-      await wrapper.instance().fetchFeeds()
-
-      expect(wrapper.state().articlesCount).toBe(1)
-    })
+    expect(wrapper.find(ArticlePreview)).toHaveLength(3)
   })
 
-  describe('## Popular Tags', () => {
-    it('should have popular tags module', function () {
-      const wrapper = shallow(<Home />)
+  it('should passed article prop to ArticlePreview component', function () {
+    const articles = generateArticles(2)
+    const wrapper = shallow<Home>(<Home />)
+    wrapper.setState({ articles, articlesCount: 2 })
+    wrapper.update()
 
-      expect(wrapper.find(PopularTags)).toHaveLength(1)
-    })
-
-    it('should highlight NavBar tag label in tag page', function () {
-      const wrapper = shallow(<Home tag="foo" />)
-
-      expect(wrapper.find(NavBar).prop('currentActive')).toBe('tag')
-    })
-
-    it('should display NavBar tag name in tag page', function () {
-      (getAllTags as jest.Mock).mockResolvedValue([])
-      const wrapper = mount(<Home tag="foo" />)
-
-      const navBarWrapper = wrapper.find(NavBar)
-
-      expect(navBarWrapper.text()).toContain('foo')
-    })
-
-    it('should fetch the tag-related feeds in tag page', async function () {
-      jest.spyOn(Home.prototype, 'fetchFeeds')
-      const wrapper = shallow<Home>(<Home tag="foo" />)
-
-      expect(wrapper.instance().fetchFeeds).toBeCalledTimes(1)
-    })
-
-    it('should request tag related article in tag page', async function () {
-      (getArticlesByTag as jest.Mock).mockResolvedValue({
-        articles: [ {} ],
-        articlesCount: 1,
-      } as ArticleResponse)
-      const wrapper = shallow<Home>(<Home tag="foo" />)
-      await wrapper.instance().fetchFeeds()
-
-      expect(wrapper.state().articlesCount).toBe(1)
-    })
+    expect(wrapper.find(ArticlePreview).at(0).props().article).toBe(articles[0])
   })
 
+  it('should fetch all feeds in Home page', async function () {
+    jest.spyOn(Home.prototype, 'fetchFeeds')
+    const wrapper = shallow<Home>(<Home />)
+
+    expect(wrapper.instance().fetchFeeds).toBeCalledTimes(1)
+  })
+
+  it('should request all article in Home page', async function () {
+    (getArticles as jest.Mock).mockResolvedValue({
+      articles: [ {} ],
+      articlesCount: 1,
+    } as ArticleResponse)
+    const wrapper = shallow<Home>(<Home />)
+    await wrapper.instance().fetchFeeds()
+
+    expect(wrapper.state().articlesCount).toBe(1)
+  })
+})
+
+describe('# Popular Tags', () => {
+  it('should have popular tags module', function () {
+    const wrapper = shallow(<Home />)
+
+    expect(wrapper.find(PopularTags)).toHaveLength(1)
+  })
+
+  it('should highlight NavBar tag label in tag page', function () {
+    const wrapper = shallow(<Home tag="foo" />)
+
+    expect(wrapper.find(NavBar).prop('currentActive')).toBe('tag')
+  })
+
+  it('should display NavBar tag name in tag page', function () {
+    (getAllTags as jest.Mock).mockResolvedValue([])
+    const wrapper = mount(<Home tag="foo" />)
+
+    const navBarWrapper = wrapper.find(NavBar)
+
+    expect(navBarWrapper.text()).toContain('foo')
+  })
+
+  it('should fetch the tag-related feeds in tag page', async function () {
+    jest.spyOn(Home.prototype, 'fetchFeeds')
+    const wrapper = shallow<Home>(<Home tag="foo" />)
+
+    expect(wrapper.instance().fetchFeeds).toBeCalledTimes(1)
+  })
+
+  it('should request tag related article in tag page', async function () {
+    (getArticlesByTag as jest.Mock).mockResolvedValue({
+      articles: [ {} ],
+      articlesCount: 1,
+    } as ArticleResponse)
+    const wrapper = shallow<Home>(<Home tag="foo" />)
+    await wrapper.instance().fetchFeeds()
+
+    expect(wrapper.state().articlesCount).toBe(1)
+  })
 })
