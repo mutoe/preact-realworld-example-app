@@ -1,5 +1,5 @@
 import { Component, h } from 'preact'
-import { getProfile } from '../services'
+import { getProfile, postFollowProfile } from '../services'
 
 interface ProfileProps {
   username?: string;
@@ -10,6 +10,7 @@ interface ProfileStates {
 }
 
 export default class Profile extends Component<ProfileProps, ProfileStates> {
+
   username = ''
 
   constructor() {
@@ -33,6 +34,11 @@ export default class Profile extends Component<ProfileProps, ProfileStates> {
     this.setState({ user })
   }
 
+  async onFollowUser() {
+    this.setState({ user: { ...this.state.user, following: true } })
+    await postFollowProfile(this.username)
+  }
+
   render() {
     this.username = this.props.username?.replace(/^@/, '') || ''
 
@@ -49,7 +55,7 @@ export default class Profile extends Component<ProfileProps, ProfileStates> {
                 <p>
                   {this.state.user.bio}
                 </p>
-                <button className="btn btn-sm btn-outline-secondary action-btn">
+                <button className="btn btn-sm btn-outline-secondary action-btn" onClick={this.onFollowUser.bind(this)}>
                   <i className="ion-plus-round" />
                   &nbsp;
                   {this.state.user.following ? 'Unfollow' : 'Follow'} {this.username}

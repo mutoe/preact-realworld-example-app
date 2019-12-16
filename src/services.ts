@@ -48,3 +48,7 @@ export async function getArticlesByTag(tagName: string, page = 1) {
 export async function getProfile(username: string) {
   return axios.get<ProfileResponse>(`/profiles/${username}`).then(res => res.data.profile)
 }
+
+export async function postFollowProfile(username: string) {
+  return axios.post<ProfileResponse>(`/profiles/${username}/follow`).then(res => res.data.profile)
+}

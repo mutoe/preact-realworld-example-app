@@ -2,7 +2,7 @@ import { generateAuthor } from '../../utils/test-utils'
 import { shallow } from 'enzyme'
 import Profile from '../Profile'
 import { h } from 'preact'
-import { getProfile } from '../../services'
+import { getProfile, postFollowProfile } from '../../services'
 
 jest.mock('../../services')
 
@@ -42,7 +42,7 @@ describe('# Profile Page', function () {
   })
 
   it('should display user profile correctly', async function () {
-    const author = generateAuthor();
+    const author = generateAuthor()
     getProfileMock.mockResolvedValue(author)
 
     const wrapper = shallow<Profile>(<Profile username={`@${author.username}`} />)
@@ -56,7 +56,7 @@ describe('# Profile Page', function () {
 })
 
 describe('# Follow user', () => {
-  it('should display Follow when user is not following',async function () {
+  it('should display Follow when user is not following', async function () {
     const user = generateAuthor()
     user.following = false
     getProfileMock.mockResolvedValue(user)
@@ -76,5 +76,19 @@ describe('# Follow user', () => {
     wrapper.update()
 
     expect(wrapper.find('.user-info button').text()).toContain('Unfollow')
+  })
+
+  it('should send follow request when Follow button clicked', async function () {
+    const user = generateAuthor()
+    getProfileMock.mockResolvedValue({ ...user, following: false })
+    const wrapper = shallow<Profile>(<Profile username={`@${user.username}`} />)
+    await new Promise(r => setImmediate(r))
+    wrapper.update()
+
+    const postFollowProfileMock = postFollowProfile as jest.Mock<Promise<User>>
+    postFollowProfileMock.mockImplementation()
+    await wrapper.instance().onFollowUser()
+
+    expect(postFollowProfileMock).toBeCalledTimes(1)
   })
 })
