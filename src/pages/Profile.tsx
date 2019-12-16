@@ -35,6 +35,7 @@ export default class Profile extends Component<ProfileProps, ProfileStates> {
 
   render() {
     this.username = this.props.username?.replace(/^@/, '') || ''
+
     return (
       <div className="profile-page">
 
@@ -43,11 +44,10 @@ export default class Profile extends Component<ProfileProps, ProfileStates> {
             <div className="row">
 
               <div className="col-xs-12 col-md-10 offset-md-1">
-                <img src="http://i.imgur.com/Qr71crq.jpg" className="user-img" />
+                <img src={this.state.user.image} className="user-img" />
                 <h4>{this.username}</h4>
                 <p>
-                  Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger
-                  Games
+                  {this.state.user.bio}
                 </p>
                 <button className="btn btn-sm btn-outline-secondary action-btn">
                   <i className="ion-plus-round" />

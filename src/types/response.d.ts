@@ -5,3 +5,7 @@ interface ResponseError {
 interface Response {
   errors: ResponseError;
 }
+
+interface ProfileResponse {
+  profile: User
+}
