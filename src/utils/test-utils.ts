@@ -1,6 +1,6 @@
 import mockjs, { Random } from 'mockjs'
 
-export function generateAuthor(): Article['author'] {
+export function generateAuthor(): User {
   return mockjs.mock({
     username: Random.name(),
     bio: Random.sentence(),

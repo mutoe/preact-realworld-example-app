@@ -11,14 +11,8 @@ interface Article {
   updatedAt: Date;
   tagList: string[];
   description: string;
-  author: Author;
+  author: User;
   favorited: boolean;
   favoritesCount: number;
 }
 
-interface Author {
-  username: string;
-  bio: string;
-  image: string;
-  following: boolean;
-}

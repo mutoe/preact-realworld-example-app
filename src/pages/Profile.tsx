@@ -6,7 +6,7 @@ interface ProfileProps {
 }
 
 interface ProfileStates {
-  author: Article['author'];
+  user: User;
 }
 
 export default class Profile extends Component<ProfileProps, ProfileStates> {
@@ -15,7 +15,7 @@ export default class Profile extends Component<ProfileProps, ProfileStates> {
   constructor() {
     super()
     this.state = {
-      author: {
+      user: {
         username: '',
         bio: '',
         image: '',
@@ -29,8 +29,8 @@ export default class Profile extends Component<ProfileProps, ProfileStates> {
   }
 
   async fetchProfile() {
-    const author = await getProfile(this.username)
-    this.setState({ author })
+    const user = await getProfile(this.username)
+    this.setState({ user })
   }
 
   render() {

@@ -46,5 +46,5 @@ export async function getArticlesByTag(tagName: string, page = 1) {
 }
 
 export async function getProfile(username: string) {
-  return axios.get<Article['author']>(`/profiles/${username}`).then(res => res.data)
+  return axios.get<User>(`/profiles/${username}`).then(res => res.data)
 }
