@@ -52,3 +52,7 @@ export async function getProfile(username: string) {
 export async function postFollowProfile(username: string) {
   return axios.post<ProfileResponse>(`/profiles/${username}/follow`).then(res => res.data.profile)
 }
+
+export async function deleteFollowProfile(username: string) {
+  return axios.delete<ProfileResponse>(`/profiles/${username}/follow`).then(res => res.data.profile)
+}

@@ -2,7 +2,7 @@ import { generateAuthor } from '../../utils/test-utils'
 import { shallow } from 'enzyme'
 import Profile from '../Profile'
 import { h } from 'preact'
-import { getProfile, postFollowProfile } from '../../services'
+import { deleteFollowProfile, getProfile, postFollowProfile } from '../../services'
 
 jest.mock('../../services')
 
@@ -90,5 +90,19 @@ describe('# Follow user', () => {
     await wrapper.instance().onFollowUser()
 
     expect(postFollowProfileMock).toBeCalledTimes(1)
+  })
+
+  it('should send unfollow request when Unfollow button clicked', async function () {
+    const user = generateAuthor()
+    getProfileMock.mockResolvedValue({ ...user, following: true })
+    const wrapper = shallow<Profile>(<Profile username={`@${user.username}`} />)
+    await new Promise(r => setImmediate(r))
+    wrapper.update()
+
+    const deleteFollowProfileMock = deleteFollowProfile as jest.Mock<Promise<User>>
+    deleteFollowProfileMock.mockImplementation()
+    await wrapper.instance().onFollowUser()
+
+    expect(deleteFollowProfileMock).toBeCalledTimes(1)
   })
 })

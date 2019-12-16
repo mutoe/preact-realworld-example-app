@@ -1,5 +1,5 @@
 import { Component, h } from 'preact'
-import { getProfile, postFollowProfile } from '../services'
+import { deleteFollowProfile, getProfile, postFollowProfile } from '../services'
 
 interface ProfileProps {
   username?: string;
@@ -35,8 +35,13 @@ export default class Profile extends Component<ProfileProps, ProfileStates> {
   }
 
   async onFollowUser() {
-    this.setState({ user: { ...this.state.user, following: true } })
-    await postFollowProfile(this.username)
+    if (this.state.user.following) {
+      this.setState({ user: { ...this.state.user, following: false } })
+      await deleteFollowProfile(this.username)
+    } else {
+      this.setState({ user: { ...this.state.user, following: true } })
+      await postFollowProfile(this.username)
+    }
   }
 
   render() {
