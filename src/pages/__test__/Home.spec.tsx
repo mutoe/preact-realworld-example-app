@@ -13,11 +13,11 @@ beforeEach(() => {
   (getArticlesByTag as jest.Mock).mockResolvedValue({
     articles: [],
     articlesCount: 0,
-  } as ArticleResponse);
+  } as ArticlesResponse);
   (getArticles as jest.Mock).mockResolvedValue({
     articles: [],
     articlesCount: 0,
-  } as ArticleResponse)
+  } as ArticlesResponse)
 })
 
 afterEach(() => {
@@ -62,7 +62,7 @@ describe('# Feeds list', () => {
     (getArticles as jest.Mock).mockResolvedValue({
       articles: [ {} ],
       articlesCount: 1,
-    } as ArticleResponse)
+    } as ArticlesResponse)
     const wrapper = shallow<Home>(<Home />)
     await wrapper.instance().fetchFeeds()
 
@@ -103,7 +103,7 @@ describe('# Popular Tags', () => {
     (getArticlesByTag as jest.Mock).mockResolvedValue({
       articles: [ {} ],
       articlesCount: 1,
-    } as ArticleResponse)
+    } as ArticlesResponse)
     const wrapper = shallow<Home>(<Home tag="foo" />)
     await wrapper.instance().fetchFeeds()
 

@@ -40,22 +40,22 @@ export async function getAllTags() {
 
 export async function getArticles(page = 1) {
   const params = { limit, offset: (page - 1) * limit }
-  return axios.get<ArticleResponse>('/articles', { params })
+  return axios.get<ArticlesResponse>('/articles', { params })
     .then(res => res.data)
 }
 
 export async function getArticlesByTag(tagName: string, page = 1) {
   const params = { tag: tagName, limit, offset: (page - 1) * limit }
-  return axios.get<ArticleResponse>('/articles', { params })
+  return axios.get<ArticlesResponse>('/articles', { params })
     .then(res => res.data)
 }
 
 export async function postFavoriteArticle(slug: string) {
-  return axios.post<ArticleResponse>(`/articles/${slug}/favorite`)
+  return axios.post<ArticleResponse>(`/articles/${slug}/favorite`).then(res => res.data.article)
 }
 
 export async function deleteFavoriteArticle(slug: string) {
-  return axios.delete<ArticleResponse>(`/articles/${slug}/favorite`)
+  return axios.delete<ArticleResponse>(`/articles/${slug}/favorite`).then(res => res.data.article)
 }
 
 export async function getProfile(username: string) {

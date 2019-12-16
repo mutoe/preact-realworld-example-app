@@ -97,4 +97,14 @@ describe('# Favorite article', () => {
     expect(wrapper.find('.article-meta button').hasClass('btn-outline-primary')).toBe(true)
   })
 
+  it('should update article info when favorite / unfavorite article', async function () {
+    (postFavoriteArticle as jest.Mock).mockResolvedValue({ favorited: true })
+    const article = { ...generateArticles(), favorited: false }
+    const wrapper = shallow<ArticlePreview>(<ArticlePreview article={article} />)
+
+    await wrapper.instance().onFavorite()
+
+    expect(wrapper.find('.article-meta button').hasClass('btn-primary')).toBe(true)
+  })
+
 })

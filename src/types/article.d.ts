@@ -1,8 +1,3 @@
-interface ArticleResponse {
-  articles: Article[];
-  articlesCount: number;
-}
-
 interface Article {
   title: string;
   slug: string;
@@ -15,4 +10,3 @@ interface Article {
   favorited: boolean;
   favoritesCount: number;
 }
-

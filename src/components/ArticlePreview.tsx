@@ -5,18 +5,28 @@ interface ArticlePreviewProps {
   article: Article;
 }
 
-export default class ArticlePreview extends Component<ArticlePreviewProps> {
+interface ArticlePreviewStates {
+  isFavorited: boolean;
+}
+
+export default class ArticlePreview extends Component<ArticlePreviewProps, ArticlePreviewStates> {
 
   async onFavorite() {
     if (this.props.article.favorited) {
       await deleteFavoriteArticle(this.props.article.slug)
+      this.setState({ isFavorited: false })
     } else {
       await postFavoriteArticle(this.props.article.slug)
+      this.setState({ isFavorited: true })
     }
   }
 
+  componentDidMount(): void {
+    this.setState({ isFavorited: this.props.article.favorited })
+  }
+
   render() {
-    const favoriteButtonClass = this.props.article.favorited
+    const favoriteButtonClass = this.state.isFavorited
       ? 'btn-primary'
       : 'btn-outline-primary'
 
