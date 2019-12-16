@@ -44,3 +44,7 @@ export async function getArticlesByTag(tagName: string, page = 1) {
   return axios.get<ArticleResponse>('/articles', { params })
     .then(res => res.data)
 }
+
+export async function getProfile(username: string) {
+  return axios.get<Article['author']>(`/profiles/${username}`).then(res => res.data)
+}

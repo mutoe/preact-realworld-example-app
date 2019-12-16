@@ -1,18 +1,40 @@
 import { Component, h } from 'preact'
+import { getProfile } from '../services'
 
 interface ProfileProps {
   username?: string;
 }
 
-export default class Profile extends Component<ProfileProps> {
-  constructor() {
-    super();
+interface ProfileStates {
+  author: Article['author'];
+}
 
+export default class Profile extends Component<ProfileProps, ProfileStates> {
+  username = ''
+
+  constructor() {
+    super()
+    this.state = {
+      author: {
+        username: '',
+        bio: '',
+        image: '',
+        following: false,
+      },
+    }
+  }
+
+  componentDidMount(): void {
+    this.fetchProfile()
+  }
+
+  async fetchProfile() {
+    const author = await getProfile(this.username)
+    this.setState({ author })
   }
 
   render() {
-    const username = this.props.username?.replace(/^@/, '')
-
+    this.username = this.props.username?.replace(/^@/, '') || ''
     return (
       <div className="profile-page">
 
@@ -22,7 +44,7 @@ export default class Profile extends Component<ProfileProps> {
 
               <div className="col-xs-12 col-md-10 offset-md-1">
                 <img src="http://i.imgur.com/Qr71crq.jpg" className="user-img" />
-                <h4>{username}</h4>
+                <h4>{this.username}</h4>
                 <p>
                   Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger
                   Games
@@ -30,7 +52,7 @@ export default class Profile extends Component<ProfileProps> {
                 <button className="btn btn-sm btn-outline-secondary action-btn">
                   <i className="ion-plus-round" />
                   &nbsp;
-                  Follow {username}
+                  Follow {this.username}
                 </button>
               </div>
 
