@@ -7,5 +7,5 @@ interface Response {
 }
 
 interface ProfileResponse {
-  profile: User
+  profile: User;
 }

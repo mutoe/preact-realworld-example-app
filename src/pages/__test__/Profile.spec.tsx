@@ -54,3 +54,27 @@ describe('# Profile Page', function () {
   })
 
 })
+
+describe('# Follow user', () => {
+  it('should display Follow when user is not following',async function () {
+    const user = generateAuthor()
+    user.following = false
+    getProfileMock.mockResolvedValue(user)
+    const wrapper = shallow(<Profile username={`@${user.username}`} />)
+    await new Promise(r => setImmediate(r))
+    wrapper.update()
+
+    expect(wrapper.find('.user-info button').text()).toContain('Follow')
+  })
+
+  it('should display Unfollow when user is following', async function () {
+    const user = generateAuthor()
+    user.following = true
+    getProfileMock.mockResolvedValue(user)
+    const wrapper = shallow(<Profile username={`@${user.username}`} />)
+    await new Promise(r => setImmediate(r))
+    wrapper.update()
+
+    expect(wrapper.find('.user-info button').text()).toContain('Unfollow')
+  })
+})

@@ -52,7 +52,7 @@ export default class Profile extends Component<ProfileProps, ProfileStates> {
                 <button className="btn btn-sm btn-outline-secondary action-btn">
                   <i className="ion-plus-round" />
                   &nbsp;
-                  Follow {this.username}
+                  {this.state.user.following ? 'Unfollow' : 'Follow'} {this.username}
                 </button>
               </div>
 
