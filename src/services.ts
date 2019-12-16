@@ -1,14 +1,19 @@
 import Axios from 'axios'
+import { route } from 'preact-router'
 
 const limit = 10
 
-const axios = Axios.create({
+export const axios = Axios.create({
   baseURL: `${process.env.API_HOST}/api`,
 })
 
 axios.interceptors.response.use((res) => {
   return res
 }, (err) => {
+  if (err.response.status === 401) {
+    route('/login')
+    return
+  }
   return Promise.reject(err.response.data)
 })
 
