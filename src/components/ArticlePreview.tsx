@@ -16,6 +16,10 @@ export default class ArticlePreview extends Component<ArticlePreviewProps> {
   }
 
   render() {
+    const favoriteButtonClass = this.props.article.favorited
+      ? 'btn-primary'
+      : 'btn-outline-primary'
+
     return (
       <div className="article-preview">
         <div className="article-meta">
@@ -25,7 +29,7 @@ export default class ArticlePreview extends Component<ArticlePreviewProps> {
               className="author">{this.props.article.author.username}</a>
             <span className="date">{new Date(this.props.article.createdAt).toDateString()}</span>
           </div>
-          <button className="btn btn-outline-primary btn-sm pull-xs-right" onClick={this.onFavorite.bind(this)}>
+          <button className={`btn btn-sm pull-xs-right ${favoriteButtonClass}`} onClick={this.onFavorite.bind(this)}>
             <i className="ion-heart" /> {this.props.article.favoritesCount}
           </button>
         </div>

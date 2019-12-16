@@ -83,4 +83,18 @@ describe('# Favorite article', () => {
     expect(deleteFavoriteArticle).toBeCalledWith(article.slug)
   })
 
+  it('should highlight favorite button when article was favorited', function () {
+    const article = { ...generateArticles(), favorited: true }
+    const wrapper = shallow<ArticlePreview>(<ArticlePreview article={article} />)
+
+    expect(wrapper.find('.article-meta button').hasClass('btn-primary')).toBe(true)
+  })
+
+  it('should not highlight favorite button when article was not favorited', function () {
+    const article = { ...generateArticles(), favorited: false }
+    const wrapper = shallow<ArticlePreview>(<ArticlePreview article={article} />)
+
+    expect(wrapper.find('.article-meta button').hasClass('btn-outline-primary')).toBe(true)
+  })
+
 })
