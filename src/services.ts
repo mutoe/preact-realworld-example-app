@@ -50,6 +50,14 @@ export async function getArticlesByTag(tagName: string, page = 1) {
     .then(res => res.data)
 }
 
+export async function postFavoriteArticle(slug: string) {
+  return axios.post<ArticleResponse>(`/articles/${slug}/favorite`)
+}
+
+export async function deleteFavoriteArticle(slug: string) {
+  return axios.delete<ArticleResponse>(`/articles/${slug}/favorite`)
+}
+
 export async function getProfile(username: string) {
   return axios.get<ProfileResponse>(`/profiles/${username}`).then(res => res.data.profile)
 }
