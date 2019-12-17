@@ -6,6 +6,10 @@ interface Response {
   errors: ResponseError;
 }
 
+interface AuthResponse {
+  user: UserWithToken;
+}
+
 interface ProfileResponse {
   profile: User;
 }

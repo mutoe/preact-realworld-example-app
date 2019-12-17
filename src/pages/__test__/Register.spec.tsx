@@ -98,7 +98,7 @@ describe('# Register request', () => {
   })
 
   it('should can goto home page when entering the correct account', async function () {
-    (postRegister as jest.Mock).mockImplementation(() => Promise.resolve())
+    (postRegister as jest.Mock).mockImplementation(() => Promise.resolve({ token: 'foobar' }))
     wrapper.setState({
       username: 'test_user',
       email: 'test@example.com',
@@ -108,6 +108,26 @@ describe('# Register request', () => {
     await instance.onRegister()
 
     expect(route).toBeCalledWith('/')
+  })
+
+  it('should save token locally when register successful', async function () {
+    (postRegister as jest.Mock<Promise<UserWithToken>>).mockResolvedValue({
+      id: 1,
+      email: 'test@example.com',
+      username: 'test',
+      bio: null,
+      image: null,
+      token: 'foobar',
+    })
+    jest.spyOn(window.localStorage, 'setItem')
+    wrapper.setState({
+      email: 'test@example.com',
+      password: '123456',
+    })
+
+    await instance.onRegister()
+
+    expect(window.localStorage.setItem).toBeCalledWith('token', 'foobar')
   })
 })
 

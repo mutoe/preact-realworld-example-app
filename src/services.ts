@@ -23,7 +23,7 @@ export interface PostLoginForm {
 }
 
 export async function postLogin(form: PostLoginForm) {
-  return axios.post<UserWithToken>('/users/login', { user: form }).then(res => res.data)
+  return axios.post<AuthResponse>('/users/login', { user: form }).then(res => res.data.user)
 }
 
 interface PostRegisterForm extends PostLoginForm {
@@ -31,7 +31,7 @@ interface PostRegisterForm extends PostLoginForm {
 }
 
 export async function postRegister(form: PostRegisterForm) {
-  return axios.post('/users', { user: form })
+  return axios.post<AuthResponse>('/users', { user: form }).then(res => res.data.user)
 }
 
 export async function getAllTags() {

@@ -26,8 +26,13 @@ export default class Register extends Component<{}, RegisterState> {
     if (!this.formRef.current?.checkValidity()) return
 
     try {
-      await postRegister({ username: this.state.username, email: this.state.email, password: this.state.password })
+      const { token } = await postRegister({
+        username: this.state.username,
+        email: this.state.email,
+        password: this.state.password,
+      })
       route('/')
+      window.localStorage.setItem('token', token)
     } catch (e) {
       this.setState({ errors: e.errors })
     }
