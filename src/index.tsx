@@ -1,7 +1,7 @@
 import { h, render } from 'preact'
 import Router from 'preact-router'
 import { createHashHistory } from 'history'
-import RootStateContext, { initialRootState } from './stores/globalContext'
+import { initialRootState, RootContext } from './stores'
 
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -15,7 +15,7 @@ import Profile from './pages/Profile'
 import EditArticle from './pages/EditArticle'
 
 const Main = () => (
-  <RootStateContext.Provider value={initialRootState}>
+  <RootContext.Provider value={initialRootState}>
     <Header />
     <Router history={createHashHistory()}>
       <Home path="/" />
@@ -28,7 +28,7 @@ const Main = () => (
       <Profile path="/:username" />
     </Router>
     <Footer />
-  </RootStateContext.Provider>
+  </RootContext.Provider>
 )
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

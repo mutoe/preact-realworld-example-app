@@ -1,6 +1,6 @@
 import { h } from 'preact'
 import { useContext } from 'preact/hooks'
-import RootStateContext from '../stores/globalContext'
+import { RootContext } from '../stores'
 
 interface NavBarProps {
   currentActive?: 'global' | 'personal' | 'tag';
@@ -8,7 +8,7 @@ interface NavBarProps {
 }
 
 export default function NavBar(props: NavBarProps = {}) {
-  const rootState = useContext(RootStateContext)
+  const rootState = useContext(RootContext)
 
   return (
     <div className="feed-toggle">

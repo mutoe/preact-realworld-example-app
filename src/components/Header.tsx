@@ -1,10 +1,10 @@
 import { Fragment, h } from 'preact'
 import { Link } from 'preact-router'
 import { useContext } from 'preact/hooks'
-import RootStateContext from '../stores/globalContext'
+import { RootContext } from '../stores'
 
 const Header = () => {
-  const rootState = useContext(RootStateContext)
+  const rootState = useContext(RootContext)
 
   return <nav className="navbar navbar-light">
     <div className="container">

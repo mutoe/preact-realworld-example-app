@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme'
 import NavBar from '../NavBar'
 import { h } from 'preact'
-import { initialRootState } from '../../stores/globalContext'
+import { initialRootState } from '../../stores'
 import { useContext } from 'preact/hooks'
 import render from 'preact-render-to-string'
 

@@ -4,6 +4,4 @@ export const initialRootState: RootState = {
   user: null,
 }
 
-const RootStateContext = createContext<RootState>(initialRootState)
-
-export default RootStateContext
+export const RootContext = createContext<RootState>(initialRootState)

@@ -1,6 +1,6 @@
 import { h } from 'preact'
 import { useContext } from 'preact/hooks'
-import { initialRootState } from '../../stores/globalContext'
+import { initialRootState } from '../../stores'
 import Header from '../Header'
 import render from 'preact-render-to-string'
 
