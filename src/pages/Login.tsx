@@ -1,6 +1,7 @@
-import { Component, createRef, h } from 'preact'
+import { createRef, h } from 'preact'
 import { Link, route } from 'preact-router'
 import { postLogin } from '../services'
+import { useState } from 'preact/hooks'
 
 interface RegisterState {
   errors: ResponseError;
@@ -8,89 +9,72 @@ interface RegisterState {
   password: string;
 }
 
-export default class Register extends Component<{}, RegisterState> {
-  formRef = createRef<HTMLFormElement>()
+export default function Register() {
+  const formRef = createRef<HTMLFormElement>()
+  const [ errors, setErrors ] = useState<ResponseError>({})
+  const [ form, setForm ] = useState({
+    email: '',
+    password: '',
+  })
 
-  constructor() {
-    super()
-
-    this.state = {
-      errors: {},
-      email: '',
-      password: '',
-    }
-  }
-
-  async onLogin() {
-    if (!this.formRef.current?.checkValidity()) return
+  const onLogin = async () => {
+    if (!formRef.current?.checkValidity()) return
 
     try {
-      const { token } = await postLogin({ email: this.state.email, password: this.state.password })
+      const { token } = await postLogin(form)
       window.localStorage.setItem('token', token)
       route('/')
     } catch (data) {
-      this.setState({
-        errors: data.errors,
-      })
+      setErrors(data.errors)
     }
   }
 
-  onInputEmail(email: string) {
-    this.setState({ email })
-  }
+  return (
+    <div className="auth-page">
+      <div className="container page">
+        <div className="row">
 
-  onInputPassword(password: string) {
-    this.setState({ password })
-  }
+          <div className="col-md-6 offset-md-3 col-xs-12">
+            <h1 className="text-xs-center">Sign in</h1>
+            <p className="text-xs-center">
+              <Link href="/register">Need an account?</Link>
+            </p>
 
-  render() {
-    return (
-      <div className="auth-page">
-        <div className="container page">
-          <div className="row">
+            <ul className="error-messages">
+              {Object.entries(errors).map(([ field, errors ]) => (
+                <li key={field}>{field} {errors[0]}</li>
+              ))}
+            </ul>
 
-            <div className="col-md-6 offset-md-3 col-xs-12">
-              <h1 className="text-xs-center">Sign in</h1>
-              <p className="text-xs-center">
-                <Link href="/register">Need an account?</Link>
-              </p>
-
-              <ul className="error-messages">
-                {Object.entries(this.state.errors).map(([ field, errors ]) => (
-                  <li key={field}>{field} {errors[0]}</li>
-                ))}
-              </ul>
-
-              <form ref={this.formRef}>
-                <fieldset className="form-group" aria-required>
-                  <input value={this.state.email}
-                    className="form-control form-control-lg"
-                    type="email"
-                    required
-                    placeholder="Email"
-                    onInput={e => this.onInputEmail(e.currentTarget.value)} />
-                </fieldset>
-                <fieldset className="form-group">
-                  <input value={this.state.password}
-                    className="form-control form-control-lg"
-                    type="password"
-                    required
-                    placeholder="Password"
-                    onInput={e => this.onInputPassword(e.currentTarget.value)} />
-                </fieldset>
-                <button className="btn btn-lg btn-primary pull-xs-right"
-                  disabled={!this.state.email || !this.state.password}
-                  type="submit"
-                  onClick={this.onLogin.bind(this)}>
-                  Sign in
-                </button>
-              </form>
-            </div>
-
+            <form ref={formRef}>
+              <fieldset className="form-group" aria-required>
+                <input value={form.email}
+                  className="form-control form-control-lg"
+                  type="email"
+                  required
+                  placeholder="Email"
+                  onInput={e => setForm(prev => ({ ...prev, email: e.currentTarget.value }))} />
+              </fieldset>
+              <fieldset className="form-group">
+                <input value={form.password}
+                  className="form-control form-control-lg"
+                  type="password"
+                  required
+                  placeholder="Password"
+                  onInput={e => setForm(prev => ({ ...prev, password: e.currentTarget.value }))} />
+              </fieldset>
+              <button className="btn btn-lg btn-primary pull-xs-right"
+                disabled={!form.email || !form.password}
+                type="submit"
+                onClick={onLogin}>
+                Sign in
+              </button>
+            </form>
           </div>
+
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 
 }

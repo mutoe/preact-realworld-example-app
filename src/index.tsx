@@ -1,5 +1,5 @@
 import { h, render } from 'preact'
-import Router from 'preact-router'
+import Router, { Route } from 'preact-router'
 import { createHashHistory } from 'history'
 import { initialRootState, RootContext } from './stores'
 
@@ -18,14 +18,14 @@ const Main = () => (
   <RootContext.Provider value={initialRootState}>
     <Header />
     <Router history={createHashHistory()}>
-      <Home path="/" />
-      <Home path="/tag/:tag" />
-      <Login path="/login" />
-      <Register path="/register" />
-      <Settings path="/settings" />
-      <ArticlePage path="/article/:slug" />
-      <EditArticle path="/article/:slug/edit" />
-      <Profile path="/:username" />
+      <Route path="/" component={Home} />
+      <Route path="/tag/:tag" component={Home} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/settings" component={Settings} />
+      <Route path="/article/:slug" component={ArticlePage} />
+      <Route path="/article/:slug/edit" component={EditArticle} />
+      <Route path="/:username" component={Profile} />
     </Router>
     <Footer />
   </RootContext.Provider>

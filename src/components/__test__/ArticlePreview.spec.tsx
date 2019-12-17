@@ -56,20 +56,11 @@ describe('# Favorite article', () => {
     expect(wrapper.find('.article-meta button').text()).toContain(article.favoritesCount)
   })
 
-  it('should trigger request method when favorite button clicked', function () {
-    jest.spyOn(ArticlePreview.prototype, 'onFavorite')
-    const article = { ...generateArticles(), favorited: false }
-    const wrapper = shallow<ArticlePreview>(<ArticlePreview article={article} />)
-    wrapper.find('.article-meta button').simulate('click')
-
-    expect(wrapper.instance().onFavorite).toBeCalledTimes(1)
-  })
-
   it('should request favorite article when favorite unfavorited article', async function () {
     (postFavoriteArticle as jest.Mock).mockResolvedValue({})
     const article = { ...generateArticles(), favorited: false }
-    const wrapper = shallow<ArticlePreview>(<ArticlePreview article={article} />)
-    await wrapper.instance().onFavorite()
+    const wrapper = shallow(<ArticlePreview article={article} />)
+    wrapper.find('.article-meta button').simulate('click')
 
     expect(postFavoriteArticle).toBeCalledWith(article.slug)
   })
@@ -77,22 +68,22 @@ describe('# Favorite article', () => {
   it('should request unfavorite article when unfavorite article', async function () {
     (deleteFavoriteArticle as jest.Mock).mockResolvedValue({})
     const article = { ...generateArticles(), favorited: true }
-    const wrapper = shallow<ArticlePreview>(<ArticlePreview article={article} />)
-    await wrapper.instance().onFavorite()
+    const wrapper = shallow(<ArticlePreview article={article} />)
+    wrapper.find('.article-meta button').simulate('click')
 
     expect(deleteFavoriteArticle).toBeCalledWith(article.slug)
   })
 
   it('should highlight favorite button when article was favorited', function () {
     const article = { ...generateArticles(), favorited: true }
-    const wrapper = shallow<ArticlePreview>(<ArticlePreview article={article} />)
+    const wrapper = shallow(<ArticlePreview article={article} />)
 
     expect(wrapper.find('.article-meta button').hasClass('btn-primary')).toBe(true)
   })
 
   it('should not highlight favorite button when article was not favorited', function () {
     const article = { ...generateArticles(), favorited: false }
-    const wrapper = shallow<ArticlePreview>(<ArticlePreview article={article} />)
+    const wrapper = shallow(<ArticlePreview article={article} />)
 
     expect(wrapper.find('.article-meta button').hasClass('btn-outline-primary')).toBe(true)
   })
@@ -100,9 +91,11 @@ describe('# Favorite article', () => {
   it('should update article info when favorite / unfavorite article', async function () {
     (postFavoriteArticle as jest.Mock).mockResolvedValue({ favorited: true })
     const article = { ...generateArticles(), favorited: false }
-    const wrapper = shallow<ArticlePreview>(<ArticlePreview article={article} />)
+    const wrapper = shallow(<ArticlePreview article={article} />)
+    expect(wrapper.find('.article-meta button').hasClass('btn-outline-primary')).toBe(true)
 
-    await wrapper.instance().onFavorite()
+    wrapper.find('.article-meta button').simulate('click')
+    await new Promise(r => setImmediate(r))
 
     expect(wrapper.find('.article-meta button').hasClass('btn-primary')).toBe(true)
   })

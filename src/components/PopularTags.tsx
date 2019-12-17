@@ -1,41 +1,28 @@
-import { Component, h } from 'preact'
+import { h } from 'preact'
 import { getAllTags } from '../services'
+import { useEffect, useState } from 'preact/hooks'
 
-interface PopularTagsStates {
-  tags: string[];
-}
+export default function PopularTags() {
+  const [ tags, setTags ] = useState<string[]>([])
 
-export default class PopularTags extends Component<{}, PopularTagsStates> {
-  constructor() {
-    super()
-
-    this.state = {
-      tags: [],
-    }
-  }
-
-  async fetchPopularTags() {
+  const fetchPopularTags = async () => {
     const tags = await getAllTags()
-    this.setState({ tags })
+    setTags(tags)
   }
 
-  componentWillMount(): void {
-    this.fetchPopularTags()
-  }
+  useEffect(() => {
+    fetchPopularTags()
+  }, [])
 
-  render() {
-    return (
-      <div className="sidebar">
-        <p>Popular Tags</p>
+  return (
+    <div className="sidebar">
+      <p>Popular Tags</p>
 
-        <div className="tag-list">
-          {
-            this.state.tags.map(tag => (
-              <a key={tag} href={`/tag/${tag}`} className="tag-pill tag-default">{tag}</a>
-            ))
-          }
-        </div>
+      <div className="tag-list">
+        {tags.map(tag => (
+          <a key={tag} href={`/tag/${tag}`} className="tag-pill tag-default">{tag}</a>
+        ))}
       </div>
-    )
-  }
+    </div>
+  )
 }

@@ -3,7 +3,7 @@ import { Link } from 'preact-router'
 import { useContext } from 'preact/hooks'
 import { RootContext } from '../stores'
 
-const Header = () => {
+export default function Header() {
   const rootState = useContext(RootContext)
 
   return <nav className="navbar navbar-light">
@@ -43,4 +43,3 @@ const Header = () => {
   </nav>
 }
 
-export default Header

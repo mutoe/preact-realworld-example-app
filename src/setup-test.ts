@@ -23,6 +23,7 @@ declare global {
       window: Window;
       navigator: Navigator;
       requestAnimationFrame: AnimationFrameProvider['requestAnimationFrame'];
+      cancelAnimationFrame: AnimationFrameProvider['cancelAnimationFrame'];
     }
   }
 }
@@ -32,6 +33,7 @@ global.Node = dom.window.Node
 global.window = dom.window
 global.document = dom.window.document
 global.requestAnimationFrame = dom.window.requestAnimationFrame
+global.cancelAnimationFrame = dom.window.cancelAnimationFrame
 
 configure({ adapter: new Adapter() })
 

@@ -9,7 +9,7 @@ jest.mock('../../services')
 const getProfileMock = getProfile as jest.Mock<Promise<User>>
 
 beforeEach(() => {
-  (getProfile as jest.Mock).mockResolvedValue({})
+  getProfileMock.mockResolvedValue({} as User)
 })
 
 afterEach(() => {
@@ -25,19 +25,12 @@ describe('# Profile Page', function () {
     expect(wrapper.find('.user-info button').text()).toContain(`Follow ${author.username}`)
   })
 
-  it('should trigger fetch method when component did mount', function () {
-    jest.spyOn(Profile.prototype, 'fetchProfile')
+  it('should be request profile when page loaded', async function () {
     const author = generateAuthor()
-    const wrapper = shallow<Profile>(<Profile username={`@${author.username}`} />)
+    shallow(<Profile username={`@${author.username}`} />)
+    await new Promise(r => setImmediate(r))
 
-    expect(wrapper.instance().fetchProfile).toBeCalledTimes(1)
-  })
-
-  it('should be request profile when fetchProfile called', async function () {
-    const author = generateAuthor()
-    const wrapper = shallow<Profile>(<Profile username={`@${author.username}`} />)
-    await wrapper.instance().fetchProfile()
-
+    expect(getProfile).toBeCalledTimes(1)
     expect(getProfile).toBeCalledWith(author.username)
   })
 
@@ -45,7 +38,7 @@ describe('# Profile Page', function () {
     const author = generateAuthor()
     getProfileMock.mockResolvedValue(author)
 
-    const wrapper = shallow<Profile>(<Profile username={`@${author.username}`} />)
+    const wrapper = shallow(<Profile username={`@${author.username}`} />)
     await new Promise(r => setImmediate(r))
     wrapper.update()
 
@@ -81,13 +74,12 @@ describe('# Follow user', () => {
   it('should send follow request when Follow button clicked', async function () {
     const user = generateAuthor()
     getProfileMock.mockResolvedValue({ ...user, following: false })
-    const wrapper = shallow<Profile>(<Profile username={`@${user.username}`} />)
+    const wrapper = shallow(<Profile username={`@${user.username}`} />)
     await new Promise(r => setImmediate(r))
-    wrapper.update()
 
     const postFollowProfileMock = postFollowProfile as jest.Mock<Promise<User>>
     postFollowProfileMock.mockImplementation()
-    await wrapper.instance().onFollowUser()
+    wrapper.find('.user-info button').simulate('click')
 
     expect(postFollowProfileMock).toBeCalledTimes(1)
   })
@@ -95,13 +87,12 @@ describe('# Follow user', () => {
   it('should send unfollow request when Unfollow button clicked', async function () {
     const user = generateAuthor()
     getProfileMock.mockResolvedValue({ ...user, following: true })
-    const wrapper = shallow<Profile>(<Profile username={`@${user.username}`} />)
+    const wrapper = shallow(<Profile username={`@${user.username}`} />)
     await new Promise(r => setImmediate(r))
-    wrapper.update()
 
     const deleteFollowProfileMock = deleteFollowProfile as jest.Mock<Promise<User>>
     deleteFollowProfileMock.mockImplementation()
-    await wrapper.instance().onFollowUser()
+    wrapper.find('.user-info button').simulate('click')
 
     expect(deleteFollowProfileMock).toBeCalledTimes(1)
   })

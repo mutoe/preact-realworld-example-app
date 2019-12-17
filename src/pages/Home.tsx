@@ -1,75 +1,61 @@
-import { Component, h } from 'preact'
-
+import { h } from 'preact'
 import NavBar from '../components/NavBar'
 import PopularTags from '../components/PopularTags'
 import { getArticles, getArticlesByTag } from '../services'
 import ArticlePreview from '../components/ArticlePreview'
+import { useEffect, useState } from 'preact/hooks'
 
 interface HomeProps {
   tag?: string;
 }
 
-interface HomeStates {
-  articles: Article[];
-  articlesCount: number;
-}
+export default function Home(props: HomeProps) {
+  const [ articles, setArticles ] = useState<Article[]>([])
+  const [ articlesCount, setArticlesCount ] = useState(0)
 
-export default class Home extends Component<HomeProps, HomeStates> {
-  constructor() {
-    super()
-
-    this.state = {
-      articles: [],
-      articlesCount: 0,
-    }
-  }
-
-  componentDidMount(): void {
-    this.fetchFeeds()
-  }
-
-  async fetchFeeds() {
-    if (this.props.tag) {
-      const { articles = [], articlesCount = 0 } = await getArticlesByTag(this.props.tag)
-      this.setState({ articles, articlesCount })
+  const fetchFeeds = async () => {
+    if (props.tag) {
+      const { articles = [], articlesCount = 0 } = await getArticlesByTag(props.tag)
+      setArticles(articles)
+      setArticlesCount(articlesCount)
     } else {
       const { articles = [], articlesCount = 0 } = await getArticles()
-      this.setState({ articles, articlesCount })
+      setArticles(articles)
+      setArticlesCount(articlesCount)
     }
   }
 
-  render() {
-    return (
-      <div className="home-page">
+  useEffect(() => {
+    fetchFeeds()
+  }, [])
 
-        <div className="banner">
-          <div className="container">
-            <h1 className="logo-font">conduit</h1>
-            <p>A place to share your knowledge.</p>
-          </div>
+  return (
+    <div className="home-page">
+
+      <div className="banner">
+        <div className="container">
+          <h1 className="logo-font">conduit</h1>
+          <p>A place to share your knowledge.</p>
         </div>
-
-        <div className="container page">
-          <div className="row">
-
-            <div className="col-md-9">
-              <NavBar currentActive={this.props.tag ? 'tag' : 'global'} {...{ tag: this.props.tag }} />
-
-              {
-                this.state.articles.map(article => (
-                  <ArticlePreview key={article.slug} article={article} />
-                ))
-              }
-            </div>
-
-            <div className="col-md-3">
-              <PopularTags />
-            </div>
-
-          </div>
-        </div>
-
       </div>
-    )
-  }
+
+      <div className="container page">
+        <div className="row">
+
+          <div className="col-md-9">
+            <NavBar currentActive={props.tag ? 'tag' : 'global'} {...{ tag: props.tag }} />
+
+            {articles.map(article => (
+              <ArticlePreview key={article.slug} article={article} />
+            ))}
+          </div>
+
+          <div className="col-md-3">
+            <PopularTags />
+          </div>
+
+        </div>
+      </div>
+    </div>
+  )
 }
