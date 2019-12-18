@@ -11,7 +11,7 @@ interface HomeProps {
 
 export default function Home(props: HomeProps) {
   const [ articles, setArticles ] = useState<Article[]>([])
-  const [ articlesCount, setArticlesCount ] = useState(0)
+  const [ , setArticlesCount ] = useState(0)
 
   const fetchFeeds = async () => {
     if (props.tag) {
