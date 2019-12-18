@@ -3,12 +3,6 @@ import { Link, route } from 'preact-router'
 import { postLogin } from '../services'
 import { useState } from 'preact/hooks'
 
-interface RegisterState {
-  errors: ResponseError;
-  email: string;
-  password: string;
-}
-
 export default function Register() {
   const formRef = createRef<HTMLFormElement>()
   const [ errors, setErrors ] = useState<ResponseError>({})
@@ -17,7 +11,8 @@ export default function Register() {
     password: '',
   })
 
-  const onLogin = async () => {
+  const onLogin = async (event: Event) => {
+    event.preventDefault()
     if (!formRef.current?.checkValidity()) return
 
     try {
@@ -41,12 +36,12 @@ export default function Register() {
             </p>
 
             <ul className="error-messages">
-              {Object.entries(errors).map(([ field, errors ]) => (
+              {Object.entries(errors || {}).map(([ field, errors ]) => (
                 <li key={field}>{field} {errors[0]}</li>
               ))}
             </ul>
 
-            <form ref={formRef}>
+            <form ref={formRef} onSubmit={onLogin}>
               <fieldset className="form-group" aria-required>
                 <input value={form.email}
                   className="form-control form-control-lg"
@@ -65,8 +60,7 @@ export default function Register() {
               </fieldset>
               <button className="btn btn-lg btn-primary pull-xs-right"
                 disabled={!form.email || !form.password}
-                type="submit"
-                onClick={onLogin}>
+                type="submit">
                 Sign in
               </button>
             </form>

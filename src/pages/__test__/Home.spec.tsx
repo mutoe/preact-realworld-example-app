@@ -36,20 +36,26 @@ describe('# Home Page', () => {
 })
 
 describe('# Feeds list', () => {
-  it.skip('should display given feed correctly', function () {
+  it('should display given feed correctly', async function () {
     const articles = generateArticles(3)
+    getArticlesMock.mockResolvedValue({
+      articles,
+      articlesCount: 3,
+    })
     const wrapper = shallow(<Home />)
-    wrapper.setState({ articles, articlesCount: 3 })
-    wrapper.update()
+    await new Promise(r => setImmediate(r))
 
     expect(wrapper.find(ArticlePreview)).toHaveLength(3)
   })
 
-  it.skip('should passed article prop to ArticlePreview component', function () {
+  it('should passed article prop to ArticlePreview component', async function () {
     const articles = generateArticles(2)
+    getArticlesMock.mockResolvedValue({
+      articles,
+      articlesCount: 2,
+    })
     const wrapper = shallow(<Home />)
-    wrapper.setState({ articles, articlesCount: 2 })
-    wrapper.update()
+    await new Promise(r => setImmediate(r))
 
     expect(wrapper.find(ArticlePreview).at(0).props().article).toBe(articles[0])
   })

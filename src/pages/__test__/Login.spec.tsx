@@ -1,37 +1,32 @@
-import { shallow } from 'enzyme'
 import { h } from 'preact'
 import Login from '../Login'
 import { postLogin } from '../../services'
 import { route } from 'preact-router'
+import { mount, shallow } from 'enzyme'
 
 jest.mock('../../services')
 jest.mock('preact-router')
+
+const postLoginMock = postLogin as jest.Mock
 
 afterEach(() => {
   jest.clearAllMocks()
 })
 
 describe('# Login form validate', () => {
-  it.skip('should set button disabled when submit a empty form field', function () {
-    const wrapper = shallow(<Login />)
+  it('should set button disabled when submit a empty form field', function () {
+    const wrapper = mount(<Login />)
+    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = '123'
+
     const loginButton = wrapper.find('form button.btn-lg.btn-primary')
-    wrapper.setState({
-      email: '123',
-      password: '',
-    })
-
-    wrapper.update()
-
     expect(loginButton.props().disabled).toBe(true)
   })
 
-  it.skip('should not send form when given invalid email format', function () {
-    const wrapper = shallow(<Login />)
+  it('should not send form when given invalid email format', function () {
+    const wrapper = mount(<Login />)
     const loginButton = wrapper.find('form button.btn-lg.btn-primary')
-    wrapper.setState({
-      email: '123',
-      password: '123',
-    })
+    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = '123'
+    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '123'
 
     loginButton.simulate('click')
 
@@ -40,86 +35,59 @@ describe('# Login form validate', () => {
 })
 
 describe('# Login request', () => {
-  it.skip('should be send form when sign in button clicked', function () {
-    const wrapper = shallow(<Login />)
+  it('should be send form when sign in button clicked', async function () {
+    const wrapper = mount(<Login />)
+    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
+    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
 
-    wrapper.find('form button.btn-lg.btn-primary').simulate('click')
+    wrapper.find('form').simulate('submit')
 
-    expect(postLogin).toBeCalled()
+    expect(postLogin).toBeCalledTimes(1)
   })
 
-  it.skip('can set error messages correctly when received error response', async function () {
-    (postLogin as jest.Mock).mockImplementation(() => Promise.reject({
-      errors: { 'email and password': [ 'is invalid' ] },
-    }))
-    const wrapper = shallow(<Login />)
-
-    wrapper.find('form button.btn-lg.btn-primary').simulate('click')
-
-    expect(postLogin).toBeCalled()
-    expect(wrapper.find('.error-messages')).toHaveLength(1)
-    expect(wrapper.find('.error-messages').text()).toContain('password is invalid')
-  })
-
-  it.skip('should be show error message when given response error', function () {
-    (postLogin as jest.Mock).mockImplementation(() => Promise.reject({
-      errors: { 'email and password': [ 'is invalid' ] },
-    }))
-    const wrapper = shallow(<Login />)
-    wrapper.setState({
-      errors: {
-        'password': [ 'is invalid' ],
-      },
-    })
-    wrapper.update()
-
-    expect(wrapper.find('.error-messages')).toHaveLength(1)
-    expect(wrapper.find('.error-messages').text()).toContain('password is invalid')
-  })
-
-  it.skip('should be show multiple errors when given multiple response errors', function () {
-    const wrapper = shallow(<Login />)
-    wrapper.setState({
+  it('can set error messages correctly when received error response', async function () {
+    postLoginMock.mockRejectedValue({
       errors: {
         'email': [ 'is already exists' ],
         'password': [ 'is too long' ],
       },
     })
+    const wrapper = mount(<Login />)
+    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
+    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+
+    wrapper.find('form').simulate('submit')
+    expect(postLogin).toBeCalledTimes(1)
+    await new Promise(r => setImmediate(r))
     wrapper.update()
 
     expect(wrapper.find('.error-messages > li')).toHaveLength(2)
+    expect(wrapper.find('.error-messages').text()).toContain('email is already exists')
+    expect(wrapper.find('.error-messages').text()).toContain('password is too long')
   })
 
-  it.skip('should not be send when given invalid form', function () {
-    const wrapper = shallow(<Login />)
-    wrapper.setState({
-      email: '123',
-      password: '123',
-    })
-    wrapper.update()
-    const loginButton = wrapper.find('form button.btn-lg.btn-primary')
-
-    loginButton.simulate('click')
+  it('should not be send when given invalid form', function () {
+    const wrapper = mount(<Login />)
+    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = '123'
+    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    wrapper.find('form').simulate('submit')
 
     expect(postLogin).not.toBeCalled()
   })
 
-  it.skip('should can goto home page when entering the correct account', async function () {
-
-    (postLogin as jest.Mock).mockResolvedValue({ token: 'foobar' })
-    const wrapper = shallow(<Login />)
-    wrapper.setState({
-      email: 'test@example.com',
-      password: '123456',
-    })
-
-    // await instance.onLogin()
+  it('should can goto home page when entering the correct account', async function () {
+    postLoginMock.mockResolvedValue({ token: 'foobar' })
+    const wrapper = mount(<Login />)
+    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
+    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    wrapper.find('form').simulate('submit')
+    await new Promise(r => setImmediate(r))
 
     expect(route).toBeCalledWith('/')
   })
 
-  it.skip('should save token locally when login successful', async function () {
-    (postLogin as jest.Mock<Promise<UserWithToken>>).mockResolvedValue({
+  it('should save token locally when login successful', async function () {
+    postLoginMock.mockResolvedValue({
       id: 1,
       email: 'test@example.com',
       username: 'test',
@@ -128,13 +96,11 @@ describe('# Login request', () => {
       token: 'foobar',
     })
     jest.spyOn(window.localStorage, 'setItem')
-    const wrapper = shallow(<Login />)
-    wrapper.setState({
-      email: 'test@example.com',
-      password: '123456',
-    })
-
-    // await instance.onLogin()
+    const wrapper = mount(<Login />)
+    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
+    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    wrapper.find('form').simulate('submit')
+    await new Promise(r => setImmediate(r))
 
     expect(window.localStorage.setItem).toBeCalledWith('token', 'foobar')
   })
