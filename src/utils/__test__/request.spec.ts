@@ -35,14 +35,14 @@ describe('# Request GET', function () {
 
   it('should can be set prefix of request url with single request', async function () {
     const request = new FetchRequest()
-    await request.get('/path', {}, { prefix: '/prefix' })
+    await request.get('/path', { prefix: '/prefix' })
 
     expect(global.fetch).toBeCalledWith('/prefix/path', expect.any(Object))
   })
 
   it('can be convert query object to query string in request url', async function () {
     const request = new FetchRequest()
-    await request.get('/path', { foo: 'bar' })
+    await request.get('/path', { params: { foo: 'bar' } })
 
     expect(global.fetch).toBeCalledWith('/path?foo=bar', expect.any(Object))
   })
@@ -118,7 +118,7 @@ describe('# Request POST', function () {
 
   it('can be convert query object to query string in request url', async function () {
     const request = new FetchRequest()
-    await request.post('/path', {}, { querys: { foo: 'bar' } })
+    await request.post('/path', {}, { params: { foo: 'bar' } })
 
     expect(global.fetch).toBeCalledWith('/path?foo=bar', expect.any(Object))
   })
@@ -154,5 +154,18 @@ describe('# Request POST', function () {
     await expect(request.post('/path'))
       .rejects
       .toThrowError(new FetchResponseError(`Bad request`, expect.any(Object)))
+  })
+})
+
+describe('# Request DELETE', function () {
+  it('should implement DELETE method', async function () {
+    const request = new FetchRequest()
+    await request.delete('/path')
+
+    expect(global.fetch).toBeCalledTimes(1)
+    expect(global.fetch).toBeCalledWith('/path', expect.objectContaining({
+      method: 'DELETE',
+    }))
+
   })
 })

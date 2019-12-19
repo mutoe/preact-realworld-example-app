@@ -1,10 +1,7 @@
 interface FetchRequestOptions {
   prefix: string;
   headers: Record<string, string>;
-}
-
-interface FetchRequestPostOptions extends FetchRequestOptions {
-  querys: Record<string, string>;
+  params: Record<string, any>;
 }
 
 export class FetchResponseError extends Error {
@@ -21,6 +18,7 @@ export default class FetchRequest {
   defaultOptions: FetchRequestOptions = {
     prefix: '',
     headers: {},
+    params: {},
   }
   options: FetchRequestOptions
 
@@ -36,11 +34,13 @@ export default class FetchRequest {
     }
   }
 
-  get<T = any>(url: string, querys: Record<string, string | number> = {}, options: Partial<FetchRequestOptions> = {}): Promise<T> {
+  get<T = any>(url: string, options: Partial<FetchRequestOptions> = {}): Promise<T> {
     const prefix = options.prefix || this.options.prefix || ''
+    const params = options.params || {}
+
     let finalUrl = `${prefix}${url}`
-    if (Object.keys(querys).length) {
-      const queryString = Object.keys(querys).map(key => `${key}=${querys[key]}`).join('&')
+    if (Object.keys(params).length) {
+      const queryString = Object.keys(params).map(key => `${key}=${params[key]}`).join('&')
       finalUrl += `?${queryString}`
     }
     return fetch(finalUrl, {
@@ -51,19 +51,36 @@ export default class FetchRequest {
       .then(res => res.json())
   }
 
-  post<T = any>(url: string, data: Record<string, string> = {}, options: Partial<FetchRequestPostOptions> = {}): Promise<T> {
+  post<T = any>(url: string, data: Record<string, any> = {}, options: Partial<FetchRequestOptions> = {}): Promise<T> {
     const prefix = options.prefix || this.options.prefix || ''
-    const querys = options.querys || {}
+    const params = options.params || {}
 
     let finalUrl = `${prefix}${url}`
-    if (Object.keys(querys).length) {
-      const queryString = Object.keys(querys).map(key => `${key}=${querys[key]}`).join('&')
+    if (Object.keys(params).length) {
+      const queryString = Object.keys(params).map(key => `${key}=${params[key]}`).join('&')
       finalUrl += `?${queryString}`
     }
 
     return fetch(finalUrl, {
       method: 'POST',
       body: JSON.stringify(data),
+    })
+      .then(this.checkStatus)
+      .then(res => res.json())
+  }
+
+  delete<T = any>(url: string, options: Partial<FetchRequestOptions> = {}): Promise<T> {
+    const prefix = options.prefix || this.options.prefix || ''
+    const params = options.params || {}
+
+    let finalUrl = `${prefix}${url}`
+    if (Object.keys(params).length) {
+      const queryString = Object.keys(params).map(key => `${key}=${params[key]}`).join('&')
+      finalUrl += `?${queryString}`
+    }
+    return fetch(finalUrl, {
+      method: 'DELETE',
+      headers: this.defaultOptions.headers,
     })
       .then(this.checkStatus)
       .then(res => res.json())
