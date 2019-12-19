@@ -36,10 +36,9 @@ export default class FetchRequest {
       route('/login')
     }
     throw new FetchResponseError(response.statusText, response)
-
   }
 
-  get<T = any>(url: string, options: Partial<FetchRequestOptions> = {}): Promise<T> {
+  private generateFinalUrl = (url: string, options: Partial<FetchRequestOptions> = {}) => {
     const prefix = options.prefix || this.options.prefix || ''
     const params = options.params || {}
 
@@ -48,44 +47,38 @@ export default class FetchRequest {
       const queryString = Object.keys(params).map(key => `${key}=${params[key]}`).join('&')
       finalUrl += `?${queryString}`
     }
+
+    return finalUrl
+  }
+
+  get<T = any>(url: string, options: Partial<FetchRequestOptions> = {}): Promise<T> {
+    const finalUrl = this.generateFinalUrl(url, options)
     return fetch(finalUrl, {
       method: 'GET',
-      headers: this.defaultOptions.headers,
+      headers: this.options.headers,
     })
       .then(this.checkStatus)
       .then(res => res.json())
   }
 
   post<T = any>(url: string, data: Record<string, any> = {}, options: Partial<FetchRequestOptions> = {}): Promise<T> {
-    const prefix = options.prefix || this.options.prefix || ''
-    const params = options.params || {}
-
-    let finalUrl = `${prefix}${url}`
-    if (Object.keys(params).length) {
-      const queryString = Object.keys(params).map(key => `${key}=${params[key]}`).join('&')
-      finalUrl += `?${queryString}`
-    }
+    const finalUrl = this.generateFinalUrl(url, options)
 
     return fetch(finalUrl, {
       method: 'POST',
       body: JSON.stringify(data),
+      headers: this.options.headers,
     })
       .then(this.checkStatus)
       .then(res => res.json())
   }
 
   delete<T = any>(url: string, options: Partial<FetchRequestOptions> = {}): Promise<T> {
-    const prefix = options.prefix || this.options.prefix || ''
-    const params = options.params || {}
+    const finalUrl = this.generateFinalUrl(url, options)
 
-    let finalUrl = `${prefix}${url}`
-    if (Object.keys(params).length) {
-      const queryString = Object.keys(params).map(key => `${key}=${params[key]}`).join('&')
-      finalUrl += `?${queryString}`
-    }
     return fetch(finalUrl, {
       method: 'DELETE',
-      headers: this.defaultOptions.headers,
+      headers: this.options.headers,
     })
       .then(this.checkStatus)
       .then(res => res.json())
