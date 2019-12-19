@@ -16,6 +16,7 @@ export default function App() {
   return (
     <RootContext.Provider value={initialRootState}>
       <Header />
+      // TODO: Remove history module to reduce bundle size
       <Router history={createHashHistory()}>
         <Route path="/" component={Home} />
         <Route path="/tag/:tag" component={Home} />

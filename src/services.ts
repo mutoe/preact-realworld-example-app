@@ -3,6 +3,7 @@ import { route } from 'preact-router'
 
 const limit = 10
 
+// TODO: Remove axios module to reduce bundle size
 export const axios = Axios.create({
   baseURL: `${process.env.API_HOST}/api`,
 })
