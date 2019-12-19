@@ -2,7 +2,7 @@ import { h } from 'preact'
 import Login from '../Login'
 import { postLogin } from '../../services'
 import { route } from 'preact-router'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 
 jest.mock('../../services')
 jest.mock('preact-router')
@@ -87,22 +87,23 @@ describe('# Login request', () => {
   })
 
   it('should save token locally when login successful', async function () {
-    postLoginMock.mockResolvedValue({
+    const result = {
       id: 1,
       email: 'test@example.com',
       username: 'test',
       bio: null,
       image: null,
       token: 'foobar',
-    })
-    jest.spyOn(window.localStorage, 'setItem')
+    }
+    postLoginMock.mockResolvedValue(result)
+    jest.spyOn(global.localStorage, 'setItem')
     const wrapper = mount(<Login />)
     wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
     wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
     wrapper.find('form').simulate('submit')
     await new Promise(r => setImmediate(r))
 
-    expect(window.localStorage.setItem).toBeCalledWith('token', 'foobar')
+    expect(global.localStorage.setItem).toBeCalledWith('user', JSON.stringify(result))
   })
 })
 

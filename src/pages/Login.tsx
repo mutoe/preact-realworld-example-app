@@ -16,8 +16,8 @@ export default function Register() {
     if (!formRef.current?.checkValidity()) return
 
     try {
-      const { token } = await postLogin(form)
-      window.localStorage.setItem('token', token)
+      const user = await postLogin(form)
+      global.localStorage.setItem('user', JSON.stringify(user))
       route('/')
     } catch (data) {
       setErrors(data.errors)

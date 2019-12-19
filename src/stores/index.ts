@@ -1,7 +1,8 @@
 import { createContext } from 'preact'
+import parseStorageGet from '../utils/parse-storage-get'
 
 export const initialRootState: RootState = {
-  user: null,
+  user: parseStorageGet('user') || null,
 }
 
 export const RootContext = createContext<RootState>(initialRootState)

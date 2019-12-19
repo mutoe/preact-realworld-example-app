@@ -9,15 +9,17 @@ jest.mock('preact-router')
 
 const postRegisterMock = postRegister as jest.Mock<Promise<UserWithToken>>
 
+const resolvedResult = {
+  id: 1,
+  email: 'test@example.com',
+  username: 'test',
+  bio: null,
+  image: null,
+  token: 'foobar',
+}
+
 const mockResolvedPostRegister = () => {
-  postRegisterMock.mockResolvedValue({
-    id: 1,
-    email: 'test@example.com',
-    username: 'test',
-    bio: null,
-    image: null,
-    token: 'foobar',
-  })
+  postRegisterMock.mockResolvedValue(resolvedResult)
 }
 
 afterEach(() => {
@@ -119,7 +121,7 @@ describe('# Register request', () => {
   it('should save token locally when register successful', async function () {
     mockResolvedPostRegister()
     const wrapper = mount(<Register />)
-    jest.spyOn(window.localStorage, 'setItem')
+    jest.spyOn(global.localStorage, 'setItem')
     wrapper.find('input[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
     wrapper.find('input[placeholder="Your Name"]').getDOMNode<HTMLInputElement>().value = 'test'
     wrapper.find('input[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
@@ -127,7 +129,7 @@ describe('# Register request', () => {
     wrapper.find('form button.btn-lg.btn-primary').simulate('click')
     await new Promise(r => setImmediate(r))
 
-    expect(window.localStorage.setItem).toBeCalledWith('token', 'foobar')
+    expect(global.localStorage.setItem).toBeCalledWith('token', JSON.stringify(resolvedResult))
   })
 })
 

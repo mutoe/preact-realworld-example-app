@@ -16,9 +16,9 @@ export default function Register() {
     if (!formRef.current?.checkValidity()) return
 
     try {
-      const { token } = await postRegister(form)
+      const user = await postRegister(form)
+      global.localStorage.setItem('token', JSON.stringify(user))
       route('/')
-      window.localStorage.setItem('token', token)
     } catch (e) {
       setErrors(e.errors)
     }
@@ -37,7 +37,7 @@ export default function Register() {
 
             <ul className="error-messages">
               {
-                Object.entries(errors).map(([ field, errors ]) => {
+                Object.entries(errors || {}).map(([ field, errors ]) => {
                   return <li key={field}>{field} {errors[0]}</li>
                 })
               }

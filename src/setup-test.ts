@@ -25,6 +25,7 @@ declare global {
       requestAnimationFrame: AnimationFrameProvider['requestAnimationFrame'];
       cancelAnimationFrame: AnimationFrameProvider['cancelAnimationFrame'];
       fetch: Window['fetch'];
+      localStorage: Storage;
     }
   }
 }
@@ -55,6 +56,6 @@ const localStorageMock = (function () {
   }
 })()
 
-Object.defineProperty(window, 'localStorage', {
+Object.defineProperty(global, 'localStorage', {
   value: localStorageMock,
 })
