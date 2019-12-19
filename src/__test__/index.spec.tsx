@@ -2,6 +2,7 @@ import { route } from 'preact-router'
 import { h, render } from 'preact'
 import { unmountComponentAtNode } from 'preact/compat'
 import App from '../App'
+import { request } from '../services'
 
 jest.mock('preact-router')
 
@@ -14,12 +15,15 @@ describe('# Root Component', function () {
     }).not.toThrow()
   })
 
-  it.skip('should be jump Login page when request 401 code got', async function () {
-    // TODO: implement request interceptors
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // (request.interceptors.response as any).handlers[0].rejected({
-    //   response: { status: 401 },
-    // })
+  it('should be jump Login page when request 401 code got', async function () {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      status: 401,
+      json() {
+        return {}
+      },
+    })
+    await expect(request.get('/')).rejects.toThrow()
 
     expect(route).toBeCalledTimes(1)
     expect(route).toBeCalledWith('/login')

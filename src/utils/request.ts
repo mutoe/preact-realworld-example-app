@@ -1,3 +1,5 @@
+import { route } from 'preact-router'
+
 interface FetchRequestOptions {
   prefix: string;
   headers: Record<string, string>;
@@ -29,9 +31,12 @@ export default class FetchRequest {
   private checkStatus = (response: Response) => {
     if (response.status >= 200 && response.status < 300) {
       return response
-    } else {
-      throw new FetchResponseError(response.statusText, response)
     }
+    if (response.status === 401) {
+      route('/login')
+    }
+    throw new FetchResponseError(response.statusText, response)
+
   }
 
   get<T = any>(url: string, options: Partial<FetchRequestOptions> = {}): Promise<T> {
