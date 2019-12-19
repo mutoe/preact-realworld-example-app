@@ -24,6 +24,7 @@ declare global {
       navigator: Navigator;
       requestAnimationFrame: AnimationFrameProvider['requestAnimationFrame'];
       cancelAnimationFrame: AnimationFrameProvider['cancelAnimationFrame'];
+      fetch: Window['fetch'];
     }
   }
 }
