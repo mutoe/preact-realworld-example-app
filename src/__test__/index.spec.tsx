@@ -19,11 +19,12 @@ describe('# Root Component', function () {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       status: 401,
-      json() {
+      statusText: 'Unauthorized',
+      async json() {
         return {}
       },
     })
-    await expect(request.get('/')).rejects.toThrow()
+    await expect(request.get('/')).rejects.toThrow('Unauthorized')
 
     expect(route).toBeCalledTimes(1)
     expect(route).toBeCalledWith('/login')

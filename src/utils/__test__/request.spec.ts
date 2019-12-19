@@ -1,10 +1,10 @@
-import FetchRequest, { FetchResponseError } from '../request'
+import FetchRequest from '../request'
 
 beforeEach(() => {
   global.fetch = jest.fn().mockResolvedValue({
     ok: true,
     status: 200,
-    json() {
+    async json() {
       return {}
     },
   })
@@ -51,7 +51,7 @@ describe('# Request GET', function () {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       status: 200,
-      json() {
+      async json() {
         return {
           foo: 'bar',
         }
@@ -68,16 +68,14 @@ describe('# Request GET', function () {
       ok: true,
       status: 400,
       statusText: 'Bad request',
-      json() {
+      async json() {
         return {}
       },
     })
 
     const request = new FetchRequest()
 
-    await expect(request.get('/path'))
-      .rejects
-      .toThrowError(new FetchResponseError(`Bad request`, expect.any(Object)))
+    await expect(request.post('/path')).rejects.toThrow('Bad request')
   })
 })
 
@@ -127,7 +125,7 @@ describe('# Request POST', function () {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       status: 200,
-      json() {
+      async json() {
         return {
           foo: 'bar',
         }
@@ -144,16 +142,34 @@ describe('# Request POST', function () {
       ok: true,
       status: 400,
       statusText: 'Bad request',
-      json() {
+      async json() {
         return {}
       },
     })
 
     const request = new FetchRequest()
 
-    await expect(request.post('/path'))
-      .rejects
-      .toThrowError(new FetchResponseError(`Bad request`, expect.any(Object)))
+    await expect(request.post('/path')).rejects.toThrow('Bad request')
+  })
+
+  it('should throw Error with 4xx code', function () {
+    global.fetch = jest.fn().mockReturnValue({
+      ok: true,
+      status: 422,
+      async json() {
+        return {
+          errors: {
+            some: [ 'error' ],
+          },
+        }
+      },
+    })
+
+    const request = new FetchRequest()
+
+    expect(() => {
+      request.get('/')
+    }).toThrow()
   })
 })
 
@@ -166,6 +182,5 @@ describe('# Request DELETE', function () {
     expect(global.fetch).toBeCalledWith('/path', expect.objectContaining({
       method: 'DELETE',
     }))
-
   })
 })

@@ -10,6 +10,10 @@ interface AuthResponse {
   user: UserWithToken;
 }
 
+interface TagsResponse {
+  tags: string[];
+}
+
 interface ProfileResponse {
   profile: User;
 }

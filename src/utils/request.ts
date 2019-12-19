@@ -6,16 +6,6 @@ interface FetchRequestOptions {
   params: Record<string, any>;
 }
 
-export class FetchResponseError extends Error {
-  response: Response
-
-  constructor(message: string, response: Response) {
-    super()
-    this.message = message
-    this.response = response
-  }
-}
-
 export default class FetchRequest {
   defaultOptions: FetchRequestOptions = {
     prefix: '',
@@ -26,16 +16,6 @@ export default class FetchRequest {
 
   constructor(options: Partial<FetchRequestOptions> = {}) {
     this.options = Object.assign({}, this.defaultOptions, options)
-  }
-
-  private checkStatus = (response: Response) => {
-    if (response.status >= 200 && response.status < 300) {
-      return response
-    }
-    if (response.status === 401) {
-      route('/login')
-    }
-    throw new FetchResponseError(response.statusText, response)
   }
 
   private generateFinalUrl = (url: string, options: Partial<FetchRequestOptions> = {}) => {
@@ -51,14 +31,31 @@ export default class FetchRequest {
     return finalUrl
   }
 
+  private handleResponse = (response: Response) => {
+    return response.json()
+      .then(json => {
+        if (response.status >= 200 && response.status < 300) {
+          return json
+        }
+        if (response.status === 401) {
+          route('/login')
+        }
+        const error = new Error(response.statusText)
+        Object.assign(error, json, {
+          status: response.status,
+          statusText: response.statusText,
+        })
+        throw error
+      })
+  }
+
   get<T = any>(url: string, options: Partial<FetchRequestOptions> = {}): Promise<T> {
     const finalUrl = this.generateFinalUrl(url, options)
     return fetch(finalUrl, {
       method: 'GET',
       headers: this.options.headers,
     })
-      .then(this.checkStatus)
-      .then(res => res.json())
+      .then(this.handleResponse)
   }
 
   post<T = any>(url: string, data: Record<string, any> = {}, options: Partial<FetchRequestOptions> = {}): Promise<T> {
@@ -69,8 +66,7 @@ export default class FetchRequest {
       body: JSON.stringify(data),
       headers: this.options.headers,
     })
-      .then(this.checkStatus)
-      .then(res => res.json())
+      .then(this.handleResponse)
   }
 
   delete<T = any>(url: string, options: Partial<FetchRequestOptions> = {}): Promise<T> {
@@ -80,7 +76,6 @@ export default class FetchRequest {
       method: 'DELETE',
       headers: this.options.headers,
     })
-      .then(this.checkStatus)
-      .then(res => res.json())
+      .then(this.handleResponse)
   }
 }

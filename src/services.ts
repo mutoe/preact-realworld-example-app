@@ -4,17 +4,10 @@ const limit = 10
 
 export const request = new FetchRequest({
   prefix: `${process.env.API_HOST}/api`,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 })
-
-// axios.interceptors.response.use((res) => {
-//   return res
-// }, (err) => {
-//   if (err.response.status === 401) {
-//     route('/login')
-//     return
-//   }
-//   return Promise.reject(err.response.data)
-// })
 
 export interface PostLoginForm {
   email: string;
@@ -34,7 +27,7 @@ export async function postRegister(form: PostRegisterForm) {
 }
 
 export async function getAllTags() {
-  return request.get<{ tags: string[] }>('/tags').then(res => res.tags)
+  return request.get<TagsResponse>('/tags').then(res => res.tags)
 }
 
 export async function getArticle(slug: string) {
