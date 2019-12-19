@@ -1,7 +1,6 @@
 import { initialRootState, RootContext } from './stores'
 import Header from './components/Header'
 import Router, { Route } from 'preact-router'
-import { createHashHistory } from 'history'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -11,12 +10,12 @@ import EditArticle from './pages/EditArticle'
 import Profile from './pages/Profile'
 import Footer from './components/Footer'
 import { h } from 'preact'
+import createHashHistory from 'history/createHashHistory'
 
 export default function App() {
   return (
     <RootContext.Provider value={initialRootState}>
       <Header />
-      // TODO: Remove history module to reduce bundle size
       <Router history={createHashHistory()}>
         <Route path="/" component={Home} />
         <Route path="/tag/:tag" component={Home} />
