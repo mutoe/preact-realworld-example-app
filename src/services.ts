@@ -5,6 +5,7 @@ const limit = 10
 export const request = new FetchRequest({
   prefix: `${process.env.API_HOST}/api`,
   headers: {
+    // TODO: add authorziation token in header
     'Content-Type': 'application/json',
   },
 })
@@ -44,6 +45,11 @@ export async function postArticle(form: PostArticleForm) {
 
 export async function getArticle(slug: string) {
   return request.get<ArticleResponse>(`/articles/${slug}`).then(res => res.article)
+}
+
+export async function putArticle(slug: string, form: PostArticleForm) {
+  return request.put<ArticleResponse>(`/articles/${slug}`, { article: form })
+    .then(res => res.article)
 }
 
 export async function getArticles(page = 1) {

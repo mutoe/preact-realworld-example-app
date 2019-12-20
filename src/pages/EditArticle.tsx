@@ -1,6 +1,6 @@
 import { h } from 'preact'
-import { useState } from 'preact/hooks'
-import { postArticle } from '../services'
+import { useEffect, useState } from 'preact/hooks'
+import { getArticle, postArticle, putArticle } from '../services'
 import { route } from 'preact-router'
 
 interface EditArticleProps {
@@ -25,9 +25,28 @@ export default function EditArticle(props: EditArticleProps) {
   async function onSubmit(e: Event) {
     e.preventDefault()
 
-    const article = await postArticle(form)
+    let article: Article
+    if (props.slug) {
+      article = await putArticle(props.slug, form)
+    } else {
+      article = await postArticle(form)
+    }
     route(`/article/${article.slug}`)
   }
+
+  async function fetchArticle(slug: string) {
+    const article = await getArticle(slug)
+    setForm({
+      title: article.title,
+      description: article.description,
+      body: article.body,
+      tagList: article.tagList,
+    })
+  }
+
+  useEffect(() => {
+    if (props.slug) fetchArticle(props.slug)
+  }, [])
 
   return (
     <div className="editor-page">

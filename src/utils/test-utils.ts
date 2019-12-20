@@ -37,3 +37,7 @@ export const setInputValue = (wrapper: ReactWrapper<any>, selector: string, valu
   wrapper.find(selector).getDOMNode<HTMLInputElement>().value = value
   wrapper.find(selector).simulate('input')
 }
+
+export const getInputValue = (wrapper: ReactWrapper<any>, selector: string): string => {
+  return wrapper.find(selector).getDOMNode<HTMLInputElement>().value
+}

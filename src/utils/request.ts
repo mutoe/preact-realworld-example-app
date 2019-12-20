@@ -2,7 +2,7 @@ import { route } from 'preact-router'
 
 interface FetchRequestOptions {
   prefix: string;
-  headers: Record<string, string>;
+  headers: Record<string, any>;
   params: Record<string, any>;
 }
 
@@ -75,6 +75,28 @@ export default class FetchRequest {
 
     return fetch(finalUrl, {
       method: 'DELETE',
+      headers: this.options.headers,
+    })
+      .then(this.handleResponse)
+  }
+
+  put<T = any>(url: string, data: Record<string, any> = {}, options: Partial<FetchRequestOptions> = {}): Promise<T> {
+    const finalUrl = this.generateFinalUrl(url, options)
+
+    return fetch(finalUrl, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: this.options.headers,
+    })
+      .then(this.handleResponse)
+  }
+
+  patch<T = any>(url: string, data: Record<string, any> = {}, options: Partial<FetchRequestOptions> = {}): Promise<T> {
+    const finalUrl = this.generateFinalUrl(url, options)
+
+    return fetch(finalUrl, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
       headers: this.options.headers,
     })
       .then(this.handleResponse)

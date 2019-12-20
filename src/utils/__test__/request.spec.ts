@@ -184,3 +184,27 @@ describe('# Request DELETE', function () {
     }))
   })
 })
+
+describe('# Request PUT', function () {
+  it('should implement PUT method', async function () {
+    const request = new FetchRequest()
+    await request.put('/path')
+
+    expect(global.fetch).toBeCalledTimes(1)
+    expect(global.fetch).toBeCalledWith('/path', expect.objectContaining({
+      method: 'PUT',
+    }))
+  })
+})
+
+describe('# Request PATCH', function () {
+  it('should implement PATCH method', async function () {
+    const request = new FetchRequest()
+    await request.patch('/path')
+
+    expect(global.fetch).toBeCalledTimes(1)
+    expect(global.fetch).toBeCalledWith('/path', expect.objectContaining({
+      method: 'PATCH',
+    }))
+  })
+})
