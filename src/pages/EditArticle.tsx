@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import { useState } from 'preact/hooks'
 import { postArticle } from '../services'
+import { route } from 'preact-router'
 
 interface EditArticleProps {
   slug?: string;
@@ -17,7 +18,8 @@ export default function EditArticle(props: EditArticleProps) {
   async function onSubmit(e: Event) {
     e.preventDefault()
 
-    await postArticle(form)
+    const article = await postArticle(form)
+    route(`/article/${article.slug}`)
   }
 
   return (

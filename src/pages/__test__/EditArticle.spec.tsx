@@ -3,8 +3,11 @@ import EditArticle from '../EditArticle'
 import { h } from 'preact'
 import FetchRequest from '../../utils/request'
 import { postArticle } from '../../services'
+import { route } from 'preact-router'
+import { generateArticles } from '../../utils/test-utils'
 
 jest.mock('../../services')
+jest.mock('preact-router')
 
 const postArticleMock = postArticle as jest.Mock<Promise<Article>>
 
@@ -15,6 +18,10 @@ const bodyInputSelector = '[placeholder^="Write your article"]'
 const setInputValue = (wrapper: ReactWrapper<any>, selector: string, value: string) => {
   wrapper.find(selector).getDOMNode<HTMLInputElement>().value = value
 }
+
+beforeEach(() => {
+  postArticleMock.mockResolvedValue({} as Article)
+})
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -38,5 +45,20 @@ describe('# Form validate', function () {
     wrapper.find('form').simulate('submit')
 
     expect(postArticle).toBeCalled()
+  })
+
+  it('should jump to article detail page after submit success', async function () {
+    const article = generateArticles()
+    postArticleMock.mockResolvedValue(article)
+    const wrapper = mount(<EditArticle />)
+    setInputValue(wrapper, titleInputSelector, article.title)
+    setInputValue(wrapper, descriptionInputSelector, article.description)
+    setInputValue(wrapper, bodyInputSelector, article.body)
+
+    wrapper.find('form').simulate('submit')
+    await new Promise(r => setImmediate(r))
+
+    expect(postArticle).toBeCalledTimes(1)
+    expect(route).toBeCalledWith(`/article/${article.slug}`)
   })
 })

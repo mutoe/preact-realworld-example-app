@@ -38,6 +38,7 @@ export default class FetchRequest {
           return json
         }
         if (response.status === 401) {
+          // TODO: clear login status
           route('/login')
         }
         const error = new Error(response.statusText)
