@@ -17,7 +17,7 @@ export default function Header() {
           rootState.user ? (
             <Fragment>
               <li className="nav-item">
-                <a className="nav-link" href="/settings">
+                <a className="nav-link" href="/article/create">
                   <i className="ion-compose" /> New Post
                 </a>
               </li>

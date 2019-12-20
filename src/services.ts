@@ -30,6 +30,18 @@ export async function getAllTags() {
   return request.get<TagsResponse>('/tags').then(res => res.tags)
 }
 
+interface PostArticleForm {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+
+export async function postArticle(form: PostArticleForm) {
+  return request.post<ArticleResponse>('/articles', { article: form })
+    .then(res => res.article)
+}
+
 export async function getArticle(slug: string) {
   return request.get<ArticleResponse>(`/articles/${slug}`).then(res => res.article)
 }

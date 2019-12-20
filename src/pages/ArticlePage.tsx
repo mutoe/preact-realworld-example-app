@@ -3,7 +3,7 @@ import { getArticle } from '../services'
 import { useEffect, useState } from 'preact/hooks'
 
 interface ArticlePageProps {
-  slug?: string;
+  slug: string;
 }
 
 export default function ArticlePage(props: ArticlePageProps) {
