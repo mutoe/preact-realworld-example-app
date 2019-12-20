@@ -25,3 +25,4 @@ report.*.json
 
 # Build files
 /dist
+/stats.json

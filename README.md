@@ -18,10 +18,21 @@ We've gone to great lengths to adhere to the **[Preact]** community styleguides 
 For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
 
 
-# How it works
-
-> Describe the general architecture of your app here
-
 # Getting started
 
-> npm install, npm start, etc.
+```shell script
+# install dependencies
+yarn install
+
+# start development
+yarn start
+
+# run tests (with coverage)
+yarn test --coverage
+
+# build
+yarn build
+
+# analyzer bundle size
+yarn analyzer
+```

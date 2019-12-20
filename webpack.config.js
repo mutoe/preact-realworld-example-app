@@ -1,7 +1,6 @@
 const path = require("path")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
 const DotEnv = require("dotenv-webpack")
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 
 module.exports = {
   mode: "development",
@@ -26,9 +25,6 @@ module.exports = {
       template: "public/index.html",
     }),
     new DotEnv(),
-    new BundleAnalyzerPlugin({
-      openAnalyzer: false
-    }),
   ],
   devtool: "eval-cheap-module-source-map",
   devServer: {

@@ -22,7 +22,8 @@
     "build": "webpack --mode=production",
     "lint": "eslint src/**/*.{tsx,ts}",
     "test": "jest",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "analyzer": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json dist -s gzip"
   },
   "dependencies": {
     "history": "^4.10.1",
