@@ -1,13 +1,20 @@
 import { shallow } from 'enzyme'
 import NavBar from '../NavBar'
 import { h } from 'preact'
-import { initialRootState } from '../../stores'
-import { useContext } from 'preact/hooks'
 import render from 'preact-render-to-string'
+import { useRootState } from '../../store'
 
-jest.mock('preact/hooks', () => ({
-  useContext: jest.fn(() => initialRootState),
-}))
+jest.mock('../../store')
+
+const useRootStateMock = useRootState as jest.Mock
+
+beforeEach(() => {
+  useRootStateMock.mockReturnValue([ { user: null } ])
+})
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 describe('# Navigation Bar Component', () => {
   it('should display "Global Feed" item always', function () {
@@ -24,9 +31,7 @@ describe('# Navigation Bar Component', () => {
   })
 
   it('should jump to My Feed page when "Your Feed" clicked', function () {
-    (useContext as jest.Mock).mockReturnValue({
-      user: {},
-    })
+    useRootStateMock.mockReturnValue([ { user: {} } ])
     const wrapper = shallow(<NavBar />)
     const myFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Your Feed')
 
@@ -48,18 +53,12 @@ describe('# Navigation Bar Component', () => {
   })
 
   it('should hide "Your Feed" link when not logging', function () {
-    (useContext as jest.Mock).mockReturnValue({
-      user: null,
-    })
-
     const html = render(<NavBar />)
     expect(html).not.toContain('Your Feed')
   })
 
   it('should display "Your Feed" link when logged', function () {
-    (useContext as jest.Mock).mockReturnValue({
-      user: {},
-    })
+    useRootStateMock.mockReturnValue([ { user: {} } ])
 
     const html = render(<NavBar />)
     expect(html).toContain('Your Feed')

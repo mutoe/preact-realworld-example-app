@@ -1,10 +1,9 @@
 import { Fragment, h } from 'preact'
 import { Link } from 'preact-router'
-import { useContext } from 'preact/hooks'
-import { RootContext } from '../stores'
+import { useRootState } from '../store'
 
 export default function Header() {
-  const rootState = useContext(RootContext)
+  const [ { user } ] = useRootState()
 
   return <nav className="navbar navbar-light">
     <div className="container">
@@ -14,7 +13,7 @@ export default function Header() {
           <Link className="nav-link" activeClassName="active" href="/">Home</Link>
         </li>
         {
-          rootState.user ? (
+          user ? (
             <Fragment>
               <li className="nav-item">
                 <a className="nav-link" href="/article/create">

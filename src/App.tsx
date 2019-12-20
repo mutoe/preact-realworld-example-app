@@ -1,4 +1,4 @@
-import { initialRootState, RootContext } from './stores'
+import { RootProvider } from './store'
 import Header from './components/Header'
 import Router, { Route } from 'preact-router'
 import Home from './pages/Home'
@@ -14,7 +14,7 @@ import { createHashHistory } from 'history'
 
 export default function App() {
   return (
-    <RootContext.Provider value={initialRootState}>
+    <RootProvider>
       <Header />
       <Router history={createHashHistory()}>
         <Route path="/" component={Home} />
@@ -28,6 +28,6 @@ export default function App() {
         <Route path="/:username" component={Profile} />
       </Router>
       <Footer />
-    </RootContext.Provider>
+    </RootProvider>
   )
 }

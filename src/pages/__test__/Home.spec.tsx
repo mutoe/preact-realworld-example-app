@@ -6,11 +6,15 @@ import PopularTags from '../../components/PopularTags'
 import { getAllTags, getArticles, getArticlesByTag } from '../../services'
 import { generateArticles } from '../../utils/test-utils'
 import ArticlePreview from '../../components/ArticlePreview'
+import { useRootState } from '../../store'
 
 jest.mock('../../services')
+jest.mock('../../store')
 
 const getArticlesByTagMock = getArticlesByTag as jest.Mock<Promise<ArticlesResponse>>
 const getArticlesMock = getArticles as jest.Mock<Promise<ArticlesResponse>>
+const getAllTagsMock = getAllTags as jest.Mock
+const useRootStateMock = useRootState as jest.Mock
 
 beforeEach(() => {
   getArticlesMock.mockResolvedValue({
@@ -21,6 +25,7 @@ beforeEach(() => {
     articles: [],
     articlesCount: 0,
   })
+  useRootStateMock.mockReturnValue([ { user: null } ])
 })
 
 afterEach(() => {
@@ -81,7 +86,7 @@ describe('# Popular Tags', () => {
   })
 
   it('should display NavBar tag name in tag page', function () {
-    (getAllTags as jest.Mock).mockResolvedValue([])
+    getAllTagsMock.mockResolvedValue([])
     const wrapper = mount(<Home tag="foo" />)
 
     const navBarWrapper = wrapper.find(NavBar)

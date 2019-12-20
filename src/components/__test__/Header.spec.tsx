@@ -1,12 +1,15 @@
 import { h } from 'preact'
-import { useContext } from 'preact/hooks'
-import { initialRootState } from '../../stores'
 import Header from '../Header'
 import render from 'preact-render-to-string'
+import { useRootState } from '../../store'
 
-jest.mock('preact/hooks', () => ({
-  useContext: jest.fn(() => initialRootState),
-}))
+jest.mock('../../store')
+
+const useRootStateMock = useRootState as jest.Mock
+
+beforeEach(() => {
+  useRootStateMock.mockReturnValue([ { user: null } ])
+})
 
 afterEach(() => {
   jest.resetAllMocks()
@@ -14,18 +17,14 @@ afterEach(() => {
 
 describe('# Header Component', () => {
   it('should hidden post and settings and display logging buttons when not logged', () => {
-    (useContext as jest.Mock).mockReturnValue({
-      user: null,
-    })
+    useRootStateMock.mockReturnValue([ { user: null } ])
     const html = render(<Header />)
 
     expect(html).toContain('Sign in')
   })
 
   it('should display post and settings and hidden logging buttons when logged', () => {
-    (useContext as jest.Mock).mockReturnValue({
-      user: {},
-    })
+    useRootStateMock.mockReturnValue([ { user: {} } ])
     const html = render(<Header />)
 
     expect(html).toContain('New Post')

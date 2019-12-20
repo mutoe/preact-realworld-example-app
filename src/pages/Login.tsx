@@ -1,10 +1,12 @@
 import { createRef, h } from 'preact'
 import { Link, route } from 'preact-router'
-import { postLogin } from '../services'
 import { useState } from 'preact/hooks'
+import { useRootState } from '../store'
+import { LOGIN } from '../store/constants'
 
 export default function Register() {
   const formRef = createRef<HTMLFormElement>()
+  const [ , dispatch ] = useRootState()
   const [ errors, setErrors ] = useState<ResponseError>({})
   const [ form, setForm ] = useState({
     email: '',
@@ -16,8 +18,7 @@ export default function Register() {
     if (!formRef.current?.checkValidity()) return
 
     try {
-      const user = await postLogin(form)
-      global.localStorage.setItem('user', JSON.stringify(user))
+      dispatch({ type: LOGIN, payload: form })
       route('/')
     } catch (data) {
       setErrors(data.errors)
