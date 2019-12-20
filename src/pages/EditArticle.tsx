@@ -7,8 +7,15 @@ interface EditArticleProps {
   slug?: string;
 }
 
+interface FormState {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+
 export default function EditArticle(props: EditArticleProps) {
-  const [ form, setForm ] = useState({
+  const [ form, setForm ] = useState<FormState>({
     title: '',
     description: '',
     body: '',
@@ -51,7 +58,11 @@ export default function EditArticle(props: EditArticleProps) {
                     onInput={e => setForm(prev => ({ ...prev, body: e.currentTarget.value }))} />
                 </fieldset>
                 <fieldset className="form-group">
-                  <input type="text" className="form-control" placeholder="Enter tags" />
+                  <input value={form.tagList.join(' ')}
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter tags"
+                    onInput={e => setForm(prev => ({ ...prev, tagList: e.currentTarget.value.split(' ') }))} />
                   <div className="tag-list" />
                 </fieldset>
                 <button disabled={!(form.title && form.description && form.body)}

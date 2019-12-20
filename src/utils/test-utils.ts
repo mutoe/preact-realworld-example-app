@@ -1,4 +1,5 @@
 import mockjs, { Random } from 'mockjs'
+import { ReactWrapper } from 'enzyme'
 
 export function generateAuthor(): User {
   return mockjs.mock({
@@ -32,3 +33,7 @@ export function generateArticles(count = 1): Article | Article[] {
   }).articles
 }
 
+export const setInputValue = (wrapper: ReactWrapper<any>, selector: string, value: string) => {
+  wrapper.find(selector).getDOMNode<HTMLInputElement>().value = value
+  wrapper.find(selector).simulate('input')
+}

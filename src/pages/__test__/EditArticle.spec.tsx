@@ -4,7 +4,7 @@ import { h } from 'preact'
 import FetchRequest from '../../utils/request'
 import { postArticle } from '../../services'
 import { route } from 'preact-router'
-import { generateArticles } from '../../utils/test-utils'
+import { generateArticles, setInputValue } from '../../utils/test-utils'
 
 jest.mock('../../services')
 jest.mock('preact-router')
@@ -14,10 +14,9 @@ const postArticleMock = postArticle as jest.Mock<Promise<Article>>
 const titleInputSelector = '[placeholder="Article Title"]'
 const descriptionInputSelector = '[placeholder^="What\'s this article"]'
 const bodyInputSelector = '[placeholder^="Write your article"]'
+const tagInputSelector = '[placeholder="Enter tags"]'
 
-const setInputValue = (wrapper: ReactWrapper<any>, selector: string, value: string) => {
-  wrapper.find(selector).getDOMNode<HTMLInputElement>().value = value
-}
+
 
 beforeEach(() => {
   postArticleMock.mockResolvedValue({} as Article)
@@ -27,7 +26,7 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-describe('# Form validate', function () {
+describe('# Create Article', function () {
   it('should set button disabled when title, description or body is empty', function () {
     jest.spyOn(FetchRequest.prototype, 'post').mockImplementation()
     const wrapper = shallow(<EditArticle />)
@@ -60,5 +59,19 @@ describe('# Form validate', function () {
 
     expect(postArticle).toBeCalledTimes(1)
     expect(route).toBeCalledWith(`/article/${article.slug}`)
+  })
+
+  it('should be send tags as string array', function () {
+    const wrapper = mount(<EditArticle />)
+    setInputValue(wrapper, titleInputSelector, 'title')
+    setInputValue(wrapper, descriptionInputSelector, 'description')
+    setInputValue(wrapper, bodyInputSelector, 'body')
+    setInputValue(wrapper, tagInputSelector, 'foo bar')
+
+    wrapper.find('form').simulate('submit')
+
+    expect(postArticle).toBeCalledWith(expect.objectContaining({
+      tagList: [ 'foo', 'bar' ],
+    }))
   })
 })
