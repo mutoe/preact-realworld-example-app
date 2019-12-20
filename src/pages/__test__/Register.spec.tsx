@@ -3,11 +3,16 @@ import { h } from 'preact'
 import { postRegister } from '../../services'
 import Register from '../Register'
 import { route } from 'preact-router'
+import { setInputValue } from '../../utils/test-utils'
 
 jest.mock('../../services')
 jest.mock('preact-router')
 
 const postRegisterMock = postRegister as jest.Mock<Promise<UserWithToken>>
+
+const emailInputSelector = '[placeholder="Email"]'
+const passwordInputSelector = '[placeholder="Password"]'
+const usernameInputSelector = '[placeholder="Your Name"]'
 
 const resolvedResult = {
   id: 1,
@@ -59,7 +64,7 @@ describe('# Register error message', () => {
 describe('# Register form validate', () => {
   it('should set button disabled when submit a empty form field', function () {
     const wrapper = mount(<Register />)
-    wrapper.find('input[type="email"]').getDOMNode<HTMLInputElement>().value = '123'
+    setInputValue(wrapper, emailInputSelector, '123')
     wrapper.update()
 
     const submitButton = wrapper.find('form button.btn-lg.btn-primary')
@@ -68,9 +73,9 @@ describe('# Register form validate', () => {
 
   it('should not be send when given invalid form', function () {
     const wrapper = mount(<Register />)
-    wrapper.find('input[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = '123'
-    wrapper.find('input[placeholder="Your Name"]').getDOMNode<HTMLInputElement>().value = '123'
-    wrapper.find('input[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '123'
+    setInputValue(wrapper, emailInputSelector, '123')
+    setInputValue(wrapper, usernameInputSelector, '123')
+    setInputValue(wrapper, passwordInputSelector, '123')
     wrapper.find('form button.btn-lg.btn-primary').simulate('click')
 
     expect(postRegister).not.toBeCalled()
@@ -80,9 +85,9 @@ describe('# Register form validate', () => {
 describe('# Register request', () => {
   it('should be send form when sign up button clicked', function () {
     const wrapper = mount(<Register />)
-    wrapper.find('input[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
-    wrapper.find('input[placeholder="Your Name"]').getDOMNode<HTMLInputElement>().value = 'test'
-    wrapper.find('input[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    setInputValue(wrapper, emailInputSelector, 'test@example.com')
+    setInputValue(wrapper, usernameInputSelector, 'test')
+    setInputValue(wrapper, passwordInputSelector, '12345678')
 
     wrapper.find('form button.btn-lg.btn-primary').simulate('click')
 
@@ -94,9 +99,9 @@ describe('# Register request', () => {
       errors: { 'email and password': [ 'is invalid' ] },
     })
     const wrapper = mount(<Register />)
-    wrapper.find('input[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'bad_account@example.com'
-    wrapper.find('input[placeholder="Your Name"]').getDOMNode<HTMLInputElement>().value = 'test'
-    wrapper.find('input[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    setInputValue(wrapper, emailInputSelector, 'bad_account@example.com')
+    setInputValue(wrapper, usernameInputSelector, 'test')
+    setInputValue(wrapper, passwordInputSelector, '12345678')
 
     wrapper.find('form button.btn-lg.btn-primary').simulate('click')
     expect(postRegister).toBeCalled()
@@ -108,9 +113,9 @@ describe('# Register request', () => {
   it('should can goto home page when entering the correct account', async function () {
     mockResolvedPostRegister()
     const wrapper = mount(<Register />)
-    wrapper.find('input[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
-    wrapper.find('input[placeholder="Your Name"]').getDOMNode<HTMLInputElement>().value = 'test'
-    wrapper.find('input[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    setInputValue(wrapper, emailInputSelector, 'test@example.com')
+    setInputValue(wrapper, usernameInputSelector, 'test')
+    setInputValue(wrapper, passwordInputSelector, '12345678')
 
     wrapper.find('form button.btn-lg.btn-primary').simulate('click')
     await new Promise(r => setImmediate(r))
@@ -122,9 +127,9 @@ describe('# Register request', () => {
     mockResolvedPostRegister()
     const wrapper = mount(<Register />)
     jest.spyOn(global.localStorage, 'setItem')
-    wrapper.find('input[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
-    wrapper.find('input[placeholder="Your Name"]').getDOMNode<HTMLInputElement>().value = 'test'
-    wrapper.find('input[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    setInputValue(wrapper, emailInputSelector, 'test@example.com')
+    setInputValue(wrapper, usernameInputSelector, 'test')
+    setInputValue(wrapper, passwordInputSelector, '12345678')
 
     wrapper.find('form button.btn-lg.btn-primary').simulate('click')
     await new Promise(r => setImmediate(r))

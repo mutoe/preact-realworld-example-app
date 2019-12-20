@@ -16,8 +16,6 @@ const descriptionInputSelector = '[placeholder^="What\'s this article"]'
 const bodyInputSelector = '[placeholder^="Write your article"]'
 const tagInputSelector = '[placeholder="Enter tags"]'
 
-
-
 beforeEach(() => {
   postArticleMock.mockResolvedValue({} as Article)
 })

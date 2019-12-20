@@ -3,11 +3,15 @@ import Login from '../Login'
 import { postLogin } from '../../services'
 import { route } from 'preact-router'
 import { mount } from 'enzyme'
+import { setInputValue } from '../../utils/test-utils'
 
 jest.mock('../../services')
 jest.mock('preact-router')
 
 const postLoginMock = postLogin as jest.Mock
+
+const emailInputSelector = '[placeholder="Email"]'
+const passwordInputSelector = '[placeholder="Password"]'
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -16,7 +20,8 @@ afterEach(() => {
 describe('# Login form validate', () => {
   it('should set button disabled when submit a empty form field', function () {
     const wrapper = mount(<Login />)
-    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = '123'
+
+    setInputValue(wrapper, emailInputSelector, '123')
 
     const loginButton = wrapper.find('form button.btn-lg.btn-primary')
     expect(loginButton.props().disabled).toBe(true)
@@ -24,10 +29,10 @@ describe('# Login form validate', () => {
 
   it('should not send form when given invalid email format', function () {
     const wrapper = mount(<Login />)
-    const loginButton = wrapper.find('form button.btn-lg.btn-primary')
-    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = '123'
-    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '123'
+    setInputValue(wrapper, emailInputSelector, '123')
+    setInputValue(wrapper, passwordInputSelector, '123')
 
+    const loginButton = wrapper.find('form button.btn-lg.btn-primary')
     loginButton.simulate('click')
 
     expect(postLogin).not.toBeCalled()
@@ -37,8 +42,8 @@ describe('# Login form validate', () => {
 describe('# Login request', () => {
   it('should be send form when sign in button clicked', async function () {
     const wrapper = mount(<Login />)
-    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
-    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    setInputValue(wrapper, emailInputSelector, 'test@example.com')
+    setInputValue(wrapper, passwordInputSelector, '12345678')
 
     wrapper.find('form').simulate('submit')
 
@@ -53,8 +58,8 @@ describe('# Login request', () => {
       },
     })
     const wrapper = mount(<Login />)
-    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
-    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    setInputValue(wrapper, emailInputSelector, 'test@example.com')
+    setInputValue(wrapper, passwordInputSelector, '12345678')
 
     wrapper.find('form').simulate('submit')
     expect(postLogin).toBeCalledTimes(1)
@@ -68,8 +73,8 @@ describe('# Login request', () => {
 
   it('should not be send when given invalid form', function () {
     const wrapper = mount(<Login />)
-    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = '123'
-    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    setInputValue(wrapper, emailInputSelector, '123')
+    setInputValue(wrapper, passwordInputSelector, '12345678')
     wrapper.find('form').simulate('submit')
 
     expect(postLogin).not.toBeCalled()
@@ -78,8 +83,8 @@ describe('# Login request', () => {
   it('should can goto home page when entering the correct account', async function () {
     postLoginMock.mockResolvedValue({ token: 'foobar' })
     const wrapper = mount(<Login />)
-    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
-    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    setInputValue(wrapper, emailInputSelector, 'test@example.com')
+    setInputValue(wrapper, passwordInputSelector, '12345678')
     wrapper.find('form').simulate('submit')
     await new Promise(r => setImmediate(r))
 
@@ -98,8 +103,8 @@ describe('# Login request', () => {
     postLoginMock.mockResolvedValue(result)
     jest.spyOn(global.localStorage, 'setItem')
     const wrapper = mount(<Login />)
-    wrapper.find('[placeholder="Email"]').getDOMNode<HTMLInputElement>().value = 'test@example.com'
-    wrapper.find('[placeholder="Password"]').getDOMNode<HTMLInputElement>().value = '12345678'
+    setInputValue(wrapper, emailInputSelector, 'test@example.com')
+    setInputValue(wrapper, passwordInputSelector, '12345678')
     wrapper.find('form').simulate('submit')
     await new Promise(r => setImmediate(r))
 
