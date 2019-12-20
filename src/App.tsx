@@ -10,7 +10,7 @@ import EditArticle from './pages/EditArticle'
 import Profile from './pages/Profile'
 import Footer from './components/Footer'
 import { h } from 'preact'
-import createHashHistory from 'history/createHashHistory'
+import { createHashHistory } from 'history'
 
 export default function App() {
   return (
