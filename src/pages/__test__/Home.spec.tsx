@@ -97,6 +97,6 @@ describe('# Popular Tags', () => {
   it('should request tag related article in tag page', async function () {
     shallow(<Home tag="foo" />)
 
-    expect(getArticlesByTag).toBeCalledWith('foo')
+    expect(getArticlesByTag).toBeCalledWith('foo', expect.any(Number))
   })
 })

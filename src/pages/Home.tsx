@@ -4,6 +4,7 @@ import PopularTags from '../components/PopularTags'
 import { getArticles, getArticlesByTag } from '../services'
 import ArticlePreview from '../components/ArticlePreview'
 import { useEffect, useState } from 'preact/hooks'
+import Pagination from '../components/Pagination'
 
 interface HomeProps {
   tag?: string;
@@ -11,23 +12,26 @@ interface HomeProps {
 
 export default function Home(props: HomeProps) {
   const [ articles, setArticles ] = useState<Article[]>([])
-  const [ , setArticlesCount ] = useState(0)
+  const [ articlesCount, setArticlesCount ] = useState(0)
+  const [ page, setPage ] = useState(1)
 
   const fetchFeeds = async () => {
+    setArticles([])
     if (props.tag) {
-      const { articles = [], articlesCount = 0 } = await getArticlesByTag(props.tag)
+      const { articles = [], articlesCount = 0 } = await getArticlesByTag(props.tag, page)
       setArticles(articles)
       setArticlesCount(articlesCount)
     } else {
-      const { articles = [], articlesCount = 0 } = await getArticles()
+      const { articles = [], articlesCount = 0 } = await getArticles(page)
       setArticles(articles)
       setArticlesCount(articlesCount)
     }
   }
 
   useEffect(() => {
+    // TODO: page query parameter change
     fetchFeeds()
-  }, [])
+  }, [ page ])
 
   return (
     <div className="home-page">
@@ -48,6 +52,8 @@ export default function Home(props: HomeProps) {
             {articles.map(article => (
               <ArticlePreview key={article.slug} article={article} />
             ))}
+
+            <Pagination count={articlesCount} page={page} setPage={setPage} />
           </div>
 
           <div className="col-md-3">
