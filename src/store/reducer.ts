@@ -1,4 +1,4 @@
-import { CLEAN_ERRORS, LOGIN, LOGOUT, SET_ERRORS } from './constants'
+import { CLEAN_ERRORS, SET_ERRORS, UPDATE_USER } from './constants'
 
 const reducer = (state: RootState, action: Action): RootState => {
   switch (action.type) {
@@ -9,15 +9,15 @@ const reducer = (state: RootState, action: Action): RootState => {
     return { ...state, errors: {} }
   }
 
-  case LOGIN: {
-    const user = action.payload
-    global.localStorage.setItem('user', JSON.stringify(user))
+  case UPDATE_USER: {
+    const user = action.payload || null
+    if (user) {
+      global.localStorage.setItem('user', JSON.stringify(user))
+    } else {
+      global.localStorage.removeItem('user')
+    }
     return { ...state, user }
   }
-
-  case LOGOUT:
-    global.localStorage.removeItem('user')
-    return { ...state, user: null }
 
   default:
     return state

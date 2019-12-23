@@ -2,16 +2,17 @@ import { mount, shallow } from 'enzyme'
 import { h } from 'preact'
 import Settings from '../Settings'
 import { useRootState } from '../../store'
-import { LOGOUT } from '../../store/constants'
 import { route } from 'preact-router'
 import { getInputValue, setInputValue } from '../../utils/test-utils'
 import { putProfile } from '../../services'
+import { UPDATE_USER } from '../../store/constants'
 
 jest.mock('../../store')
 jest.mock('preact-router')
 jest.mock('../../services')
 
 const useRootStateMock = useRootState as jest.Mock
+const putProfileMock = putProfile as jest.Mock
 
 const imageInputSelector = '[placeholder$="profile picture"]'
 const nameInputSelector = '[placeholder="Your Name"]'
@@ -35,7 +36,7 @@ describe('# Settings page', function () {
 
     wrapper.find('button.btn-outline-danger').simulate('click')
 
-    expect(dispatch).toBeCalledWith({ type: LOGOUT })
+    expect(dispatch).toBeCalledWith({ type: UPDATE_USER, payload: null })
   })
 
   it('should jump to login page after logout or unauthorized', function () {
@@ -87,4 +88,16 @@ describe('# Settings page', function () {
     expect(wrapper.find('form button').props().disabled).toBeFalsy()
   })
 
+  it('should update user state after submit', async function () {
+    const dispatch = jest.fn()
+    useRootStateMock.mockReturnValue([ { user: {} }, dispatch ])
+    putProfileMock.mockResolvedValue({ email: 'foo' })
+    const wrapper = mount(<Settings />)
+    setInputValue(wrapper, emailInputSelector, 'foo')
+    wrapper.find('form button').simulate('click')
+    await new Promise(r => setImmediate(r))
+
+    expect(dispatch).toBeCalledTimes(1)
+    expect(dispatch).toBeCalledWith({ type: UPDATE_USER, payload: { email: 'foo' } })
+  })
 })

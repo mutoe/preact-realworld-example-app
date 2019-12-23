@@ -1,6 +1,6 @@
 import { postLogin } from '../../services'
 import { login } from '../actions'
-import { LOGIN, SET_ERRORS } from '../constants'
+import { UPDATE_USER, SET_ERRORS } from '../constants'
 
 jest.mock('../../services')
 
@@ -12,7 +12,7 @@ describe('# Actions', function () {
 
     const action = await login({ email: 'test@example.com', password: '12345678' })
 
-    expect(action).toMatchObject({ type: LOGIN, payload: {} })
+    expect(action).toMatchObject({ type: UPDATE_USER, payload: {} })
   })
 
   it('should be trigger SET_ERRORS action after login failed with error message', async function () {

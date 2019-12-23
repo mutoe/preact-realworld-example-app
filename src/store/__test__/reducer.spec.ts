@@ -1,5 +1,5 @@
 import reducer from '../reducer'
-import { CLEAN_ERRORS, LOGIN, LOGOUT, SET_ERRORS } from '../constants'
+import { CLEAN_ERRORS, UPDATE_USER, SET_ERRORS } from '../constants'
 
 let initState: RootState
 
@@ -26,17 +26,17 @@ describe('# Reducer', function () {
     expect(rootState).toMatchObject({ errors: {} })
   })
 
-  it('should set localstorage item when LOGIN triggered', function () {
+  it('should set localstorage item when login triggered', function () {
     jest.spyOn(global.localStorage, 'setItem')
-    const rootState = reducer(initState, { type: LOGIN, payload: { token: 'foobar' } })
+    const rootState = reducer(initState, { type: UPDATE_USER, payload: { token: 'foobar' } })
 
     expect(rootState).toMatchObject({ user: { token: 'foobar' } })
     expect(global.localStorage.setItem).toBeCalledWith('user', JSON.stringify(rootState.user))
   })
 
-  it('should clear localstorage user item when LOGOUT triggered', function () {
+  it('should clear localstorage user item when logout triggered', function () {
     jest.spyOn(global.localStorage, 'removeItem')
-    const rootState = reducer(initState, { type: LOGOUT, payload: {} })
+    const rootState = reducer(initState, { type: UPDATE_USER, payload: null })
 
     expect(rootState).toMatchObject({ user: null })
     expect(global.localStorage.removeItem).toBeCalledWith('user')

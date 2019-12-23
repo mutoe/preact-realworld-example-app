@@ -1,9 +1,9 @@
 import { h } from 'preact'
 import { useRootState } from '../store'
-import { LOGOUT } from '../store/constants'
 import { useEffect, useState } from 'preact/hooks'
 import { route } from 'preact-router'
 import { putProfile } from '../services'
+import { UPDATE_USER } from '../store/constants'
 
 interface FormState {
   username?: string;
@@ -18,13 +18,14 @@ export default function Settings() {
   const [ form, setForm ] = useState<FormState>({})
 
   function onLogout() {
-    dispatch({ type: LOGOUT })
+    dispatch({ type: UPDATE_USER, payload: null })
   }
 
   async function onSubmit() {
     // filter empty fields from form
     const filteredForm = Object.entries(form).reduce((a, [ k, v ]) => (v == null ? a : { ...a, [k]: v }), {})
-    putProfile(filteredForm)
+    const profile = await putProfile(filteredForm)
+    dispatch({ type: UPDATE_USER, payload: profile })
   }
 
   useEffect(() => {
