@@ -5,21 +5,30 @@ import { shallow } from 'enzyme'
 
 describe('# Pagination Component', function () {
   it('should display normally', function () {
-    const html = render(<Pagination count={1} currentPage={1} />)
+    const html = render(<Pagination count={1} page={1} setPage={() => void {}} />)
 
     expect(html).toMatchSnapshot()
   })
 
   it('should display multiple items when count is passed in', function () {
-    const wrapper = shallow(<Pagination count={50} currentPage={1} />)
+    const wrapper = shallow(<Pagination count={50} page={1} setPage={() => void {}} />)
 
     expect(wrapper.find('.page-item')).toHaveLength(5)
   })
 
   it('should highlight current page that is passed in props', function () {
-    const wrapper = shallow(<Pagination count={50} currentPage={2} />)
+    const wrapper = shallow(<Pagination count={50} page={2} setPage={() => void {}} />)
 
     expect(wrapper.find('.page-item').at(1).hasClass('active')).toBeTruthy()
+  })
+
+  it('should can set current page when item clicked', function () {
+    const setPage = jest.fn()
+    const wrapper = shallow(<Pagination count={50} page={1} setPage={setPage} />)
+
+    wrapper.find('.page-item').at(1).find('a').simulate('click')
+
+    expect(setPage).toBeCalledWith(2)
   })
 
 })
