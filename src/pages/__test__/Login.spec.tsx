@@ -58,13 +58,7 @@ describe('# Login form validate', () => {
         },
       }, jest.fn(),
     ])
-    const wrapper = mount(<Login />)
-    setInputValue(wrapper, emailInputSelector, 'test@example.com')
-    setInputValue(wrapper, passwordInputSelector, '12345678')
-
-    wrapper.find('form').simulate('submit')
-    await new Promise(r => setImmediate(r))
-    wrapper.update()
+    const wrapper = shallow(<Login />)
 
     expect(wrapper.find('.error-messages > li')).toHaveLength(2)
     expect(wrapper.find('.error-messages').text()).toContain('email is already exists')
