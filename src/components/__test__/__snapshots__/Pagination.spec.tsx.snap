@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`# Pagination Component should display normally 1`] = `
+<ul class="pagination">
+  <li class="page-item">
+    <a href class="page-link">1</a>
+  </li>
+</ul>
+`;
