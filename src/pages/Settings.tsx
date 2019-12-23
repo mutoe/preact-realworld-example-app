@@ -1,6 +1,20 @@
 import { h } from 'preact'
+import { useRootState } from '../store'
+import { LOGOUT } from '../store/constants'
+import { useEffect } from 'preact/hooks'
+import { route } from 'preact-router'
 
 export default function Settings() {
+  const [ { user }, dispatch ] = useRootState()
+
+  function onLogout() {
+    dispatch({ type: LOGOUT })
+  }
+
+  useEffect(() => {
+    if (!user) route('/login')
+  }, [ user ])
+
   return (
     <div className="settings-page">
       <div className="container page">
@@ -33,6 +47,10 @@ export default function Settings() {
                 </button>
               </fieldset>
             </form>
+
+            <hr />
+
+            <button className="btn btn-outline-danger" onClick={onLogout}>Or click here to logout.</button>
           </div>
         </div>
       </div>

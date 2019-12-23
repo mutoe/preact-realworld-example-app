@@ -59,6 +59,7 @@ const localStorageMock = (function () {
   }
 })()
 
+// TODO: localStorage in window
 Object.defineProperty(global, 'localStorage', {
   value: localStorageMock,
 })
