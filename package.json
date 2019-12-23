@@ -1,10 +1,11 @@
 {
   "name": "preact-realworld-example-app",
   "version": "0.1.0",
-  "description": "> ### [Preact](https://github.com/developit/preact) codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.",
+  "description": "> ### [Preact X](https://github.com/developit/preact) codebase containing real world examples (typescript, preact-hooks, preact-router, fetch, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.",
   "keywords": [
     "realworld",
-    "preact"
+    "preact",
+    "typescript"
   ],
   "author": "mutoe <mutoe@foxmail.com>",
   "license": "MIT",
