@@ -2,7 +2,7 @@ import { h } from 'preact'
 import Login from '../Login'
 import { postLogin } from '../../services'
 import { route } from 'preact-router'
-import { mount } from 'enzyme'
+import { mount, shallow } from 'enzyme'
 import { setInputValue } from '../../utils/test-utils'
 import { useRootState } from '../../store'
 import { login } from '../../store/actions'
@@ -95,15 +95,8 @@ describe('# Login request', () => {
   })
 
   it('should can goto home page after logged', async function () {
-    const Comp = () => {
-      Login()
-
-      return <div />
-    }
-    useRootStateMock.mockReturnValue([ { user: null }, jest.fn() ])
-    const wrapper = mount(<Comp />)
     useRootStateMock.mockReturnValue([ { user: {} }, jest.fn() ])
-    wrapper.mount()
+    shallow(<Login />)
 
     expect(route).toBeCalledWith('/')
   })
