@@ -5,16 +5,20 @@ node_js: lts/*
 cache:
   yarn: true
 
+before_install:
+  - openssl aes-256-cbc -K $encrypted_3fd66475d68b_key -iv $encrypted_3fd66475d68b_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d
+
 install:
   - yarn
 
-script:
+before_script:
   - yarn lint
+
+script:
   - yarn test --coverage
+  - yarn build
 
 after_script:
   - yarn coveralls
-
-before_install:
-  - openssl aes-256-cbc -K $encrypted_3fd66475d68b_key -iv $encrypted_3fd66475d68b_iv -in id_rsa.enc -out ~\/.ssh/id_rsa -d
-
+  - chmod 600 ~/.ssh/id_rsa
+  - scp -r -o StrictHostKeyChecking=no -P $REMOTE_PORT ./dist $REMOTE_HOST:$REMOTE_PATH
