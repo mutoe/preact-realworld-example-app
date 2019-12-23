@@ -29,4 +29,11 @@ describe('# Header Component', () => {
 
     expect(html).toContain('New Post')
   })
+
+  it('should display username after user logged', function () {
+    useRootStateMock.mockReturnValue([ { user: { username: 'foo' } } ])
+    const html = render(<Header />)
+
+    expect(html).toContain('foo')
+  })
 })

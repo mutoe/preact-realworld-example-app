@@ -25,6 +25,11 @@ export default function Header() {
                   <i className="ion-gear-a" /> Settings
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" activeClassName="active" href={`/@${user?.username}`}>
+                  {user?.username}
+                </Link>
+              </li>
             </Fragment>
           ) : (
             <Fragment>
