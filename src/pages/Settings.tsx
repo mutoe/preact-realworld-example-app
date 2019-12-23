@@ -15,6 +15,8 @@ export default function Settings() {
     if (!user) route('/login')
   }, [ user ])
 
+  if (!user) return null
+
   return (
     <div className="settings-page">
       <div className="container page">
@@ -26,18 +28,24 @@ export default function Settings() {
             <form>
               <fieldset>
                 <fieldset className="form-group">
-                  <input className="form-control" type="text" placeholder="URL of profile picture" />
+                  <input value={user.image || ''}
+                    className="form-control"
+                    type="text"
+                    placeholder="URL of profile picture" />
                 </fieldset>
                 <fieldset className="form-group">
-                  <input className="form-control form-control-lg" type="text" placeholder="Your Name" />
+                  <input value={user.username}
+                    className="form-control form-control-lg"
+                    type="text"
+                    placeholder="Your Name" />
                 </fieldset>
                 <fieldset className="form-group">
-                  <textarea className="form-control form-control-lg"
+                  <textarea value={user.bio || ''} className="form-control form-control-lg"
                     rows={8}
                     placeholder="Short bio about you" />
                 </fieldset>
                 <fieldset className="form-group">
-                  <input className="form-control form-control-lg" type="text" placeholder="Email" />
+                  <input value={user.email} className="form-control form-control-lg" type="text" placeholder="Email" />
                 </fieldset>
                 <fieldset className="form-group">
                   <input className="form-control form-control-lg" type="password" placeholder="Password" />
