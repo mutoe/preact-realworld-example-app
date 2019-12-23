@@ -4,18 +4,20 @@ import Settings from '../Settings'
 import { useRootState } from '../../store'
 import { LOGOUT } from '../../store/constants'
 import { route } from 'preact-router'
-import { getInputValue } from '../../utils/test-utils'
+import { getInputValue, setInputValue } from '../../utils/test-utils'
+import { putProfile } from '../../services'
 
 jest.mock('../../store')
 jest.mock('preact-router')
+jest.mock('../../services')
 
 const useRootStateMock = useRootState as jest.Mock
 
 const imageInputSelector = '[placeholder$="profile picture"]'
 const nameInputSelector = '[placeholder="Your Name"]'
 const bioInputSelector = '[placeholder="Short bio about you"]'
-const emailInputSelector=  '[placeholder="Email"]'
-const passwordInputSelector=  '[placeholder="Password"]'
+const emailInputSelector = '[placeholder="Email"]'
+const passwordInputSelector = '[placeholder="Password"]'
 
 beforeEach(() => {
   useRootStateMock.mockReturnValue([ { user: {} }, jest.fn() ])
@@ -62,4 +64,27 @@ describe('# Settings page', function () {
     expect(getInputValue(wrapper, emailInputSelector)).toBe(user.email)
     expect(getInputValue(wrapper, passwordInputSelector)).toBe('')
   })
+
+  it('should call put profile service when update button clicked', function () {
+    const wrapper = mount(<Settings />)
+    setInputValue(wrapper, bioInputSelector, 'foo')
+
+    wrapper.find('form button').simulate('click')
+
+    expect(putProfile).toBeCalledWith({ bio: 'foo' })
+  })
+
+  it('should set update button disabled when form fields is empty', function () {
+    const wrapper = shallow(<Settings />)
+
+    expect(wrapper.find('form button').props().disabled).toBeTruthy()
+  })
+
+  it('should set update button enabled when form has a field', function () {
+    const wrapper = mount(<Settings />)
+    setInputValue(wrapper, emailInputSelector, 'foo')
+
+    expect(wrapper.find('form button').props().disabled).toBeFalsy()
+  })
+
 })

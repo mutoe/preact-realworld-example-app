@@ -74,6 +74,10 @@ export async function getProfile(username: string) {
   return request.get<ProfileResponse>(`/profiles/${username}`).then(res => res.profile)
 }
 
+export async function putProfile(form: Partial<User>) {
+  return request.put<ProfileResponse>('/user', form).then(res => res.profile)
+}
+
 export async function postFollowProfile(username: string) {
   return request.post<ProfileResponse>(`/profiles/${username}/follow`).then(res => res.profile)
 }

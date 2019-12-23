@@ -1,21 +1,50 @@
 import { h } from 'preact'
 import { useRootState } from '../store'
 import { LOGOUT } from '../store/constants'
-import { useEffect } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import { route } from 'preact-router'
+import { putProfile } from '../services'
+
+interface FormState {
+  username?: string;
+  bio?: string;
+  image?: string;
+  email?: string;
+  password?: string;
+}
 
 export default function Settings() {
   const [ { user }, dispatch ] = useRootState()
+  const [ form, setForm ] = useState<FormState>({})
 
   function onLogout() {
     dispatch({ type: LOGOUT })
   }
 
+  async function onSubmit() {
+    // filter empty fields from form
+    const filteredForm = Object.entries(form).reduce((a, [ k, v ]) => (v == null ? a : { ...a, [k]: v }), {})
+    putProfile(filteredForm)
+  }
+
   useEffect(() => {
-    if (!user) route('/login')
+    if (!user) {route('/login')} else {
+      setForm({
+        image: user.image || undefined,
+        username: user.username || undefined,
+        bio: user.bio || undefined,
+        email: user.email || undefined,
+      })
+    }
   }, [ user ])
 
   if (!user) return null
+
+  const buttonDisabled = form.image == user.image
+    && form.username == user.username
+    && form.email == user.email
+    && form.bio == user.bio
+    && !form.password
 
   return (
     <div className="settings-page">
@@ -28,29 +57,41 @@ export default function Settings() {
             <form>
               <fieldset>
                 <fieldset className="form-group">
-                  <input value={user.image || ''}
+                  <input value={form.image}
                     className="form-control"
                     type="text"
-                    placeholder="URL of profile picture" />
+                    placeholder="URL of profile picture"
+                    onInput={e => setForm(prev => ({ ...prev, image: e.currentTarget.value }))} />
                 </fieldset>
                 <fieldset className="form-group">
-                  <input value={user.username}
+                  <input value={form.username}
                     className="form-control form-control-lg"
                     type="text"
-                    placeholder="Your Name" />
+                    placeholder="Your Name"
+                    onInput={e => setForm(prev => ({ ...prev, username: e.currentTarget.value }))} />
                 </fieldset>
                 <fieldset className="form-group">
-                  <textarea value={user.bio || ''} className="form-control form-control-lg"
+                  <textarea value={form.bio}
+                    className="form-control form-control-lg"
                     rows={8}
-                    placeholder="Short bio about you" />
+                    placeholder="Short bio about you"
+                    onInput={e => setForm(prev => ({ ...prev, bio: e.currentTarget.value }))} />
                 </fieldset>
                 <fieldset className="form-group">
-                  <input value={user.email} className="form-control form-control-lg" type="text" placeholder="Email" />
+                  <input value={form.email}
+                    className="form-control form-control-lg"
+                    type="email"
+                    placeholder="Email"
+                    onInput={e => setForm(prev => ({ ...prev, email: e.currentTarget.value }))} />
                 </fieldset>
                 <fieldset className="form-group">
-                  <input className="form-control form-control-lg" type="password" placeholder="Password" />
+                  <input value={form.password}
+                    className="form-control form-control-lg"
+                    type="password"
+                    placeholder="Password"
+                    onInput={e => setForm(prev => ({ ...prev, password: e.currentTarget.value }))} />
                 </fieldset>
-                <button className="btn btn-lg btn-primary pull-xs-right">
+                <button className="btn btn-lg btn-primary pull-xs-right" disabled={buttonDisabled} onClick={onSubmit}>
                   Update Settings
                 </button>
               </fieldset>
