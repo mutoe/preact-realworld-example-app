@@ -5,14 +5,16 @@ import { route } from 'preact-router'
 import { mount } from 'enzyme'
 import { setInputValue } from '../../utils/test-utils'
 import { useRootState } from '../../store'
-import { LOGIN } from '../../store/constants'
+import { login } from '../../store/actions'
 
 jest.mock('../../services')
 jest.mock('preact-router')
+jest.mock('../../store/actions')
 jest.mock('../../store')
 
 const postLoginMock = postLogin as jest.Mock
 const useRootStateMock = useRootState as jest.Mock
+const loginMock = login as jest.Mock<Promise<Action>>
 
 const emailInputSelector = '[placeholder="Email"]'
 const passwordInputSelector = '[placeholder="Password"]'
@@ -45,29 +47,17 @@ describe('# Login form validate', () => {
 
     expect(postLogin).not.toBeCalled()
   })
-})
 
-describe('# Login request', () => {
-  it('should be send form when sign in button clicked', async function () {
-    const wrapper = mount(<Login />)
-    setInputValue(wrapper, emailInputSelector, 'test@example.com')
-    setInputValue(wrapper, passwordInputSelector, '12345678')
-
-    wrapper.find('form').simulate('submit')
-
-    const [ , dispatch ] = useRootState()
-    expect(dispatch).toBeCalledTimes(1)
-    expect(dispatch).toBeCalledWith(expect.objectContaining({ type: LOGIN }))
-  })
-
-  // TODO: error message handle (or async dispatch)
-  it.skip('can set error messages correctly when received error response', async function () {
-    postLoginMock.mockRejectedValue({
-      errors: {
-        'email': [ 'is already exists' ],
-        'password': [ 'is too long' ],
-      },
-    })
+  it('should display error messages when errors is displayed', async function () {
+    useRootStateMock.mockReturnValue([
+      {
+        user: null,
+        errors: {
+          'email': [ 'is already exists' ],
+          'password': [ 'is too long' ],
+        },
+      }, jest.fn(),
+    ])
     const wrapper = mount(<Login />)
     setInputValue(wrapper, emailInputSelector, 'test@example.com')
     setInputValue(wrapper, passwordInputSelector, '12345678')
@@ -80,6 +70,20 @@ describe('# Login request', () => {
     expect(wrapper.find('.error-messages').text()).toContain('email is already exists')
     expect(wrapper.find('.error-messages').text()).toContain('password is too long')
   })
+})
+
+describe('# Login request', () => {
+  it('should be dispatch login action when sign in button clicked', async function () {
+    const form = { email: 'test@example.com', password: '12345678' }
+    const wrapper = mount(<Login />)
+    setInputValue(wrapper, emailInputSelector, form.email)
+    setInputValue(wrapper, passwordInputSelector, form.password)
+
+    wrapper.find('form').simulate('submit')
+
+    expect(login).toBeCalledTimes(1)
+    expect(login).toBeCalledWith(form)
+  })
 
   it('should not be send when given invalid form', function () {
     const wrapper = mount(<Login />)
@@ -90,13 +94,16 @@ describe('# Login request', () => {
     expect(postLogin).not.toBeCalled()
   })
 
-  it('should can goto home page when entering the correct account', async function () {
-    postLoginMock.mockResolvedValue({ token: 'foobar' })
-    const wrapper = mount(<Login />)
-    setInputValue(wrapper, emailInputSelector, 'test@example.com')
-    setInputValue(wrapper, passwordInputSelector, '12345678')
-    wrapper.find('form').simulate('submit')
-    await new Promise(r => setImmediate(r))
+  it('should can goto home page after logged', async function () {
+    const Comp = () => {
+      Login()
+
+      return <div />
+    }
+    useRootStateMock.mockReturnValue([ { user: null }, jest.fn() ])
+    const wrapper = mount(<Comp />)
+    useRootStateMock.mockReturnValue([ { user: {} }, jest.fn() ])
+    wrapper.mount()
 
     expect(route).toBeCalledWith('/')
   })

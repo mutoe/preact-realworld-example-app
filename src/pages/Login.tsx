@@ -1,13 +1,12 @@
 import { createRef, h } from 'preact'
 import { Link, route } from 'preact-router'
-import { useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import { useRootState } from '../store'
-import { LOGIN } from '../store/constants'
+import { login } from '../store/actions'
 
 export default function Register() {
   const formRef = createRef<HTMLFormElement>()
-  const [ , dispatch ] = useRootState()
-  const [ errors, setErrors ] = useState<ResponseError>({})
+  const [ { user, errors }, dispatch ] = useRootState()
   const [ form, setForm ] = useState({
     email: '',
     password: '',
@@ -17,13 +16,13 @@ export default function Register() {
     event.preventDefault()
     if (!formRef.current?.checkValidity()) return
 
-    try {
-      dispatch({ type: LOGIN, payload: form })
-      route('/')
-    } catch (data) {
-      setErrors(data.errors)
-    }
+    dispatch(await login(form))
   }
+
+  // route to home page after user logged
+  useEffect(() => {
+    if (user) route('/')
+  }, [ user ])
 
   return (
     <div className="auth-page">
