@@ -107,26 +107,5 @@ describe('# Login request', () => {
 
     expect(route).toBeCalledWith('/')
   })
-
-  // TODO: move this assert to reducer
-  it.skip('should save token locally when login successful', async function () {
-    const result = {
-      id: 1,
-      email: 'test@example.com',
-      username: 'test',
-      bio: null,
-      image: null,
-      token: 'foobar',
-    }
-    postLoginMock.mockResolvedValue(result)
-    jest.spyOn(global.localStorage, 'setItem')
-    const wrapper = mount(<Login />)
-    setInputValue(wrapper, emailInputSelector, 'test@example.com')
-    setInputValue(wrapper, passwordInputSelector, '12345678')
-    wrapper.find('form').simulate('submit')
-    await new Promise(r => setImmediate(r))
-
-    expect(global.localStorage.setItem).toBeCalledWith('user', JSON.stringify(result))
-  })
 })
 
