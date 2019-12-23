@@ -14,3 +14,7 @@ script:
 
 after_script:
   - yarn coveralls
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_3fd66475d68b_key -iv $encrypted_3fd66475d68b_iv -in id_rsa.enc -out ~\/.ssh/id_rsa -d
+
