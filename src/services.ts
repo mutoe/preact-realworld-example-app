@@ -1,6 +1,6 @@
 import FetchRequest from './utils/request'
 
-const limit = 10
+export const limit = 10
 
 export const request = new FetchRequest({
   prefix: `${process.env.API_HOST}/api`,

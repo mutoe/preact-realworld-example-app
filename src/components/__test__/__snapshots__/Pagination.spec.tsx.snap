@@ -2,7 +2,7 @@
 
 exports[`# Pagination Component should display normally 1`] = `
 <ul class="pagination">
-  <li class="page-item">
+  <li class="page-item active">
     <a href class="page-link">1</a>
   </li>
 </ul>
