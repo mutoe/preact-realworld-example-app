@@ -9,7 +9,7 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_3fd66475d68b_key -iv $encrypted_3fd66475d68b_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d
 
 install:
-  - yarn
+  - yarn --skip-integrity-check --non-interactive --no-progress
 
 before_script:
   - yarn lint
