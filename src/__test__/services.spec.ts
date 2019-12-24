@@ -1,6 +1,6 @@
 import FetchRequest from '../utils/request'
-import { getArticles, postArticle, postLogin, postRegister } from '../services'
-import { generateArticles } from '../utils/test-utils'
+import { getArticles, getCommentsByArticle, postArticle, postLogin, postRegister } from '../services'
+import { generateArticles, generateComments } from '../utils/test-utils'
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -51,5 +51,14 @@ describe('# Service', function () {
 
     expect(result).toHaveProperty('articles')
     expect(result).toHaveProperty('articlesCount')
+  })
+
+  test('get comments by article', async function () {
+    const comments = generateComments(2)
+    jest.spyOn(FetchRequest.prototype, 'get').mockResolvedValue({ comments })
+    const result = await getCommentsByArticle('slug')
+
+    expect(FetchRequest.prototype.get).toBeCalledWith('/articles/slug/comments')
+    expect(result).toHaveProperty('comments')
   })
 })

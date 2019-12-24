@@ -62,6 +62,10 @@ export async function getArticlesByTag(tagName: string, page = 1) {
   return request.get<ArticlesResponse>('/articles', { params })
 }
 
+export async function getCommentsByArticle(slug: string) {
+  return request.get<CommentsResponse>(`/articles/${slug}/comments`).then(res => res.comments)
+}
+
 export async function postFavoriteArticle(slug: string) {
   return request.post<ArticleResponse>(`/articles/${slug}/favorite`).then(res => res.article)
 }

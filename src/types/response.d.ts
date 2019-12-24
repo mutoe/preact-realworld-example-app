@@ -26,3 +26,7 @@ interface ArticlesResponse {
   articles: Article[];
   articlesCount: number;
 }
+
+interface CommentsResponse {
+  comments: Comment[];
+}

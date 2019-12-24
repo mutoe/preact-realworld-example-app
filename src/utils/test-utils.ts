@@ -41,3 +41,19 @@ export const setInputValue = (wrapper: ReactWrapper<any>, selector: string, valu
 export const getInputValue = (wrapper: ReactWrapper<any>, selector: string): string => {
   return wrapper.find(selector).getDOMNode<HTMLInputElement>().value
 }
+
+export function generateComments(): ArticleComment
+export function generateComments(count: number): ArticleComment[]
+export function generateComments(count = 1): ArticleComment | ArticleComment[] {
+  return mockjs.mock({
+    [`comments|${count}`]: [
+      {
+        id: '@number',
+        body: '@paragraph',
+        createdAt: new Date(Random.date()).toISOString(),
+        updatedAt: new Date(Random.date()).toISOString(),
+        author: () => generateAuthor(),
+      },
+    ],
+  })
+}
