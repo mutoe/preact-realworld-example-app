@@ -53,6 +53,7 @@
     "jsdom": "^15.2.1",
     "mockjs": "^1.1.0",
     "preact-render-to-string": "^5.1.1",
+    "prettier": "^1.19.1",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.2",
@@ -118,7 +119,9 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testPathIgnorePatterns": ["<rootDir>/dist"],
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist"
+    ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/setup-test.ts"
     ],

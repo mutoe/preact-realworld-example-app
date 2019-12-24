@@ -1,4 +1,5 @@
 import { h } from 'preact'
+import { dateFilter } from '../utils/filters'
 
 interface ArticleMetaProps {
   article: Article;
@@ -6,14 +7,6 @@ interface ArticleMetaProps {
 
 export default function ArticleMeta(props: ArticleMetaProps) {
   const { article } = props
-
-  const dateFilter = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-    })
-  }
 
   return (
     <div className="article-meta">
