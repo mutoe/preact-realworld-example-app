@@ -63,4 +63,15 @@ describe('# Navigation Bar Component', () => {
     const html = render(<NavBar />)
     expect(html).toContain('Your Feed')
   })
+
+  it('should highlight global feed and not highlight personal label in home page and user logged', function () {
+    useRootStateMock.mockReturnValue([ { user: {} } ])
+    const wrapper = shallow(<NavBar currentActive="global" />)
+
+    const globalFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Global Feed')
+    const personalFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Your Feed')
+
+    expect(globalFeedLink.hasClass('active')).toBe(true)
+    expect(personalFeedLink.hasClass('active')).toBe(false)
+  })
 })

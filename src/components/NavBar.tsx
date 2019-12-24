@@ -14,9 +14,8 @@ export default function NavBar(props: NavBarProps = {}) {
       <ul className="nav nav-pills outline-active">
         {user && (
           <li className="nav-item">
-            <a className={`nav-link ${props.currentActive === 'global' ? 'active' : 'disabled'}`} href="/my-feed">
-              Your
-              Feed
+            <a className={`nav-link ${props.currentActive === 'personal' ? 'active' : 'disabled'}`} href="/my-feed">
+              Your Feed
             </a>
           </li>
         )}
