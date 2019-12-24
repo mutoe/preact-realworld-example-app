@@ -1,9 +1,20 @@
 interface RootState {
-  user: UserWithToken | null;
+  user: UserWithToken | undefined;
   errors: ResponseError;
 }
 
-interface Action<T = any> {
-  type: string;
-  payload?: T;
+type Action = ActionSetErrors | ActionCleanErrors | ActionUpdateUser | { type: '' }
+
+interface ActionSetErrors {
+  type: 'SET_ERRORS';
+  errors: ResponseError;
+}
+
+interface ActionCleanErrors {
+  type: 'CLEAN_ERRORS';
+}
+
+interface ActionUpdateUser {
+  type: 'UPDATE_USER';
+  user?: User | UserWithToken;
 }

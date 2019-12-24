@@ -10,7 +10,7 @@ const initialRootState: RootState = {
 
 type RootContextProps = [
   RootState,
-  ({ type }: Action) => void
+  (action: Action) => void
 ]
 
 export const RootContext = createContext<RootContextProps>({} as RootContextProps)

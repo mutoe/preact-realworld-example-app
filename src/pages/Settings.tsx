@@ -18,14 +18,14 @@ export default function Settings() {
   const [ form, setForm ] = useState<FormState>({})
 
   function onLogout() {
-    dispatch({ type: UPDATE_USER, payload: null })
+    dispatch({ type: UPDATE_USER })
   }
 
   async function onSubmit() {
     // filter empty fields from form
     const filteredForm = Object.entries(form).reduce((a, [ k, v ]) => (v == null ? a : { ...a, [k]: v }), {})
     const profile = await putProfile(filteredForm)
-    dispatch({ type: UPDATE_USER, payload: profile })
+    dispatch({ type: UPDATE_USER, user: profile })
   }
 
   useEffect(() => {

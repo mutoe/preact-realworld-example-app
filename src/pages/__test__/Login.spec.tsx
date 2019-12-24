@@ -14,7 +14,7 @@ jest.mock('../../store')
 
 const postLoginMock = postLogin as jest.Mock
 const useRootStateMock = useRootState as jest.Mock
-const loginMock = login as jest.Mock<Promise<Action>>
+const loginMock = login as jest.Mock<Promise<ActionUpdateUser>>
 
 const emailInputSelector = '[placeholder="Email"]'
 const passwordInputSelector = '[placeholder="Password"]'

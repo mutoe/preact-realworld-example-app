@@ -1,17 +1,17 @@
 import { postLogin, PostLoginForm } from '../services'
-import { UPDATE_USER, SET_ERRORS } from './constants'
+import { SET_ERRORS, UPDATE_USER } from './constants'
 
-export const login = async (form: PostLoginForm) => {
+export const login = async (form: PostLoginForm): Promise<Action> => {
   try {
     const user = await postLogin(form)
     return {
       type: UPDATE_USER,
-      payload: user,
+      user,
     }
   } catch (e) {
     return {
       type: SET_ERRORS,
-      payload: e.errors,
+      errors: e.errors,
     }
   }
 }

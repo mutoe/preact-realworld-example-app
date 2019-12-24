@@ -36,7 +36,7 @@ describe('# Settings page', function () {
 
     wrapper.find('button.btn-outline-danger').simulate('click')
 
-    expect(dispatch).toBeCalledWith({ type: UPDATE_USER, payload: null })
+    expect(dispatch).toBeCalledWith({ type: UPDATE_USER })
   })
 
   it('should jump to login page after logout or unauthorized', function () {
@@ -98,6 +98,6 @@ describe('# Settings page', function () {
     await new Promise(r => setImmediate(r))
 
     expect(dispatch).toBeCalledTimes(1)
-    expect(dispatch).toBeCalledWith({ type: UPDATE_USER, payload: { email: 'foo' } })
+    expect(dispatch).toBeCalledWith({ type: UPDATE_USER, user: { email: 'foo' } })
   })
 })

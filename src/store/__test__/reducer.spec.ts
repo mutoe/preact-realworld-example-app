@@ -1,34 +1,39 @@
 import reducer from '../reducer'
-import { CLEAN_ERRORS, UPDATE_USER, SET_ERRORS } from '../constants'
+import { CLEAN_ERRORS, SET_ERRORS, UPDATE_USER } from '../constants'
 
 let initState: RootState
 
 beforeEach(() => {
-  initState = { user: null, errors: {} }
+  initState = { user: undefined, errors: {} }
+})
+
+afterEach(() => {
+  jest.resetAllMocks()
 })
 
 describe('# Reducer', function () {
   it('should return initState when nothing triggered', function () {
-    const rootState = reducer(initState, { type: 'nothing', payload: {} })
+    const rootState = reducer(initState, { type: '' })
 
     expect(rootState).toMatchObject(initState)
   })
 
   it('should update error state when SET_ERRORS triggered', function () {
-    const rootState = reducer(initState, { type: SET_ERRORS, payload: { foo: 'bar' } })
+    const rootState = reducer(initState, { type: SET_ERRORS, errors: { foo: [ 'bar' ] } })
 
-    expect(rootState).toMatchObject({ errors: { foo: 'bar' } })
+    expect(rootState).toMatchObject({ errors: { foo: ['bar'] } })
   })
 
   it('should clear error state when CLEAR_ERRORS triggered', function () {
-    const rootState = reducer(initState, { type: CLEAN_ERRORS, payload: {} })
+    const rootState = reducer(initState, { type: CLEAN_ERRORS })
 
     expect(rootState).toMatchObject({ errors: {} })
   })
 
   it('should set localstorage item when login triggered', function () {
     jest.spyOn(global.localStorage, 'setItem')
-    const rootState = reducer(initState, { type: UPDATE_USER, payload: { token: 'foobar' } })
+    const rootState = reducer(initState,
+      { type: UPDATE_USER, user: { token: 'foobar' } as UserWithToken })
 
     expect(rootState).toMatchObject({ user: { token: 'foobar' } })
     expect(global.localStorage.setItem).toBeCalledWith('user', JSON.stringify(rootState.user))
@@ -36,9 +41,9 @@ describe('# Reducer', function () {
 
   it('should clear localstorage user item when logout triggered', function () {
     jest.spyOn(global.localStorage, 'removeItem')
-    const rootState = reducer(initState, { type: UPDATE_USER, payload: null })
+    const rootState = reducer(initState, { type: UPDATE_USER })
 
-    expect(rootState).toMatchObject({ user: null })
+    expect(rootState).toMatchObject({ user: undefined })
     expect(global.localStorage.removeItem).toBeCalledWith('user')
   })
 })

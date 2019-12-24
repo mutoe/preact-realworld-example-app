@@ -1,3 +1,3 @@
-export const UPDATE_USER = 'update user info'
-export const SET_ERRORS = 'set page errors'
-export const CLEAN_ERRORS = 'clean page errors'
+export const UPDATE_USER = 'UPDATE_USER'
+export const SET_ERRORS = 'SET_ERRORS'
+export const CLEAN_ERRORS = 'CLEAN_ERRORS'
