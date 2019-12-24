@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import { getArticle } from '../services'
+import { getArticle, getCommentsByArticle } from '../services'
 import { useEffect, useState } from 'preact/hooks'
 import ArticleMeta from '../components/ArticleMeta'
 
@@ -9,15 +9,22 @@ interface ArticlePageProps {
 
 export default function ArticlePage(props: ArticlePageProps) {
   const [ article, setArticle ] = useState({ author: {} } as Article)
+  const [ , setComments ] = useState<Comment[]>([])
 
   const fetchArticle = async () => {
-    const article = await getArticle(props.slug || '')
+    const article = await getArticle(props.slug)
     setArticle(article)
+  }
+
+  const fetchComments = async () => {
+    const comments = await getCommentsByArticle(props.slug)
+    setComments(comments)
   }
 
   useEffect(() => {
     fetchArticle()
-  }, [])
+    fetchComments()
+  }, [ props.slug ])
 
   return (
     <div className="article-page">
