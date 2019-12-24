@@ -1,9 +1,8 @@
-import { route } from 'preact-router'
-
 interface FetchRequestOptions {
   prefix: string;
   headers: Record<string, any>;
   params: Record<string, any>;
+  responseInterceptor: (response: Response) => void;
 }
 
 export default class FetchRequest {
@@ -11,8 +10,9 @@ export default class FetchRequest {
     prefix: '',
     headers: {},
     params: {},
+    responseInterceptor: (response) => void response,
   }
-  options: FetchRequestOptions
+  public options: FetchRequestOptions
 
   constructor(options: Partial<FetchRequestOptions> = {}) {
     this.options = Object.assign({}, this.defaultOptions, options)
@@ -32,14 +32,11 @@ export default class FetchRequest {
   }
 
   private handleResponse = (response: Response) => {
+    this.options.responseInterceptor(response)
     return response.json()
       .then(json => {
         if (response.status >= 200 && response.status < 300) {
           return json
-        }
-        if (response.status === 401) {
-          // TODO: clear login status
-          route('/login')
         }
         const error = new Error(response.statusText)
         Object.assign(error, json, {
