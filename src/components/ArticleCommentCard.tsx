@@ -3,10 +3,14 @@ import { dateFilter } from '../utils/filters'
 
 interface ArticleCommentCardProps {
   comment: ArticleComment;
+  onDelete?: (commentId: number) => void;
 }
 
 export default function ArticleCommentCard(props: ArticleCommentCardProps) {
-  const { comment } = props
+  const { comment, onDelete = () => void {} } = props
+
+  if (!comment.author) return null
+
   return (
     <div className="card">
       <div className="card-block">
@@ -21,7 +25,7 @@ export default function ArticleCommentCard(props: ArticleCommentCardProps) {
         <span className="date-posted">{dateFilter(comment.createdAt)}</span>
         <span className="mod-options">
           {/*<i className="ion-edit" />*/}
-          <i className="ion-trash-a" />
+          <i className="ion-trash-a" onClick={() => onDelete(comment.id)} />
         </span>
       </div>
     </div>

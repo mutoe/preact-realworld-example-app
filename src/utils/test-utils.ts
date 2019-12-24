@@ -55,5 +55,5 @@ export function generateComments(count = 1): ArticleComment | ArticleComment[] {
         author: () => generateAuthor(),
       },
     ],
-  })
+  }).comments
 }

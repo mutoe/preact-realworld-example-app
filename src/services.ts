@@ -66,6 +66,10 @@ export async function getCommentsByArticle(slug: string) {
   return request.get<CommentsResponse>(`/articles/${slug}/comments`).then(res => res.comments)
 }
 
+export async function deleteComment(slug: string, commentId: number) {
+  return request.delete(`/articles/${slug}/comments/${commentId}`)
+}
+
 export async function postFavoriteArticle(slug: string) {
   return request.post<ArticleResponse>(`/articles/${slug}/favorite`).then(res => res.article)
 }

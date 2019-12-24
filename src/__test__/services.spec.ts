@@ -1,5 +1,5 @@
 import FetchRequest from '../utils/request'
-import { getArticles, getCommentsByArticle, postArticle, postLogin, postRegister } from '../services'
+import { deleteComment, getArticles, getCommentsByArticle, postArticle, postLogin, postRegister } from '../services'
 import { generateArticles, generateComments } from '../utils/test-utils'
 
 afterEach(() => {
@@ -59,6 +59,13 @@ describe('# Service', function () {
     const result = await getCommentsByArticle('slug')
 
     expect(FetchRequest.prototype.get).toBeCalledWith('/articles/slug/comments')
-    expect(result).toHaveProperty('comments')
+    expect(result).toHaveLength(2)
+  })
+
+  test('delete comments', async function () {
+    jest.spyOn(FetchRequest.prototype, 'delete').mockResolvedValue({})
+    await deleteComment('slug', 1)
+
+    expect(FetchRequest.prototype.delete).toBeCalledWith('/articles/slug/comments/1')
   })
 })
