@@ -48,7 +48,7 @@ export function generateComments(count = 1): ArticleComment | ArticleComment[] {
   return mockjs.mock({
     [`comments|${count}`]: [
       {
-        id: '@number',
+        id: mockjs.Random.integer(0, 100),
         body: '@paragraph',
         createdAt: new Date(Random.date()).toISOString(),
         updatedAt: new Date(Random.date()).toISOString(),

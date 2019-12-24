@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`# Article comment card should render correctly 1`] = `
+<div class="card">
+  <div class="card-block">
+    <p class="card-text">body.</p>
+  </div>
+  <div class="card-footer">
+    <a href class="comment-author">
+      <img src="http://dummyimage.com/336x280" class="comment-author-img" />
+    </a> 
+    <a href class="comment-author">Shirley Davis</a>
+    <span class="date-posted">February 19</span>
+    <span class="mod-options">
+      <i class="ion-trash-a"></i>
+    </span>
+  </div>
+</div>
+`;
