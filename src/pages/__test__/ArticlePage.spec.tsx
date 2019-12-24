@@ -2,19 +2,25 @@ import { shallow } from 'enzyme'
 import { h } from 'preact'
 import ArticlePage from '../ArticlePage'
 import { deleteComment, getArticle, getCommentsByArticle } from '../../services'
-import { generateArticles, generateComments } from '../../utils/test-utils'
+import { generateArticles, generateAuthor, generateComments } from '../../utils/test-utils'
 import ArticleMeta from '../../components/ArticleMeta'
 import ArticleCommentCard from '../../components/ArticleCommentCard'
+import { useRootState } from '../../store'
 
 jest.mock('../../services')
+jest.mock('../../store')
 
 const getArticleMock = getArticle as jest.Mock<Promise<Article>>
 const getCommentsByArticleMock = getCommentsByArticle as jest.Mock<Promise<ArticleComment[]>>
-const deleteCommentMock =deleteComment as jest.Mock
+const deleteCommentMock = deleteComment as jest.Mock
+const useRootStateMock = useRootState as jest.Mock
+
+const loggedUser = generateAuthor()
 
 beforeEach(() => {
   getArticleMock.mockResolvedValue({} as Article)
   getCommentsByArticleMock.mockResolvedValue([])
+  useRootStateMock.mockReturnValue([ { user: loggedUser }, jest.fn() ])
 })
 
 afterEach(() => {
@@ -74,5 +80,11 @@ describe('# Article Page', function () {
     expect(deleteComment).toBeCalledTimes(1)
     expect(deleteComment).toBeCalledWith('slug', comment.id)
     expect(wrapper.find(ArticleCommentCard)).toHaveLength(0)
+  })
+
+  it('should display logged user image', function () {
+    const wrapper = shallow(<ArticlePage slug="slug" />)
+
+    expect(wrapper.find('.comment-author-img').props().src).toBe(loggedUser.image)
   })
 })

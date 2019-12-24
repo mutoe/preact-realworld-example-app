@@ -3,6 +3,7 @@ import { deleteComment, getArticle, getCommentsByArticle } from '../services'
 import { useEffect, useState } from 'preact/hooks'
 import ArticleMeta from '../components/ArticleMeta'
 import ArticleCommentCard from '../components/ArticleCommentCard'
+import { useRootState } from '../store'
 
 interface ArticlePageProps {
   slug: string;
@@ -11,6 +12,7 @@ interface ArticlePageProps {
 export default function ArticlePage(props: ArticlePageProps) {
   const [ article, setArticle ] = useState({ author: {} } as Article)
   const [ comments, setComments ] = useState<ArticleComment[]>([])
+  const [ { user } ] = useRootState()
 
   const fetchArticle = async () => {
     const article = await getArticle(props.slug)
@@ -62,7 +64,7 @@ export default function ArticlePage(props: ArticlePageProps) {
                 <textarea className="form-control" placeholder="Write a comment..." rows={3} />
               </div>
               <div className="card-footer">
-                <img src="http://i.imgur.com/Qr71crq.jpg" className="comment-author-img" />
+                <img src={user?.image || ''} className="comment-author-img" />
                 <button className="btn btn-sm btn-primary">
                   Post Comment
                 </button>
