@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import { getArticle, getCommentsByArticle } from '../services'
+import { deleteComment, getArticle, getCommentsByArticle } from '../services'
 import { useEffect, useState } from 'preact/hooks'
 import ArticleMeta from '../components/ArticleMeta'
 import ArticleCommentCard from '../components/ArticleCommentCard'
@@ -20,6 +20,11 @@ export default function ArticlePage(props: ArticlePageProps) {
   const fetchComments = async () => {
     const comments = await getCommentsByArticle(props.slug)
     setComments(comments)
+  }
+
+  const onDeleteComment = async (commentId: number) => {
+    await deleteComment(props.slug, commentId)
+    setComments(prevState => prevState.filter(c => c.id !== commentId))
   }
 
   useEffect(() => {
@@ -64,8 +69,10 @@ export default function ArticlePage(props: ArticlePageProps) {
               </div>
             </form>
 
-            {comments.map(comment => (
-              <ArticleCommentCard key={comment.id} comment={comment} />
+            {comments.map((comment) => (
+              <ArticleCommentCard key={comment.id}
+                comment={comment}
+                onDelete={onDeleteComment} />
             ))}
           </div>
         </div>

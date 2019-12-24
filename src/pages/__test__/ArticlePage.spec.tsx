@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme'
 import { h } from 'preact'
 import ArticlePage from '../ArticlePage'
-import { getArticle, getCommentsByArticle } from '../../services'
+import { deleteComment, getArticle, getCommentsByArticle } from '../../services'
 import { generateArticles, generateComments } from '../../utils/test-utils'
 import ArticleMeta from '../../components/ArticleMeta'
 import ArticleCommentCard from '../../components/ArticleCommentCard'
@@ -10,6 +10,7 @@ jest.mock('../../services')
 
 const getArticleMock = getArticle as jest.Mock<Promise<Article>>
 const getCommentsByArticleMock = getCommentsByArticle as jest.Mock<Promise<ArticleComment[]>>
+const deleteCommentMock =deleteComment as jest.Mock
 
 beforeEach(() => {
   getArticleMock.mockResolvedValue({} as Article)
@@ -56,5 +57,22 @@ describe('# Article Page', function () {
 
     expect(wrapper.find(ArticleCommentCard)).toHaveLength(2)
     expect(wrapper.find(ArticleCommentCard).at(0).props().comment).toBe(articleComments[0])
+  })
+
+  it('should request delete comment and remove from list when delete comment triggered', async function () {
+    deleteCommentMock.mockResolvedValue({})
+    const comment = generateComments()
+    getCommentsByArticleMock.mockResolvedValue([ comment ])
+    const wrapper = shallow(<ArticlePage slug="slug" />)
+    await new Promise(r => setImmediate(r))
+    const commentWrap = wrapper.find(ArticleCommentCard)
+
+    commentWrap.props().onDelete(comment.id)
+    await new Promise(r => setImmediate(r))
+    wrapper.update()
+
+    expect(deleteComment).toBeCalledTimes(1)
+    expect(deleteComment).toBeCalledWith('slug', comment.id)
+    expect(wrapper.find(ArticleCommentCard)).toHaveLength(0)
   })
 })
