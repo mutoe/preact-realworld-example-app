@@ -4,7 +4,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/github/mutoe/preact-realworld-example-app?style=flat-square)](https://coveralls.io/github/mutoe/preact-realworld-example-app?branch=master)
 
 > Forked from [hassanbazzi/preact-realworld-example-app](https://github.com/hassanbazzi/preact-realworld-example-app)
-g
+
 > ### [Preact X](https://github.com/developit/preact) codebase containing real world examples (typescript, hooks, preact-router, fetch, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
 
