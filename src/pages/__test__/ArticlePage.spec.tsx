@@ -3,6 +3,7 @@ import { h } from 'preact'
 import ArticlePage from '../ArticlePage'
 import { getArticle } from '../../services'
 import { generateArticles } from '../../utils/test-utils'
+import ArticleMeta from '../../components/ArticleMeta'
 
 jest.mock('../../services')
 
@@ -33,7 +34,7 @@ describe('# Article Page', function () {
     const wrapper = shallow(<ArticlePage slug={article.slug} />)
     await new Promise(r => setImmediate(r))
 
-    expect(wrapper.find('.banner h1').text()).toBe(article.title)
-    expect(wrapper.find('.article-content').text()).toContain(article.body)
+    expect(wrapper.find(ArticleMeta)).toHaveLength(2)
+    expect(wrapper.find(ArticleMeta).at(0).props().article).toMatchObject(article)
   })
 })

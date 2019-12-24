@@ -27,7 +27,7 @@ export function generateArticles(count = 1): Article | Article[] {
         description: Random.sentence(),
         author: () => generateAuthor(),
         favorited: Random.boolean(),
-        'favoritesCount|0-200': 0,
+        'favoritesCount|0-200': 200,
       },
     ],
   }).articles

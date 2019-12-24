@@ -1,13 +1,14 @@
 import { h } from 'preact'
 import { getArticle } from '../services'
 import { useEffect, useState } from 'preact/hooks'
+import ArticleMeta from '../components/ArticleMeta'
 
 interface ArticlePageProps {
   slug: string;
 }
 
 export default function ArticlePage(props: ArticlePageProps) {
-  const [ article, setArticle ] = useState({} as Article)
+  const [ article, setArticle ] = useState({ author: {} } as Article)
 
   const fetchArticle = async () => {
     const article = await getArticle(props.slug || '')
@@ -26,25 +27,7 @@ export default function ArticlePage(props: ArticlePageProps) {
 
           <h1>{article.title}</h1>
 
-          <div className="article-meta">
-            <a href=""><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
-            <div className="info">
-              <a href="" className="author">Eric Simons</a>
-              <span className="date">January 20th</span>
-            </div>
-            <button className="btn btn-sm btn-outline-secondary">
-              <i className="ion-plus-round" />
-              &nbsp;
-              Follow Eric Simons <span className="counter">(10)</span>
-            </button>
-            &nbsp;&nbsp;
-            <button className="btn btn-sm btn-outline-primary">
-              <i className="ion-heart" />
-              &nbsp;
-              Favorite Post <span className="counter">(29)</span>
-            </button>
-          </div>
-
+          <ArticleMeta article={article} />
         </div>
       </div>
 
@@ -59,25 +42,7 @@ export default function ArticlePage(props: ArticlePageProps) {
         <hr />
 
         <div className="article-actions">
-          <div className="article-meta">
-            <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
-            <div className="info">
-              <a href="" className="author">Eric Simons</a>
-              <span className="date">January 20th</span>
-            </div>
-
-            <button className="btn btn-sm btn-outline-secondary">
-              <i className="ion-plus-round" />
-              &nbsp;
-              Follow Eric Simons <span className="counter">(10)</span>
-            </button>
-            &nbsp;
-            <button className="btn btn-sm btn-outline-primary">
-              <i className="ion-heart" />
-              &nbsp;
-              Favorite Post <span className="counter">(29)</span>
-            </button>
-          </div>
+          <ArticleMeta article={article} />
         </div>
 
         <div className="row">

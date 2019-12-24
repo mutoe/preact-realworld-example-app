@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`# Article meta component should match snapshot 1`] = `
+<div class="article-meta">
+  <a href>
+    <img src="http://dummyimage.com/234x60" />
+  </a>
+  <div class="info">
+    <a href class="author">Brenda Taylor</a>
+    <span class="date">September 29</span>
+  </div>
+  <button class="btn btn-sm btn-outline-secondary">
+    <i class="ion-plus-round"></i>Follow Brenda Taylor</button>  
+  <button class="btn btn-sm btn-outline-primary">
+    <i class="ion-heart"></i>  Favorite Post
+    <span class="counter">(34)</span>
+  </button>
+</div>
+`;
