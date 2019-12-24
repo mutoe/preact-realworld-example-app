@@ -28,5 +28,5 @@ interface ArticlesResponse {
 }
 
 interface CommentsResponse {
-  comments: Comment[];
+  comments: ArticleComment[];
 }

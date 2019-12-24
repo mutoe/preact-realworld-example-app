@@ -2,13 +2,14 @@ import { shallow } from 'enzyme'
 import { h } from 'preact'
 import ArticlePage from '../ArticlePage'
 import { getArticle, getCommentsByArticle } from '../../services'
-import { generateArticles } from '../../utils/test-utils'
+import { generateArticles, generateComments } from '../../utils/test-utils'
 import ArticleMeta from '../../components/ArticleMeta'
+import ArticleCommentCard from '../../components/ArticleCommentCard'
 
 jest.mock('../../services')
 
 const getArticleMock = getArticle as jest.Mock<Promise<Article>>
-const getCommentsByArticleMock = getCommentsByArticle as jest.Mock<Promise<Comment[]>>
+const getCommentsByArticleMock = getCommentsByArticle as jest.Mock<Promise<ArticleComment[]>>
 
 beforeEach(() => {
   getArticleMock.mockResolvedValue({} as Article)
@@ -45,5 +46,15 @@ describe('# Article Page', function () {
 
     expect(getCommentsByArticle).toBeCalledTimes(1)
     expect(getCommentsByArticle).toBeCalledWith('slug')
+  })
+
+  it('should display comments', async function () {
+    const articleComments = generateComments(2)
+    getCommentsByArticleMock.mockResolvedValue(articleComments)
+    const wrapper = shallow(<ArticlePage slug="slug" />)
+    await new Promise(r => setImmediate(r))
+
+    expect(wrapper.find(ArticleCommentCard)).toHaveLength(2)
+    expect(wrapper.find(ArticleCommentCard).at(0).props().comment).toBe(articleComments[0])
   })
 })
