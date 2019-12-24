@@ -1,4 +1,5 @@
 import { CLEAN_ERRORS, SET_ERRORS, UPDATE_USER } from './constants'
+import { request } from '../services'
 
 const reducer = (state: RootState, action: Action): RootState => {
   switch (action.type) {
@@ -11,13 +12,18 @@ const reducer = (state: RootState, action: Action): RootState => {
 
   case UPDATE_USER: {
     let user = action.user
+
     if (!user) {
+      // logout
       global.localStorage.removeItem('user')
+      request.options.headers['Authorization'] = undefined
       return { ...state, user: undefined }
     }
 
+    // login
     user = Object.assign({}, state.user, user) as UserWithToken
     global.localStorage.setItem('user', JSON.stringify(user))
+    request.options.headers['Authorization'] = `Token ${user.token}`
     return { ...state, user }
   }
 
