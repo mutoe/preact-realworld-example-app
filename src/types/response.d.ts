@@ -6,8 +6,8 @@ interface Response {
   errors: ResponseError;
 }
 
-interface AuthResponse {
-  user: UserWithToken;
+interface UserResponse {
+  user: User;
 }
 
 interface TagsResponse {
@@ -15,7 +15,7 @@ interface TagsResponse {
 }
 
 interface ProfileResponse {
-  profile: User;
+  profile: Profile;
 }
 
 interface ArticleResponse {

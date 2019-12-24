@@ -16,7 +16,7 @@ export interface PostLoginForm {
 }
 
 export async function postLogin(form: PostLoginForm) {
-  return request.post<AuthResponse>('/users/login', { user: form }).then(res => res.user)
+  return request.post<UserResponse>('/users/login', { user: form }).then(res => res.user)
 }
 
 interface PostRegisterForm extends PostLoginForm {
@@ -24,7 +24,7 @@ interface PostRegisterForm extends PostLoginForm {
 }
 
 export async function postRegister(form: PostRegisterForm) {
-  return request.post<AuthResponse>('/users', { user: form }).then(res => res.user)
+  return request.post<UserResponse>('/users', { user: form }).then(res => res.user)
 }
 
 export async function getAllTags() {
@@ -74,7 +74,7 @@ export async function getProfile(username: string) {
   return request.get<ProfileResponse>(`/profiles/${username}`).then(res => res.profile)
 }
 
-export async function putProfile(form: Partial<User>) {
+export async function putProfile(form: Partial<Profile>) {
   return request.put<ProfileResponse>('/user', form).then(res => res.profile)
 }
 

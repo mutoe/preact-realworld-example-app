@@ -48,7 +48,7 @@ describe('# Settings page', function () {
   })
 
   it('should fill profile when page loaded', function () {
-    const user: UserWithToken = {
+    const user: User = {
       username: 'username',
       bio: 'bio',
       email: 'test@example.com',

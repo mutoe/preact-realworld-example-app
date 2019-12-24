@@ -21,7 +21,7 @@ const reducer = (state: RootState, action: Action): RootState => {
     }
 
     // login
-    user = Object.assign({}, state.user, user) as UserWithToken
+    user = Object.assign({}, state.user, user) as User
     global.localStorage.setItem('user', JSON.stringify(user))
     request.options.headers['Authorization'] = `Token ${user.token}`
     return { ...state, user }

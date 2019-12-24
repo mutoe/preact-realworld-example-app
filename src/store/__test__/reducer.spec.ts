@@ -33,7 +33,7 @@ describe('# Reducer', function () {
   it('should set localstorage item when login triggered', function () {
     jest.spyOn(global.localStorage, 'setItem')
     const rootState = reducer(initState,
-      { type: UPDATE_USER, user: { token: 'foobar' } as UserWithToken })
+      { type: UPDATE_USER, user: { token: 'foobar' } as User })
 
     expect(rootState).toMatchObject({ user: { token: 'foobar' } })
     expect(global.localStorage.setItem).toBeCalledWith('user', JSON.stringify(rootState.user))

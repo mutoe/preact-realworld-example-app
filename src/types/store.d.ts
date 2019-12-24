@@ -1,5 +1,5 @@
 interface RootState {
-  user: UserWithToken | undefined;
+  user: User | undefined;
   errors: ResponseError;
 }
 
@@ -16,5 +16,5 @@ interface ActionCleanErrors {
 
 interface ActionUpdateUser {
   type: 'UPDATE_USER';
-  user?: User | UserWithToken;
+  user?: Profile | User;
 }

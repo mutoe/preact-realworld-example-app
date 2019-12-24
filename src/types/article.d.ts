@@ -6,7 +6,7 @@ interface Article {
   updatedAt: string;
   tagList: string[];
   description: string;
-  author: User;
+  author: Profile;
   favorited: boolean;
   favoritesCount: number;
 }

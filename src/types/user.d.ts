@@ -1,11 +1,11 @@
-interface User {
+interface Profile {
   username: string;
   bio: string;
   image: string;
   following: boolean;
 }
 
-interface UserWithToken {
+interface User {
   id: number;
   email: string;
   username: string;

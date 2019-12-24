@@ -1,7 +1,7 @@
 import mockjs, { Random } from 'mockjs'
 import { ReactWrapper } from 'enzyme'
 
-export function generateAuthor(): User {
+export function generateAuthor(): Profile {
   return mockjs.mock({
     username: Random.name(),
     bio: Random.sentence(),

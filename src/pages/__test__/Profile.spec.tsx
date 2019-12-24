@@ -6,10 +6,10 @@ import { deleteFollowProfile, getProfile, postFollowProfile } from '../../servic
 
 jest.mock('../../services')
 
-const getProfileMock = getProfile as jest.Mock<Promise<User>>
+const getProfileMock = getProfile as jest.Mock<Promise<Profile>>
 
 beforeEach(() => {
-  getProfileMock.mockResolvedValue({} as User)
+  getProfileMock.mockResolvedValue({} as Profile)
 })
 
 afterEach(() => {
@@ -77,7 +77,7 @@ describe('# Follow user', () => {
     const wrapper = shallow(<Profile username={`@${user.username}`} />)
     await new Promise(r => setImmediate(r))
 
-    const postFollowProfileMock = postFollowProfile as jest.Mock<Promise<User>>
+    const postFollowProfileMock = postFollowProfile as jest.Mock<Promise<Profile>>
     postFollowProfileMock.mockImplementation()
     wrapper.find('.user-info button').simulate('click')
 
@@ -90,7 +90,7 @@ describe('# Follow user', () => {
     const wrapper = shallow(<Profile username={`@${user.username}`} />)
     await new Promise(r => setImmediate(r))
 
-    const deleteFollowProfileMock = deleteFollowProfile as jest.Mock<Promise<User>>
+    const deleteFollowProfileMock = deleteFollowProfile as jest.Mock<Promise<Profile>>
     deleteFollowProfileMock.mockImplementation()
     wrapper.find('.user-info button').simulate('click')
 

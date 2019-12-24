@@ -8,7 +8,7 @@ interface ProfileProps {
 
 export default function Profile(props: ProfileProps) {
   const username = props.username?.replace(/^@/, '') || ''
-  const [ user, setUser ] = useState({} as User)
+  const [ user, setUser ] = useState({} as Profile)
 
   const fetchProfile = async () => {
     const user = await getProfile(username)

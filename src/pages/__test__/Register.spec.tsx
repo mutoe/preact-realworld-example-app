@@ -8,7 +8,7 @@ import { setInputValue } from '../../utils/test-utils'
 jest.mock('../../services')
 jest.mock('preact-router')
 
-const postRegisterMock = postRegister as jest.Mock<Promise<UserWithToken>>
+const postRegisterMock = postRegister as jest.Mock<Promise<User>>
 
 const emailInputSelector = '[placeholder="Email"]'
 const passwordInputSelector = '[placeholder="Password"]'
