@@ -4,19 +4,20 @@ import { useEffect, useState } from 'preact/hooks'
 
 interface ArticlePreviewProps {
   article: Article;
+  setArticle?: (article: Article) => void;
 }
 
 export default function ArticlePreview(props: ArticlePreviewProps) {
-  const { article } = props
+  const { article, setArticle =  () => void {} } = props
   const [ isFavorited, setIsFavorited ] = useState(false)
 
   async function onFavorite() {
     if (article.favorited) {
-      await deleteFavoriteArticle(article.slug)
-      setIsFavorited(false)
+      const newArticle = await deleteFavoriteArticle(article.slug)
+      setArticle(newArticle)
     } else {
-      await postFavoriteArticle(article.slug)
-      setIsFavorited(true)
+      const newArticle = await postFavoriteArticle(article.slug)
+      setArticle(newArticle)
     }
   }
 

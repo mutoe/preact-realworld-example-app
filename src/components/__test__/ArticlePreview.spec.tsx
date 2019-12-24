@@ -89,15 +89,17 @@ describe('# Favorite article', () => {
   })
 
   it('should update article info when favorite / unfavorite article', async function () {
-    (postFavoriteArticle as jest.Mock).mockResolvedValue({ favorited: true })
-    const article = { ...generateArticles(), favorited: false }
-    const wrapper = shallow(<ArticlePreview article={article} />)
+    (postFavoriteArticle as jest.Mock).mockResolvedValue({ favorited: true, favoritesCount: 1 })
+    const article = { ...generateArticles(), favorited: false, favoritesCount: 0 }
+    const setArticle = jest.fn()
+    const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />)
     expect(wrapper.find('.article-meta button').hasClass('btn-outline-primary')).toBe(true)
 
     wrapper.find('.article-meta button').simulate('click')
     await new Promise(r => setImmediate(r))
 
-    expect(wrapper.find('.article-meta button').hasClass('btn-primary')).toBe(true)
+    expect(setArticle).toBeCalledTimes(1)
+    expect(setArticle).toBeCalledWith({ favorited: true, favoritesCount: 1 })
   })
 
 })

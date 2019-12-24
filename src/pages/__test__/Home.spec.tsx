@@ -65,6 +65,18 @@ describe('# Feeds list', () => {
     expect(wrapper.find(ArticlePreview).at(0).props().article).toBe(articles[0])
   })
 
+  it('should update ArticlePreview component when setArticle called', async function () {
+    const article = generateArticles()
+    article.favoritesCount = 0
+    getArticlesMock.mockResolvedValue({ articles: [ article ], articlesCount: 1 })
+    const wrapper = shallow(<Home />)
+    await new Promise(r => setImmediate(r))
+
+    wrapper.find(ArticlePreview).props().setArticle({ favoritesCount: 1 })
+
+    expect(wrapper.find(ArticlePreview).props().article).toMatchObject({ favoritesCount: 1 })
+  })
+
   it('should request all article in Home page', async function () {
     shallow(<Home />)
 
