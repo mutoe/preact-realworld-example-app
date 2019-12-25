@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import { deleteComment, getArticle, getCommentsByArticle } from '../services'
+import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../services'
 import { useEffect, useState } from 'preact/hooks'
 import ArticleMeta from '../components/ArticleMeta'
 import ArticleCommentCard from '../components/ArticleCommentCard'
@@ -10,29 +10,39 @@ interface ArticlePageProps {
 }
 
 export default function ArticlePage(props: ArticlePageProps) {
+  const { slug } = props
   const [ article, setArticle ] = useState({ author: {} } as Article)
   const [ comments, setComments ] = useState<ArticleComment[]>([])
+  const [ commentBody, setCommentBody ] = useState('')
   const [ { user } ] = useRootState()
 
   const fetchArticle = async () => {
-    const article = await getArticle(props.slug)
+    const article = await getArticle(slug)
     setArticle(article)
   }
 
   const fetchComments = async () => {
-    const comments = await getCommentsByArticle(props.slug)
+    const comments = await getCommentsByArticle(slug)
     setComments(comments)
   }
 
   const onDeleteComment = async (commentId: number) => {
-    await deleteComment(props.slug, commentId)
+    await deleteComment(slug, commentId)
     setComments(prevState => prevState.filter(c => c.id !== commentId))
   }
 
+  const onPostComment = async () => {
+    const comment = await postComment(slug, commentBody)
+    setCommentBody('')
+    setComments(prevComments => [ comment, ...prevComments ])
+  }
+
   useEffect(() => {
-    fetchArticle()
-    fetchComments()
-  }, [ props.slug ])
+    (async function () {
+      await fetchArticle()
+      await fetchComments()
+    })()
+  }, [ slug ])
 
   return (
     <div className="article-page">
@@ -61,11 +71,16 @@ export default function ArticlePage(props: ArticlePageProps) {
           <div className="col-xs-12 col-md-8 offset-md-2">
             <form className="card comment-form">
               <div className="card-block">
-                <textarea className="form-control" placeholder="Write a comment..." rows={3} />
+                <textarea value={commentBody}
+                  className="form-control"
+                  placeholder="Write a comment..."
+                  rows={3}
+                  onInput={e => setCommentBody(e.currentTarget.value)} />
               </div>
               <div className="card-footer">
-                <img src={user?.image || ''} className="comment-author-img" />
-                <button className="btn btn-sm btn-primary">
+                <img src={user?.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'}
+                  className="comment-author-img" />
+                <button className="btn btn-sm btn-primary" onClick={onPostComment}>
                   Post Comment
                 </button>
               </div>
