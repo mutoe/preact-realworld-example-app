@@ -1,5 +1,14 @@
 import FetchRequest from '../utils/request'
-import { deleteComment, getArticles, getCommentsByArticle, postArticle, postLogin, postRegister } from '../services'
+import {
+  deleteComment,
+  getArticles,
+  getCommentsByArticle,
+  getFavoritedArticles,
+  limit,
+  postArticle,
+  postLogin,
+  postRegister,
+} from '../services'
 import { generateArticles, generateComments } from '../utils/test-utils'
 
 afterEach(() => {
@@ -55,13 +64,24 @@ describe('# Service', function () {
     expect(result).toHaveProperty('articlesCount')
   })
 
-  test('get article by author', async function () {
+  test('get articles by author', async function () {
     const articles = generateArticles(2)
     jest.spyOn(FetchRequest.prototype, 'get').mockResolvedValue({ articles, articlesCount: 2 })
     const response = await getArticles(1, 'foo')
 
     expect(FetchRequest.prototype.get).toBeCalledTimes(1)
     expect(FetchRequest.prototype.get).toBeCalledWith('/articles', { params: { offset: 0, limit: 10, author: 'foo' } })
+    expect(response).toHaveProperty('articles')
+    expect(response).toHaveProperty('articlesCount')
+  })
+
+  test('get favorited articles by username', async function () {
+    const articles = generateArticles(2)
+    jest.spyOn(FetchRequest.prototype, 'get').mockResolvedValue({ articles, articlesCount: 2 })
+    const response = await getFavoritedArticles('foo')
+
+    expect(FetchRequest.prototype.get).toBeCalledTimes(1)
+    expect(FetchRequest.prototype.get).toBeCalledWith('/articles', { params: { limit, offset: 0, favorited: 'foo' } })
     expect(response).toHaveProperty('articles')
     expect(response).toHaveProperty('articlesCount')
   })
