@@ -6,10 +6,10 @@ exports[`# Article comment card should render correctly 1`] = `
     <p class="card-text">body.</p>
   </div>
   <div class="card-footer">
-    <a href class="comment-author">
+    <a href="/@Shirley Davis" class="comment-author">
       <img src="http://dummyimage.com/336x280" class="comment-author-img" />
     </a> 
-    <a href class="comment-author">Shirley Davis</a>
+    <a href="/@Shirley Davis" class="comment-author">Shirley Davis</a>
     <span class="date-posted">February 19</span>
     <span class="mod-options"></span>
   </div>

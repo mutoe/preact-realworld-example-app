@@ -10,9 +10,9 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 
   return (
     <div className="article-meta">
-      <a href=""><img src={article.author.image} /></a>
+      <a href={`/@${article.author.username}`}><img src={article.author.image} /></a>
       <div className="info">
-        <a href="" className="author">{article.author.username}</a>
+        <a href={`/@${article.author.username}`} className="author">{article.author.username}</a>
         <span className="date">{dateFilter(article.createdAt)}</span>
       </div>
       <button className="btn btn-sm btn-outline-secondary">

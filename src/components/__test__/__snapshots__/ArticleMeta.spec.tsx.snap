@@ -2,11 +2,11 @@
 
 exports[`# Article meta component should match snapshot 1`] = `
 <div class="article-meta">
-  <a href>
+  <a href="/@Brenda Taylor">
     <img src="http://dummyimage.com/234x60" />
   </a>
   <div class="info">
-    <a href class="author">Brenda Taylor</a>
+    <a href="/@Brenda Taylor" class="author">Brenda Taylor</a>
     <span class="date">September 29</span>
   </div>
   <button class="btn btn-sm btn-outline-secondary">
