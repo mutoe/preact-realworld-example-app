@@ -52,8 +52,8 @@ export async function putArticle(slug: string, form: PostArticleForm) {
     .then(res => res.article)
 }
 
-export async function getArticles(page = 1) {
-  const params = { limit, offset: (page - 1) * limit }
+export async function getArticles(page = 1, author?: string) {
+  const params = { limit, offset: (page - 1) * limit, author }
   return request.get<ArticlesResponse>('/articles', { params })
 }
 

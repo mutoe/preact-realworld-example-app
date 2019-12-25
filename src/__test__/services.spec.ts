@@ -49,8 +49,21 @@ describe('# Service', function () {
     jest.spyOn(FetchRequest.prototype, 'get').mockResolvedValue({ articles, articlesCount: 2 })
     const result = await getArticles()
 
+    expect(FetchRequest.prototype.get).toBeCalledTimes(1)
+    expect(FetchRequest.prototype.get).toBeCalledWith('/articles', { params: { offset: 0, limit: 10 } })
     expect(result).toHaveProperty('articles')
     expect(result).toHaveProperty('articlesCount')
+  })
+
+  test('get article by author', async function () {
+    const articles = generateArticles(2)
+    jest.spyOn(FetchRequest.prototype, 'get').mockResolvedValue({ articles, articlesCount: 2 })
+    const response = await getArticles(1, 'foo')
+
+    expect(FetchRequest.prototype.get).toBeCalledTimes(1)
+    expect(FetchRequest.prototype.get).toBeCalledWith('/articles', { params: { offset: 0, limit: 10, author: 'foo' } })
+    expect(response).toHaveProperty('articles')
+    expect(response).toHaveProperty('articlesCount')
   })
 
   test('get comments by article', async function () {
