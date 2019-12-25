@@ -1,5 +1,6 @@
 import { h } from 'preact'
 import { dateFilter } from '../utils/filters'
+import { useRootState } from '../store'
 
 interface ArticleCommentCardProps {
   comment: ArticleComment;
@@ -8,6 +9,9 @@ interface ArticleCommentCardProps {
 
 export default function ArticleCommentCard(props: ArticleCommentCardProps) {
   const { comment, onDelete = () => void {} } = props
+  const [ { user } ] = useRootState()
+
+  const isMineComment = user?.username === comment.author.username
 
   if (!comment.author) return null
 
@@ -25,7 +29,9 @@ export default function ArticleCommentCard(props: ArticleCommentCardProps) {
         <span className="date-posted">{dateFilter(comment.createdAt)}</span>
         <span className="mod-options">
           {/*<i className="ion-edit" />*/}
-          <i className="ion-trash-a" onClick={() => onDelete(comment.id)} />
+          {isMineComment && (
+            <i className="ion-trash-a" onClick={() => onDelete(comment.id)} />
+          )}
         </span>
       </div>
     </div>

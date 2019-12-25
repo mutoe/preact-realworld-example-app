@@ -11,9 +11,7 @@ exports[`# Article comment card should render correctly 1`] = `
     </a> 
     <a href class="comment-author">Shirley Davis</a>
     <span class="date-posted">February 19</span>
-    <span class="mod-options">
-      <i class="ion-trash-a"></i>
-    </span>
+    <span class="mod-options"></span>
   </div>
 </div>
 `;
