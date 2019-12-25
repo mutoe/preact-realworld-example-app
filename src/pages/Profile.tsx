@@ -1,6 +1,8 @@
 import { h } from 'preact'
-import { deleteFollowProfile, getProfile, postFollowProfile } from '../services'
+import { deleteFollowProfile, getArticles, getProfile, postFollowProfile } from '../services'
 import { useEffect, useState } from 'preact/hooks'
+import ArticlePreview from '../components/ArticlePreview'
+import Pagination from '../components/Pagination'
 
 interface ProfileProps {
   username?: string;
@@ -9,10 +11,25 @@ interface ProfileProps {
 export default function Profile(props: ProfileProps) {
   const username = props.username?.replace(/^@/, '') || ''
   const [ user, setUser ] = useState({} as Profile)
+  const [ articles, setArticles ] = useState<Article[]>([])
+  const [ articlesCount, setArticlesCount ] = useState(0)
+  const [ page, setPage ] = useState(1)
 
   const fetchProfile = async () => {
     const user = await getProfile(username)
     setUser(user)
+  }
+
+  const fetchArticles = async () => {
+    const { articles, articlesCount } = await getArticles(page, username)
+    setArticles(articles)
+    setArticlesCount(articlesCount)
+  }
+
+  const setArticle = (articleIndex: number, article: Article) => {
+    const articlesCopy = [ ...articles ]
+    articlesCopy[articleIndex] = article
+    setArticles(articlesCopy)
   }
 
   const onFollowUser = async () => {
@@ -27,7 +44,8 @@ export default function Profile(props: ProfileProps) {
 
   useEffect(() => {
     fetchProfile()
-  }, [])
+    fetchArticles()
+  }, [ username ])
 
   return (
     <div className="profile-page">
@@ -64,45 +82,12 @@ export default function Profile(props: ProfileProps) {
               </ul>
             </div>
 
-            <div className="article-preview">
-              <div className="article-meta">
-                <a href=""><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
-                <div className="info">
-                  <a href="" className="author">Eric Simons</a>
-                  <span className="date">January 20th</span>
-                </div>
-                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i className="ion-heart" /> 29
-                </button>
-              </div>
-              <a href="" className="preview-link">
-                <h1>How to build webapps that scale</h1>
-                <p>This is the description for the post.</p>
-                <span>Read more...</span>
-              </a>
-            </div>
+            {articles.map((article, index) => (
+              <ArticlePreview key={article.slug} article={article} setArticle={article => setArticle(index, article)} />
+            ))}
 
-            <div className="article-preview">
-              <div className="article-meta">
-                <a href=""><img src="http://i.imgur.com/N4VcUeJ.jpg" /></a>
-                <div className="info">
-                  <a href="" className="author">Albert Pai</a>
-                  <span className="date">January 20th</span>
-                </div>
-                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i className="ion-heart" /> 32
-                </button>
-              </div>
-              <a href="" className="preview-link">
-                <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-                <p>This is the description for the post.</p>
-                <span>Read more...</span>
-                <ul className="tag-list">
-                  <li className="tag-default tag-pill tag-outline">Music</li>
-                  <li className="tag-default tag-pill tag-outline">Song</li>
-                </ul>
-              </a>
-            </div>
+            <Pagination count={articlesCount} page={page} setPage={setPage} />
+
           </div>
         </div>
       </div>

@@ -1,15 +1,18 @@
-import { generateAuthor } from '../../utils/test-utils'
+import { generateArticles, generateAuthor } from '../../utils/test-utils'
 import { shallow } from 'enzyme'
 import Profile from '../Profile'
 import { h } from 'preact'
-import { deleteFollowProfile, getProfile, postFollowProfile } from '../../services'
+import { deleteFollowProfile, getArticles, getProfile, postFollowProfile } from '../../services'
+import ArticlePreview from '../../components/ArticlePreview'
 
 jest.mock('../../services')
 
 const getProfileMock = getProfile as jest.Mock<Promise<Profile>>
+const getArticlesMock = getArticles as jest.Mock<Promise<ArticlesResponse>>
 
 beforeEach(() => {
   getProfileMock.mockResolvedValue({} as Profile)
+  getArticlesMock.mockResolvedValue({ articles: [], articlesCount: 0 })
 })
 
 afterEach(() => {
@@ -44,6 +47,22 @@ describe('# Profile Page', function () {
 
     expect(wrapper.find('.user-info p').text()).toBe(author.bio)
     expect(wrapper.find('.user-info .user-img').prop('src')).toBe(author.image)
+  })
+
+  it('should request articles that about profile', function () {
+    shallow(<Profile username="foo" />)
+
+    expect(getArticles).toBeCalledTimes(1)
+    expect(getArticles).toBeCalledWith(1, 'foo')
+  })
+
+  it('should display article preview after articles got', async function () {
+    const articles = generateArticles(2)
+    getArticlesMock.mockResolvedValue({ articles, articlesCount: 2 })
+    const wrapper = shallow(<Profile username="@foo" />)
+    await new Promise(r => setImmediate(r))
+
+    expect(wrapper.find(ArticlePreview)).toHaveLength(2)
   })
 
 })
