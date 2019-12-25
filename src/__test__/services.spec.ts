@@ -3,7 +3,7 @@ import {
   deleteComment,
   getArticles,
   getCommentsByArticle,
-  getFavoritedArticles,
+  getFavoritedArticles, getProfileArticles,
   limit,
   postArticle,
   postLogin,
@@ -59,18 +59,18 @@ describe('# Service', function () {
     const result = await getArticles()
 
     expect(FetchRequest.prototype.get).toBeCalledTimes(1)
-    expect(FetchRequest.prototype.get).toBeCalledWith('/articles', { params: { offset: 0, limit: 10 } })
+    expect(FetchRequest.prototype.get).toBeCalledWith('/articles', { params: { offset: 0, limit } })
     expect(result).toHaveProperty('articles')
     expect(result).toHaveProperty('articlesCount')
   })
 
-  test('get articles by author', async function () {
+  test('get profile articles', async function () {
     const articles = generateArticles(2)
     jest.spyOn(FetchRequest.prototype, 'get').mockResolvedValue({ articles, articlesCount: 2 })
-    const response = await getArticles(1, 'foo')
+    const response = await getProfileArticles('foo')
 
     expect(FetchRequest.prototype.get).toBeCalledTimes(1)
-    expect(FetchRequest.prototype.get).toBeCalledWith('/articles', { params: { offset: 0, limit: 10, author: 'foo' } })
+    expect(FetchRequest.prototype.get).toBeCalledWith('/articles', { params: { offset: 0, limit, author: 'foo' } })
     expect(response).toHaveProperty('articles')
     expect(response).toHaveProperty('articlesCount')
   })

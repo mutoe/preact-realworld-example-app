@@ -52,13 +52,18 @@ export async function putArticle(slug: string, form: PostArticleForm) {
     .then(res => res.article)
 }
 
-export async function getArticles(page = 1, author?: string) {
-  const params = { limit, offset: (page - 1) * limit, author }
+export async function getArticles(page = 1) {
+  const params = { limit, offset: (page - 1) * limit }
   return request.get<ArticlesResponse>('/articles', { params })
 }
 
 export async function getArticlesByTag(tagName: string, page = 1) {
   const params = { tag: tagName, limit, offset: (page - 1) * limit }
+  return request.get<ArticlesResponse>('/articles', { params })
+}
+
+export async function getProfileArticles(username: string, page = 1) {
+  const params = { limit, offset: (page - 1) * limit, author: username }
   return request.get<ArticlesResponse>('/articles', { params })
 }
 

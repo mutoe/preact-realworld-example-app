@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import { deleteFollowProfile, getArticles, getProfile, postFollowProfile } from '../services'
+import { deleteFollowProfile, getProfile, getProfileArticles, postFollowProfile } from '../services'
 import { useEffect, useState } from 'preact/hooks'
 import ArticlePreview from '../components/ArticlePreview'
 import Pagination from '../components/Pagination'
@@ -21,7 +21,7 @@ export default function Profile(props: ProfileProps) {
   }
 
   const fetchArticles = async () => {
-    const { articles, articlesCount } = await getArticles(page, username)
+    const { articles, articlesCount } = await getProfileArticles(username, page)
     setArticles(articles)
     setArticlesCount(articlesCount)
   }
