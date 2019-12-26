@@ -26,7 +26,9 @@ jobs:
         yarn test --coverage
 
     - name: collect coverage
-      run: yarn coveralls
+      uses: coverallsapp/github-action@v1.0.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: build
       run: yarn build
