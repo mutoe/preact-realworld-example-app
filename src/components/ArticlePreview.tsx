@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import { deleteFavoriteArticle, postFavoriteArticle } from '../services'
 import { useEffect, useState } from 'preact/hooks'
+import { DEFAULT_AVATAR } from '../store/constants'
 
 interface ArticlePreviewProps {
   article: Article;
@@ -32,7 +33,7 @@ export default function ArticlePreview(props: ArticlePreviewProps) {
   return (
     <div className="article-preview">
       <div className="article-meta">
-        <a href={`/@${article.author.username}`}><img src={article.author.image} /></a>
+        <a href={`/@${article.author.username}`}><img src={article.author.image || DEFAULT_AVATAR} /></a>
         <div className="info">
           <a href={`/@${article.author.username}`}
             className="author">{article.author.username}</a>

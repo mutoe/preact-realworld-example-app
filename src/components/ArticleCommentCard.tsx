@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import { dateFilter } from '../utils/filters'
 import { useRootState } from '../store'
+import { DEFAULT_AVATAR } from '../store/constants'
 
 interface ArticleCommentCardProps {
   comment: ArticleComment;
@@ -22,7 +23,7 @@ export default function ArticleCommentCard(props: ArticleCommentCardProps) {
       </div>
       <div className="card-footer">
         <a href={`/@${comment.author.username}`} className="comment-author">
-          <img src={comment.author.image} className="comment-author-img" />
+          <img src={comment.author.image || DEFAULT_AVATAR} className="comment-author-img" />
         </a>
         &nbsp;
         <a href={`/@${comment.author.username}`} className="comment-author">{comment.author.username}</a>

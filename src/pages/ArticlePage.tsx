@@ -4,6 +4,7 @@ import { useEffect, useState } from 'preact/hooks'
 import ArticleMeta from '../components/ArticleMeta'
 import ArticleCommentCard from '../components/ArticleCommentCard'
 import { useRootState } from '../store'
+import { DEFAULT_AVATAR } from '../store/constants'
 
 interface ArticlePageProps {
   slug: string;
@@ -78,7 +79,7 @@ export default function ArticlePage(props: ArticlePageProps) {
                   onInput={e => setCommentBody(e.currentTarget.value)} />
               </div>
               <div className="card-footer">
-                <img src={user?.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'}
+                <img src={user?.image || DEFAULT_AVATAR}
                   className="comment-author-img" />
                 <button className="btn btn-sm btn-primary" onClick={onPostComment}>
                   Post Comment
