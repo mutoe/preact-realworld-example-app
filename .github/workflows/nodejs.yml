@@ -48,7 +48,7 @@ jobs:
       uses: AEnterprise/rsync-deploy@v1.0
       env:
         DEPLOY_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        ARGS: "-e -c -r --delete"
+        ARGS: "-avzr --delete"
         SERVER_IP: ${{ secrets.SERVER_IP }}
         SERVER_PORT: ${{ secrets.SERVER_PORT }}
         USERNAME: ${{ secrets.SERVER_USERNAME }}
