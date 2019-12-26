@@ -1,6 +1,6 @@
 # ![RealWorld Example App](logo.png)
 
-[![Build Status](https://img.shields.io/travis/com/mutoe/preact-realworld-example-app?style=flat-square)](https://travis-ci.com/mutoe/preact-realworld-example-app)
+[![Build Status](https://img.shields.io/github/workflow/status/mutoe/preact-realworld-example-app/Node CI?style=flat-square)](https://github.com/mutoe/preact-realworld-example-app/actions)
 [![Coverage Status](https://img.shields.io/coveralls/github/mutoe/preact-realworld-example-app?style=flat-square)](https://coveralls.io/github/mutoe/preact-realworld-example-app?branch=master)
 
 > Forked from [hassanbazzi/preact-realworld-example-app](https://github.com/hassanbazzi/preact-realworld-example-app)
