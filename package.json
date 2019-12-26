@@ -23,7 +23,6 @@
     "build": "webpack --mode=production",
     "lint": "eslint src/**/*.{tsx,ts}",
     "test": "jest",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "analyzer": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json dist -s gzip"
   },
   "dependencies": {
@@ -39,7 +38,6 @@
     "@types/mockjs": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^2.8.0",
     "@typescript-eslint/parser": "^2.8.0",
-    "coveralls": "^3.0.9",
     "dotenv-webpack": "^1.7.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-preact-pure": "^2.2.0",
