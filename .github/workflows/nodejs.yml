@@ -1,0 +1,32 @@
+name: Node CI
+
+on: [push]
+
+jobs:
+  build:
+    env:
+      CI: true
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - name: install dependencies
+      run: yarn install --skip-integrity-check --non-interactive --no-progress
+
+    - name: lint and tests
+      run: |
+        yarn lint
+        yarn test --coverage
+
+    - name: collect coverage
+      run: yarn coveralls
+
+    - name: build
+      run: yarn build
