@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import { dateFilter } from '../utils/filters'
 import { DEFAULT_AVATAR } from '../store/constants'
-import { deleteFollowProfile, postFollowProfile } from '../services'
+import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../services'
 
 interface ArticleMetaProps {
   article: Article;
@@ -21,7 +21,18 @@ export default function ArticleMeta(props: ArticleMetaProps) {
     }
   }
 
+  const onFavoriteArticle = async () => {
+    if (article.favorited) {
+      const newArticle = await deleteFavoriteArticle(article.slug)
+      setArticle(newArticle)
+    } else {
+      const newArticle = await postFavoriteArticle(article.slug)
+      setArticle(newArticle)
+    }
+  }
+
   const followButtonClass = article.author.following ? 'btn-secondary' : 'btn-outline-secondary'
+  const favoriteButtonClass = article.favorited ? 'btn-primary' : 'btn-outline-primary'
 
   return (
     <div className="article-meta">
@@ -34,7 +45,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
         <i className="ion-plus-round" /> {article.author.following ? 'Unfollow' : 'Follow'} {article.author.username}
       </button>
       &nbsp;&nbsp;
-      <button className="btn btn-sm btn-outline-primary">
+      <button className={`btn btn-sm ${favoriteButtonClass}`} onClick={onFavoriteArticle}>
         <i className="ion-heart" />
         &nbsp;
         Favorite Post <span className="counter">({article.favoritesCount})</span>

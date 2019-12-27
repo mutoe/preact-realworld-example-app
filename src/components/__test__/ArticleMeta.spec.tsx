@@ -3,11 +3,12 @@ import ArticleMeta from '../ArticleMeta'
 import { h } from 'preact'
 import { shallow } from 'enzyme'
 import { generateArticles } from '../../utils/test-utils'
-import { postFollowProfile } from '../../services'
+import { postFavoriteArticle, postFollowProfile } from '../../services'
 
 jest.mock('../../services')
 
 const postFollowProfileMock = postFollowProfile as jest.Mock
+const postFavoriteArticleMock = postFavoriteArticle as jest.Mock
 
 describe('# Article meta component', function () {
   it('should match snapshot', function () {
@@ -19,7 +20,7 @@ describe('# Article meta component', function () {
       updatedAt: '2016-10-14T00:00:00.000Z',
       tagList: [ 'foo', 'bar', 'baz' ],
       description: 'description',
-      favorited: true,
+      favorited: false,
       favoritesCount: 34,
       author: {
         username: 'Brenda Taylor',
@@ -40,10 +41,20 @@ describe('# Article meta component', function () {
     const wrapper = shallow(<ArticleMeta article={article} />)
     const followButton = wrapper.find('.ion-plus-round').parents('button')
     followButton.simulate('click')
-    await new Promise(r => setImmediate(r))
-    wrapper.update()
 
     expect(postFollowProfile).toBeCalledTimes(1)
     expect(postFollowProfile).toBeCalledWith(article.author.username)
+  })
+
+  it('should favorite article correctly', function () {
+    const article = generateArticles()
+    postFavoriteArticleMock.mockResolvedValue(article)
+    article.favorited = false
+    const wrapper = shallow(<ArticleMeta article={article} />)
+    const favoriteButton = wrapper.find('.ion-heart').parents('button')
+    favoriteButton.simulate('click')
+
+    expect(postFavoriteArticle).toBeCalledTimes(1)
+    expect(postFavoriteArticle).toBeCalledWith(article.slug)
   })
 })
