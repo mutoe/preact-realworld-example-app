@@ -4,7 +4,7 @@ import ArticlePage from '../ArticlePage'
 import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../../services'
 import {
   generateArticles,
-  generateAuthor,
+  generateProfile,
   generateComments,
   getInputValue,
   setInputValue,
@@ -22,7 +22,7 @@ const deleteCommentMock = deleteComment as jest.Mock
 const postCommentMock = postComment as jest.Mock<Promise<ArticleComment>>
 const useRootStateMock = useRootState as jest.Mock
 
-const loggedUser = generateAuthor()
+const loggedUser = generateProfile()
 
 beforeEach(() => {
   getArticleMock.mockResolvedValue({ author: {} } as Article)

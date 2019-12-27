@@ -2,14 +2,14 @@ import render from 'preact-render-to-string'
 import ArticleCommentCard from '../ArticleCommentCard'
 import { h } from 'preact'
 import { shallow } from 'enzyme'
-import { generateAuthor, generateComments } from '../../utils/test-utils'
+import { generateProfile, generateComments } from '../../utils/test-utils'
 import { useRootState } from '../../store'
 
 jest.mock('../../store')
 
 const useRootStateMock = useRootState as jest.Mock
 
-const loggedUser = generateAuthor()
+const loggedUser = generateProfile()
 
 beforeEach(() => {
   useRootStateMock.mockReturnValue([ { user: loggedUser }, jest.fn() ])

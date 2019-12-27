@@ -1,7 +1,7 @@
 import mockjs, { Random } from 'mockjs'
 import { ReactWrapper } from 'enzyme'
 
-export function generateAuthor(): Profile {
+export function generateProfile(): Profile {
   return mockjs.mock({
     username: Random.name(),
     bio: Random.sentence(),
@@ -25,7 +25,7 @@ export function generateArticles(count = 1): Article | Article[] {
         updatedAt: new Date(Random.date()).toISOString(),
         'tagList|3': [ () => Random.word() ],
         description: Random.sentence(),
-        author: () => generateAuthor(),
+        author: () => generateProfile(),
         favorited: Random.boolean(),
         'favoritesCount|0-200': 200,
       },
@@ -52,7 +52,7 @@ export function generateComments(count = 1): ArticleComment | ArticleComment[] {
         body: '@paragraph',
         createdAt: new Date(Random.date()).toISOString(),
         updatedAt: new Date(Random.date()).toISOString(),
-        author: () => generateAuthor(),
+        author: () => generateProfile(),
       },
     ],
   }).comments

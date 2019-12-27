@@ -1,4 +1,4 @@
-import { generateArticles, generateAuthor } from '../../utils/test-utils'
+import { generateArticles, generateProfile } from '../../utils/test-utils'
 import { shallow } from 'enzyme'
 import Profile from '../Profile'
 import { h } from 'preact'
@@ -23,7 +23,7 @@ afterEach(() => {
 
 describe('# Profile Page', function () {
   it('should display correct username', function () {
-    const author = generateAuthor()
+    const author = generateProfile()
     const wrapper = shallow(<Profile username={`@${author.username}`} />)
 
     expect(wrapper.find('.user-info h4').text()).toBe(author.username)
@@ -31,7 +31,7 @@ describe('# Profile Page', function () {
   })
 
   it('should be request profile when page loaded', async function () {
-    const author = generateAuthor()
+    const author = generateProfile()
     shallow(<Profile username={`@${author.username}`} />)
     await new Promise(r => setImmediate(r))
 
@@ -40,7 +40,7 @@ describe('# Profile Page', function () {
   })
 
   it('should display user profile correctly', async function () {
-    const author = generateAuthor()
+    const author = generateProfile()
     getProfileMock.mockResolvedValue(author)
 
     const wrapper = shallow(<Profile username={`@${author.username}`} />)
@@ -71,7 +71,7 @@ describe('# Profile Page', function () {
 
 describe('# Follow user', () => {
   it('should display Follow when user is not following', async function () {
-    const user = generateAuthor()
+    const user = generateProfile()
     user.following = false
     getProfileMock.mockResolvedValue(user)
     const wrapper = shallow(<Profile username={`@${user.username}`} />)
@@ -82,7 +82,7 @@ describe('# Follow user', () => {
   })
 
   it('should display Unfollow when user is following', async function () {
-    const user = generateAuthor()
+    const user = generateProfile()
     user.following = true
     getProfileMock.mockResolvedValue(user)
     const wrapper = shallow(<Profile username={`@${user.username}`} />)
@@ -93,7 +93,7 @@ describe('# Follow user', () => {
   })
 
   it('should send follow request when Follow button clicked', async function () {
-    const user = generateAuthor()
+    const user = generateProfile()
     getProfileMock.mockResolvedValue({ ...user, following: false })
     const wrapper = shallow(<Profile username={`@${user.username}`} />)
     await new Promise(r => setImmediate(r))
@@ -106,7 +106,7 @@ describe('# Follow user', () => {
   })
 
   it('should send unfollow request when Unfollow button clicked', async function () {
-    const user = generateAuthor()
+    const user = generateProfile()
     getProfileMock.mockResolvedValue({ ...user, following: true })
     const wrapper = shallow(<Profile username={`@${user.username}`} />)
     await new Promise(r => setImmediate(r))
