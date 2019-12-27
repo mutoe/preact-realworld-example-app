@@ -82,6 +82,12 @@ describe('# Feeds list', () => {
 
     expect(getArticles).toBeCalledTimes(1)
   })
+
+  it('should request tag articles in Home page with tag', function () {
+    shallow(<Home tag="foo" />)
+
+    expect(getArticlesByTag).toBeCalledTimes(1)
+  })
 })
 
 describe('# Popular Tags', () => {

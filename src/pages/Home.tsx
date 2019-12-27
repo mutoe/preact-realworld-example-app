@@ -17,6 +17,8 @@ export default function Home(props: HomeProps) {
 
   const fetchFeeds = async () => {
     setArticles([])
+    setArticlesCount(0)
+
     if (props.tag) {
       const { articles = [], articlesCount = 0 } = await getArticlesByTag(props.tag, page)
       setArticles(articles)
@@ -37,7 +39,7 @@ export default function Home(props: HomeProps) {
   useEffect(() => {
     // TODO: page query parameter change
     fetchFeeds()
-  }, [ page ])
+  }, [ page, props.tag ])
 
   return (
     <div className="home-page">
