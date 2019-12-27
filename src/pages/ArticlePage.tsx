@@ -50,7 +50,7 @@ export default function ArticlePage(props: ArticlePageProps) {
       <div className="banner">
         <div className="container">
           <h1>{article.title}</h1>
-          <ArticleMeta article={article} />
+          <ArticleMeta article={article} setArticle={setArticle} />
         </div>
       </div>
 
@@ -65,7 +65,7 @@ export default function ArticlePage(props: ArticlePageProps) {
         <hr />
 
         <div className="article-actions">
-          <ArticleMeta article={article} />
+          <ArticleMeta article={article} setArticle={setArticle} />
         </div>
 
         <div className="row">

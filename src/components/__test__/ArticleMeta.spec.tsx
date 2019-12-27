@@ -1,6 +1,13 @@
 import render from 'preact-render-to-string'
 import ArticleMeta from '../ArticleMeta'
 import { h } from 'preact'
+import { shallow } from 'enzyme'
+import { generateArticles } from '../../utils/test-utils'
+import { postFollowProfile } from '../../services'
+
+jest.mock('../../services')
+
+const postFollowProfileMock = postFollowProfile as jest.Mock
 
 describe('# Article meta component', function () {
   it('should match snapshot', function () {
@@ -24,5 +31,19 @@ describe('# Article meta component', function () {
     const wrapper = render(<ArticleMeta article={article} />)
 
     expect(wrapper).toMatchSnapshot()
+  })
+
+  it('should follow user correctly', async function () {
+    const article = generateArticles()
+    postFollowProfileMock.mockResolvedValue(article)
+    article.author.following = false
+    const wrapper = shallow(<ArticleMeta article={article} />)
+    const followButton = wrapper.find('.ion-plus-round').parents('button')
+    followButton.simulate('click')
+    await new Promise(r => setImmediate(r))
+    wrapper.update()
+
+    expect(postFollowProfile).toBeCalledTimes(1)
+    expect(postFollowProfile).toBeCalledWith(article.author.username)
   })
 })
