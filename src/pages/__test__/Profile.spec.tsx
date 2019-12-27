@@ -4,17 +4,23 @@ import Profile from '../Profile'
 import { h } from 'preact'
 import { deleteFollowProfile, getArticles, getProfile, getProfileArticles, postFollowProfile } from '../../services'
 import ArticlePreview from '../../components/ArticlePreview'
+import { useRootState } from '../../store'
 
 jest.mock('../../services')
+jest.mock('../../store')
 
 const getProfileMock = getProfile as jest.Mock<Promise<Profile>>
 const getArticlesMock = getArticles as jest.Mock<Promise<ArticlesResponse>>
 const getProfileArticlesMock = getProfileArticles as jest.Mock<Promise<ArticlesResponse>>
+const useRootStateMock = useRootState as jest.Mock
+
+const loggedUser = generateProfile()
 
 beforeEach(() => {
   getProfileMock.mockResolvedValue({} as Profile)
   getArticlesMock.mockResolvedValue({ articles: [], articlesCount: 0 })
   getProfileArticlesMock.mockResolvedValue({ articles: [], articlesCount: 0 })
+  useRootStateMock.mockReturnValue([ {}, jest.fn() ])
 })
 
 afterEach(() => {
@@ -116,5 +122,16 @@ describe('# Follow user', () => {
     wrapper.find('.user-info button').simulate('click')
 
     expect(deleteFollowProfileMock).toBeCalledTimes(1)
+  })
+
+  it('should display edit profile instead follow in owner self profile page', async function () {
+    getProfileMock.mockResolvedValue(loggedUser)
+    useRootStateMock.mockReturnValue([ { user: loggedUser }, jest.fn() ])
+    const wrapper = shallow(<Profile username="@username" />)
+    await new Promise(r => setImmediate(r))
+    wrapper.update()
+
+    expect(wrapper.find('.user-info .action-btn').props().href).toBe('/settings')
+    expect(wrapper.find('.user-info .action-btn').text()).toContain('Edit profile')
   })
 })

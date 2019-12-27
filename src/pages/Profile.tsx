@@ -3,6 +3,7 @@ import { deleteFollowProfile, getProfile, getProfileArticles, postFollowProfile 
 import { useEffect, useState } from 'preact/hooks'
 import ArticlePreview from '../components/ArticlePreview'
 import Pagination from '../components/Pagination'
+import { useRootState } from '../store'
 
 interface ProfileProps {
   username?: string;
@@ -14,6 +15,7 @@ export default function Profile(props: ProfileProps) {
   const [ articles, setArticles ] = useState<Article[]>([])
   const [ articlesCount, setArticlesCount ] = useState(0)
   const [ page, setPage ] = useState(1)
+  const [ { user: loggedUser } ] = useRootState()
 
   const fetchProfile = async () => {
     const user = await getProfile(username)
@@ -57,11 +59,20 @@ export default function Profile(props: ProfileProps) {
               <img src={user.image} className="user-img" />
               <h4>{username}</h4>
               <p>{user.bio}</p>
-              <button className="btn btn-sm btn-outline-secondary action-btn" onClick={onFollowUser}>
-                <i className="ion-plus-round" />
-                &nbsp;
-                {user.following ? 'Unfollow' : 'Follow'} {username}
-              </button>
+              {loggedUser ? (
+                <a href="/settings" className="btn btn-sm btn-outline-secondary action-btn">
+                  <i className="ion-gear-a" />
+                  &nbsp;
+                  Edit profile settings
+                </a>
+              ) : (
+                <button className="btn btn-sm btn-outline-secondary action-btn" onClick={onFollowUser}>
+                  <i className="ion-plus-round" />
+                  &nbsp;
+                  {user.following ? 'Unfollow' : 'Follow'} {username}
+                </button>
+              )}
+
             </div>
           </div>
         </div>
