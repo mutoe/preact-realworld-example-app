@@ -3,12 +3,9 @@ import ArticleMeta from '../ArticleMeta'
 import { h } from 'preact'
 import { shallow } from 'enzyme'
 import { generateArticles } from '../../utils/test-utils'
-import { postFavoriteArticle, postFollowProfile } from '../../services'
+import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../../services'
 
 jest.mock('../../services')
-
-const postFollowProfileMock = postFollowProfile as jest.Mock
-const postFavoriteArticleMock = postFavoriteArticle as jest.Mock
 
 describe('# Article meta component', function () {
   it('should match snapshot', function () {
@@ -36,7 +33,6 @@ describe('# Article meta component', function () {
 
   it('should follow user correctly', async function () {
     const article = generateArticles()
-    postFollowProfileMock.mockResolvedValue(article)
     article.author.following = false
     const wrapper = shallow(<ArticleMeta article={article} />)
     const followButton = wrapper.find('.ion-plus-round').parents('button')
@@ -46,9 +42,19 @@ describe('# Article meta component', function () {
     expect(postFollowProfile).toBeCalledWith(article.author.username)
   })
 
+  it('should unfollow user correctly', async function () {
+    const article = generateArticles()
+    article.author.following = true
+    const wrapper = shallow(<ArticleMeta article={article} />)
+    const followButton = wrapper.find('.ion-plus-round').parents('button')
+    followButton.simulate('click')
+
+    expect(deleteFollowProfile).toBeCalledTimes(1)
+    expect(deleteFollowProfile).toBeCalledWith(article.author.username)
+  })
+
   it('should favorite article correctly', function () {
     const article = generateArticles()
-    postFavoriteArticleMock.mockResolvedValue(article)
     article.favorited = false
     const wrapper = shallow(<ArticleMeta article={article} />)
     const favoriteButton = wrapper.find('.ion-heart').parents('button')
@@ -56,5 +62,16 @@ describe('# Article meta component', function () {
 
     expect(postFavoriteArticle).toBeCalledTimes(1)
     expect(postFavoriteArticle).toBeCalledWith(article.slug)
+  })
+
+  it('should unfavorite article correctly', function () {
+    const article = generateArticles()
+    article.favorited = true
+    const wrapper = shallow(<ArticleMeta article={article} />)
+    const favoriteButton = wrapper.find('.ion-heart').parents('button')
+    favoriteButton.simulate('click')
+
+    expect(deleteFavoriteArticle).toBeCalledTimes(1)
+    expect(deleteFavoriteArticle).toBeCalledWith(article.slug)
   })
 })
