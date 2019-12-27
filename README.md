@@ -50,3 +50,7 @@ I used `axios` before, and later I created a fetch tool myself to further reduce
 According to the [report](https://www.infoq.com/news/2019/04/real-world-framework-benchmark/), Preact isn't much ahead of React.
 
 However, if `history.js` is removed, I think it can be compared with the data of Vue.
+
+Here's what happens when you remove history.
+
+![Bundle analyzer(no history.js)](./.github/bundle-size-after-remove-history.png)
