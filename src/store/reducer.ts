@@ -16,7 +16,7 @@ const reducer = (state: RootState, action: Action): RootState => {
     if (!user) {
       // logout
       global.localStorage.removeItem('user')
-      request.options.headers['Authorization'] = undefined
+      request.options.headers['Authorization'] = ''
       return { ...state, user: undefined }
     }
 
