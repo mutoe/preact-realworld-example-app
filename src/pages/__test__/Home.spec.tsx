@@ -25,7 +25,7 @@ beforeEach(() => {
     articles: [],
     articlesCount: 0,
   })
-  useRootStateMock.mockReturnValue([ { user: null } ])
+  useRootStateMock.mockReturnValue([ { user: undefined } ])
 })
 
 afterEach(() => {

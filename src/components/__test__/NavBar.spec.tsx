@@ -31,11 +31,11 @@ describe('# Navigation Bar Component', () => {
   })
 
   it('should jump to My Feed page when "Your Feed" clicked', function () {
-    useRootStateMock.mockReturnValue([ { user: {} } ])
+    useRootStateMock.mockReturnValue([ { user: { username: 'foo' } } ])
     const wrapper = shallow(<NavBar />)
     const myFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Your Feed')
 
-    expect(myFeedLink.props().href).toBe('/my-feed')
+    expect(myFeedLink.props().href).toBe('/@foo')
   })
 
   it('should be highlighted when the label is activated', function () {
