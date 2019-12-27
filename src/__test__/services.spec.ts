@@ -1,11 +1,14 @@
 import FetchRequest from '../utils/request'
 import {
+  limit,
   deleteComment,
+  deleteFavoriteArticle,
   getArticles,
   getCommentsByArticle,
-  getFavoritedArticles, getProfileArticles,
-  limit,
+  getFavoritedArticles,
+  getProfileArticles,
   postArticle,
+  postFavoriteArticle,
   postLogin,
   postRegister,
 } from '../services'
@@ -100,5 +103,19 @@ describe('# Service', function () {
     await deleteComment('slug', 1)
 
     expect(FetchRequest.prototype.delete).toBeCalledWith('/articles/slug/comments/1')
+  })
+
+  test('post favorite article', async function () {
+    jest.spyOn(FetchRequest.prototype, 'post').mockResolvedValue({})
+    postFavoriteArticle('slug')
+
+    expect(FetchRequest.prototype.post).toBeCalledWith('/articles/slug/favorite')
+  })
+
+  test('delete favorite article', function () {
+    jest.spyOn(FetchRequest.prototype, 'delete').mockResolvedValue({})
+    deleteFavoriteArticle('slug')
+
+    expect(FetchRequest.prototype.delete).toBeCalledWith('/articles/slug/favorite')
   })
 })
