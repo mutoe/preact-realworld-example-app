@@ -49,6 +49,7 @@
     "jest": "^25.1.0",
     "jest-serializer-html-string": "^1.0.1",
     "jsdom": "^16.2.0",
+    "lint-staged": "^10.0.8",
     "mockjs": "^1.1.0",
     "preact-render-to-string": "^5.1.1",
     "prettier": "^1.19.1",
@@ -62,8 +63,11 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint --fix"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": "yarn lint --fix"
   },
   "eslintConfig": {
     "env": {
