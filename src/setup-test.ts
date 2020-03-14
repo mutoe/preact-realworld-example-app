@@ -4,7 +4,7 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference types="enzyme-adapter-preact-pure"/>
 
-import { JSDOM } from 'jsdom'
+import { JSDOM, DOMWindow } from 'jsdom'
 
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-preact-pure'
@@ -20,7 +20,7 @@ declare global {
       Event: typeof Event;
       Node: typeof Node;
       document: Document;
-      window: Window;
+      window: DOMWindow;
       navigator: Navigator;
       requestAnimationFrame: AnimationFrameProvider['requestAnimationFrame'];
       cancelAnimationFrame: AnimationFrameProvider['cancelAnimationFrame'];
