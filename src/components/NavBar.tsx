@@ -15,7 +15,7 @@ export default function NavBar(props: NavBarProps = {}) {
         {user && (
           <li className="nav-item">
             <a className={`nav-link ${props.currentActive === 'personal' ? 'active' : ''}`}
-              href={`/@${user?.username}`}>
+              href="/my-feeds">
               Your Feed
             </a>
           </li>

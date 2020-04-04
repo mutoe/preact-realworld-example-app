@@ -18,6 +18,7 @@ export default function App() {
       <Header />
       <Router history={createHashHistory()}>
         <Route path="/" component={Home} />
+        <Route path="/my-feeds" component={Home} />
         <Route path="/tag/:tag" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
@@ -25,7 +26,7 @@ export default function App() {
         <Route path="/article/create" component={EditArticle} />
         <Route path="/article/:slug/edit" component={EditArticle} />
         <Route path="/article/:slug" component={ArticlePage} />
-        <Route path="/:username" component={Profile} />
+        <Route path="/:username/favorites" component={Profile} />
       </Router>
       <Footer />
     </RootProvider>

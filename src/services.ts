@@ -1,12 +1,13 @@
 import FetchRequest from './utils/request'
+import parseStorageGet from './utils/parse-storage-get'
 
 export const limit = 10
 
 export const request = new FetchRequest({
   prefix: `${process.env.API_HOST}/api`,
   headers: {
-    // TODO: add authorziation token in header
     'Content-Type': 'application/json',
+    'Authorization': `Token ${parseStorageGet('user')?.token}`,
   },
 })
 
@@ -55,6 +56,11 @@ export async function putArticle(slug: string, form: PostArticleForm) {
 export async function getArticles(page = 1) {
   const params = { limit, offset: (page - 1) * limit }
   return request.get<ArticlesResponse>('/articles', { params })
+}
+
+export async function getFeeds(page = 1) {
+  const params = { limit, offset: (page - 1) * limit }
+  return request.get<ArticlesResponse>('/articles/feed', { params })
 }
 
 export async function getArticlesByTag(tagName: string, page = 1) {

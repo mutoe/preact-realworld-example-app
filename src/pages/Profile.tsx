@@ -7,6 +7,7 @@ import { useRootState } from '../store'
 
 interface ProfileProps {
   username?: string;
+  favorites?: boolean;
 }
 
 export default function Profile(props: ProfileProps) {

@@ -35,7 +35,7 @@ describe('# Navigation Bar Component', () => {
     const wrapper = shallow(<NavBar />)
     const myFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Your Feed')
 
-    expect(myFeedLink.props().href).toBe('/@foo')
+    expect(myFeedLink.props().href).toBe('/my-feeds')
   })
 
   it('should be highlighted when the label is activated', function () {
