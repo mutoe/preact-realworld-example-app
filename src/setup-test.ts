@@ -20,7 +20,7 @@ declare global {
       Event: typeof Event;
       Node: typeof Node;
       document: Document;
-      window: DOMWindow;
+      window: DOMWindow & Window & typeof globalThis;
       navigator: Navigator;
       requestAnimationFrame: AnimationFrameProvider['requestAnimationFrame'];
       cancelAnimationFrame: AnimationFrameProvider['cancelAnimationFrame'];
@@ -32,7 +32,7 @@ declare global {
 
 global.Event = dom.window.Event
 global.Node = dom.window.Node
-global.window = dom.window
+global.window = dom.window as any
 global.document = dom.window.document
 global.requestAnimationFrame = dom.window.requestAnimationFrame
 global.cancelAnimationFrame = dom.window.cancelAnimationFrame
