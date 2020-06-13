@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@master
 
     - name: Use Node.js 12.x
       uses: actions/setup-node@v1
@@ -42,15 +42,16 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: build
-      run: yarn build
+      run: |
+        cp .env .env.local
+        sed -i "/BASE_URL/s#/#/preact-realworld-example-app/#" .env.local
+        yarn build
 
     - name: deploy
-      uses: AEnterprise/rsync-deploy@v1.0
+      uses: s0/git-publish-subdir-action@master
       env:
-        DEPLOY_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        ARGS: "-e -c -r --delete"
-        SERVER_IP: ${{ secrets.SERVER_IP }}
-        SERVER_PORT: ${{ secrets.SERVER_PORT }}
-        USERNAME: ${{ secrets.SERVER_USERNAME }}
+        REPO: self
+        BRANCH: gh-pages
         FOLDER: dist
-        SERVER_DESTINATION: ${{ secrets.SERVER_DEST }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

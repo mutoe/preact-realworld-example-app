@@ -26,3 +26,7 @@ report.*.json
 # Build files
 /dist
 /stats.json
+
+# Env file
+.env.local
+.env.*.local
