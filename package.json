@@ -1,6 +1,6 @@
 {
   "name": "preact-realworld-example-app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "> ### [Preact X](https://github.com/developit/preact) codebase containing real world examples (typescript, preact-hooks, preact-router, fetch, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.",
   "keywords": [
     "realworld",
