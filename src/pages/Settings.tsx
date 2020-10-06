@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
 import { useRootState } from '../store'
 import { useEffect, useState } from 'preact/hooks'
 import { route } from 'preact-router'
@@ -13,7 +13,7 @@ interface FormState {
   password?: string;
 }
 
-export default function Settings () {
+const Settings: FunctionalComponent = () => {
   const [{ user }, dispatch] = useRootState()
   const [form, setForm] = useState<FormState>({})
 
@@ -107,3 +107,4 @@ export default function Settings () {
     </div>
   )
 }
+export default Settings

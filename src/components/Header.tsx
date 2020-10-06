@@ -1,8 +1,8 @@
-import { Fragment, h } from 'preact'
+import { Fragment, FunctionalComponent, h } from 'preact'
 import { Link } from 'preact-router'
 import { useRootState } from '../store'
 
-export default function Header () {
+const Header: FunctionalComponent = () => {
   const [{ user }] = useRootState()
 
   return <nav className="navbar navbar-light">
@@ -16,9 +16,9 @@ export default function Header () {
           user ? (
             <Fragment>
               <li className="nav-item">
-                <a className="nav-link" href="/article/create">
+                <Link className="nav-link" href="/article/create">
                   <i className="ion-compose" /> New Post
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" activeClassName="active" href="/settings">
@@ -46,3 +46,5 @@ export default function Header () {
     </div>
   </nav>
 }
+
+export default Header

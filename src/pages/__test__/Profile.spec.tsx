@@ -131,6 +131,5 @@ describe('# Follow user', () => {
     wrapper.update()
 
     expect(wrapper.find('.user-info .action-btn').props().href).toBe('/settings')
-    expect(wrapper.find('.user-info .action-btn').text()).toContain('Edit profile')
   })
 })

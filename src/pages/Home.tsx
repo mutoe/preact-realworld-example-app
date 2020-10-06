@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
 import NavBar from '../components/NavBar'
 import PopularTags from '../components/PopularTags'
 import { getArticles, getArticlesByTag, getFeeds } from '../services'
@@ -11,7 +11,7 @@ interface HomeProps {
   tag?: string;
 }
 
-export default function Home (props: HomeProps) {
+const Home: FunctionalComponent<HomeProps> = (props) => {
   const [articles, setArticles] = useState<Article[]>([])
   const [articlesCount, setArticlesCount] = useState(0)
   const [page, setPage] = useState(1)
@@ -85,3 +85,4 @@ export default function Home (props: HomeProps) {
     </div>
   )
 }
+export default Home

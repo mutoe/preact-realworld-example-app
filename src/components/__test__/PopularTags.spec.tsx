@@ -22,25 +22,6 @@ describe('# Popular Tags Component', () => {
     expect(wrapper.text()).toContain('Popular Tags')
   })
 
-  it('should display tags those have in state', async function () {
-    getAllTagsMock.mockResolvedValue(['javascript', 'node'])
-    const wrapper = shallow(<PopularTags />)
-    await new Promise(r => setImmediate(r))
-
-    expect(wrapper.text()).toContain('javascript')
-    expect(wrapper.text()).toContain('node')
-    expect(wrapper.text()).not.toContain('rails')
-  })
-
-  it('should jump to the tag relative list when a tag clicked', async function () {
-    getAllTagsMock.mockResolvedValue(['javascript'])
-    const wrapper = shallow(<PopularTags />)
-    await new Promise(r => setImmediate(r))
-    const targetTag = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'javascript')
-
-    expect(targetTag.props().href).toBe('/tag/javascript')
-  })
-
   it('should request all tags when component did mounted', function () {
     shallow(<PopularTags />)
 

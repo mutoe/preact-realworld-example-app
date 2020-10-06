@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { FunctionComponent, h } from 'preact'
 import { dateFilter } from '../utils/filters'
 import { DEFAULT_AVATAR } from '../store/constants'
 import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../services'
@@ -8,7 +8,7 @@ interface ArticleMetaProps {
   setArticle: (article: Article) => void;
 }
 
-export default function ArticleMeta (props: ArticleMetaProps) {
+const ArticleMeta: FunctionComponent<ArticleMetaProps> = (props) => {
   const { article, setArticle } = props
 
   const onFollowProfile = async () => {
@@ -53,3 +53,4 @@ export default function ArticleMeta (props: ArticleMetaProps) {
     </div>
   )
 }
+export default ArticleMeta

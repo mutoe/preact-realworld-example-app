@@ -1,4 +1,5 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
+import { Link } from 'preact-router'
 import { deleteFollowProfile, getProfile, getProfileArticles, postFollowProfile } from '../services'
 import { useEffect, useState } from 'preact/hooks'
 import ArticlePreview from '../components/ArticlePreview'
@@ -10,7 +11,7 @@ interface ProfileProps {
   favorites?: boolean;
 }
 
-export default function Profile (props: ProfileProps) {
+const Profile: FunctionalComponent<ProfileProps> = (props) => {
   const username = props.username?.replace(/^@/, '') || ''
   const [user, setUser] = useState({} as Profile)
   const [articles, setArticles] = useState<Article[]>([])
@@ -61,11 +62,11 @@ export default function Profile (props: ProfileProps) {
               <h4>{username}</h4>
               <p>{user.bio}</p>
               {loggedUser ? (
-                <a href="/settings" className="btn btn-sm btn-outline-secondary action-btn">
+                <Link href="/settings" className="btn btn-sm btn-outline-secondary action-btn">
                   <i className="ion-gear-a" />
                   &nbsp;
                   Edit profile settings
-                </a>
+                </Link>
               ) : (
                 <button className="btn btn-sm btn-outline-secondary action-btn" onClick={onFollowUser}>
                   <i className="ion-plus-round" />
@@ -85,6 +86,7 @@ export default function Profile (props: ProfileProps) {
           <div className="col-xs-12 col-md-10 offset-md-1">
             <div className="articles-toggle">
               <ul className="nav nav-pills outline-active">
+                {/* TODO: add link */}
                 <li className="nav-item">
                   <a className="nav-link active" href="">My Articles</a>
                 </li>
@@ -106,3 +108,5 @@ export default function Profile (props: ProfileProps) {
     </div>
   )
 }
+
+export default Profile

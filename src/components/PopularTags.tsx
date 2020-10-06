@@ -1,7 +1,8 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
+import { Link } from 'preact-router'
 import useAllTags from '../hooks/useAllTags'
 
-export default function PopularTags () {
+const PopularTags: FunctionalComponent = () => {
   const { tags } = useAllTags()
 
   return (
@@ -10,9 +11,11 @@ export default function PopularTags () {
 
       <div className="tag-list">
         {tags.map(tag => (
-          <a key={tag} href={`/tag/${tag}`} className="tag-pill tag-default">{tag}</a>
+          <Link key={tag} href={`/tag/${tag}`} className="tag-pill tag-default">{tag}</Link>
         ))}
       </div>
     </div>
   )
 }
+
+export default PopularTags

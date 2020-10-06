@@ -113,6 +113,8 @@
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "react/self-closing-comp": "error",
+      "react/prop-types": "off",
+      "react/display-name": "off",
       "react/no-unescaped-entities": "off"
     }
   },

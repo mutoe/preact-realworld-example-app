@@ -1,6 +1,6 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
 
-export default function Footer () {
+const Footer: FunctionalComponent = () => {
   return (
     <footer>
       <div className="container">
@@ -12,3 +12,5 @@ export default function Footer () {
     </footer>
   )
 }
+
+export default Footer

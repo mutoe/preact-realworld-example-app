@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
 import { deleteFavoriteArticle, postFavoriteArticle } from '../services'
 import { useEffect, useState } from 'preact/hooks'
 import { DEFAULT_AVATAR } from '../store/constants'
@@ -8,7 +8,7 @@ interface ArticlePreviewProps {
   setArticle: (article: Article) => void;
 }
 
-export default function ArticlePreview (props: ArticlePreviewProps) {
+const ArticlePreview: FunctionalComponent<ArticlePreviewProps> = (props) => {
   const { article, setArticle } = props
   const [isFavorited, setIsFavorited] = useState(false)
 
@@ -51,3 +51,5 @@ export default function ArticlePreview (props: ArticlePreviewProps) {
     </div>
   )
 }
+
+export default ArticlePreview

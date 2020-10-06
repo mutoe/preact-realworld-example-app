@@ -1,9 +1,9 @@
-import { createRef, h } from 'preact'
+import { createRef, FunctionalComponent, h } from 'preact'
 import { postRegister } from '../services'
 import { route } from 'preact-router'
 import { useState } from 'preact/hooks'
 
-export default function Register () {
+const Register: FunctionalComponent = () => {
   const formRef = createRef<HTMLFormElement>()
   const [errors, setErrors] = useState<Record<string, string[]>>({})
   const [form, setForm] = useState({
@@ -79,3 +79,5 @@ export default function Register () {
     </div>
   )
 }
+
+export default Register

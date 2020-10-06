@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
 import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../services'
 import { useEffect, useState } from 'preact/hooks'
 import ArticleMeta from '../components/ArticleMeta'
@@ -10,7 +10,7 @@ interface ArticlePageProps {
   slug: string;
 }
 
-export default function ArticlePage (props: ArticlePageProps) {
+const ArticlePage: FunctionalComponent<ArticlePageProps> = (props) => {
   const { slug } = props
   const [article, setArticle] = useState({ author: {} } as Article)
   const [comments, setComments] = useState<ArticleComment[]>([])
@@ -98,3 +98,4 @@ export default function ArticlePage (props: ArticlePageProps) {
     </div>
   )
 }
+export default ArticlePage

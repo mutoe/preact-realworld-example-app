@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
 import { useRootState } from '../store'
 
 interface NavBarProps {
@@ -6,7 +6,7 @@ interface NavBarProps {
   tag?: string;
 }
 
-export default function NavBar (props: NavBarProps = {}) {
+const NavBar: FunctionalComponent<NavBarProps> = (props) => {
   const [{ user }] = useRootState()
 
   return (
@@ -36,3 +36,5 @@ export default function NavBar (props: NavBarProps = {}) {
     </div>
   )
 }
+
+export default NavBar

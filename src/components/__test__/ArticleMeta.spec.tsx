@@ -8,6 +8,8 @@ import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFo
 jest.mock('../../services')
 
 describe('# Article meta component', function () {
+  const setArticle = jest.fn()
+
   it('should match snapshot', function () {
     const article = {
       title: 'title',
@@ -26,7 +28,7 @@ describe('# Article meta component', function () {
         following: false,
       },
     }
-    const wrapper = render(<ArticleMeta article={article} />)
+    const wrapper = render(<ArticleMeta article={article} setArticle={setArticle} />)
 
     expect(wrapper).toMatchSnapshot()
   })
@@ -34,7 +36,7 @@ describe('# Article meta component', function () {
   it('should follow user correctly', async function () {
     const article = generateArticles()
     article.author.following = false
-    const wrapper = shallow(<ArticleMeta article={article} />)
+    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />)
     const followButton = wrapper.find('.ion-plus-round').parents('button')
     followButton.simulate('click')
 
@@ -45,7 +47,7 @@ describe('# Article meta component', function () {
   it('should unfollow user correctly', async function () {
     const article = generateArticles()
     article.author.following = true
-    const wrapper = shallow(<ArticleMeta article={article} />)
+    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />)
     const followButton = wrapper.find('.ion-plus-round').parents('button')
     followButton.simulate('click')
 
@@ -56,7 +58,7 @@ describe('# Article meta component', function () {
   it('should favorite article correctly', function () {
     const article = generateArticles()
     article.favorited = false
-    const wrapper = shallow(<ArticleMeta article={article} />)
+    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />)
     const favoriteButton = wrapper.find('.ion-heart').parents('button')
     favoriteButton.simulate('click')
 
@@ -64,10 +66,10 @@ describe('# Article meta component', function () {
     expect(postFavoriteArticle).toBeCalledWith(article.slug)
   })
 
-  it('should unfavorite article correctly', function () {
+  it('should unfavored article correctly', function () {
     const article = generateArticles()
     article.favorited = true
-    const wrapper = shallow(<ArticleMeta article={article} />)
+    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />)
     const favoriteButton = wrapper.find('.ion-heart').parents('button')
     favoriteButton.simulate('click')
 

@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
 import { dateFilter } from '../utils/filters'
 import { useRootState } from '../store'
 import { DEFAULT_AVATAR } from '../store/constants'
@@ -8,7 +8,7 @@ interface ArticleCommentCardProps {
   onDelete?: (commentId: number) => void;
 }
 
-export default function ArticleCommentCard (props: ArticleCommentCardProps) {
+const ArticleCommentCard: FunctionalComponent<ArticleCommentCardProps> = (props) => {
   const { comment, onDelete } = props
   const [{ user }] = useRootState()
 
@@ -38,3 +38,5 @@ export default function ArticleCommentCard (props: ArticleCommentCardProps) {
     </div>
   )
 }
+
+export default ArticleCommentCard

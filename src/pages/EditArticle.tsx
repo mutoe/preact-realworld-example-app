@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 import { getArticle, postArticle, putArticle } from '../services'
 import { route } from 'preact-router'
@@ -14,7 +14,7 @@ interface FormState {
   tagList: string[];
 }
 
-export default function EditArticle (props: EditArticleProps) {
+const EditArticle: FunctionalComponent<EditArticleProps> = (props) => {
   const [form, setForm] = useState<FormState>({
     title: '',
     description: '',
@@ -98,3 +98,4 @@ export default function EditArticle (props: EditArticleProps) {
     </div>
   )
 }
+export default EditArticle

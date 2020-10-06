@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { FunctionalComponent, h } from 'preact'
 import { limit } from '../services'
 
 interface PaginationProps {
@@ -8,7 +8,7 @@ interface PaginationProps {
   setPage: (page: number) => void;
 }
 
-export default function Pagination (props: PaginationProps) {
+const Pagination: FunctionalComponent<PaginationProps> = (props) => {
   const pagesCount = Math.ceil(props.count / limit)
   const countArray = new Array(pagesCount).fill('')
   const isActive = (index: number) => props.page === index + 1 ? 'active' : ''
@@ -23,3 +23,5 @@ export default function Pagination (props: PaginationProps) {
     </ul>
   )
 }
+
+export default Pagination
