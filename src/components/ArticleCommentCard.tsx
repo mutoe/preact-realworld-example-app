@@ -2,7 +2,6 @@ import { h } from 'preact'
 import { dateFilter } from '../utils/filters'
 import { useRootState } from '../store'
 import { DEFAULT_AVATAR } from '../store/constants'
-import noop from '../utils/noop'
 
 interface ArticleCommentCardProps {
   comment: ArticleComment;
@@ -10,7 +9,7 @@ interface ArticleCommentCardProps {
 }
 
 export default function ArticleCommentCard (props: ArticleCommentCardProps) {
-  const { comment, onDelete = noop } = props
+  const { comment, onDelete } = props
   const [{ user }] = useRootState()
 
   const isMineComment = user?.username === comment.author.username
@@ -32,7 +31,7 @@ export default function ArticleCommentCard (props: ArticleCommentCardProps) {
         <span className="mod-options">
           {/* <i className="ion-edit" /> */}
           {isMineComment && (
-            <i className="ion-trash-a" onClick={() => onDelete(comment.id)} />
+            <i className="ion-trash-a" onClick={() => onDelete?.(comment.id)} />
           )}
         </span>
       </div>
