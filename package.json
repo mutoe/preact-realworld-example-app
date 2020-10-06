@@ -64,11 +64,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn test"
     }
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": "yarn lint --fix"
+    "src/**/*.{ts,tsx}": "eslint --fix"
   },
   "eslintConfig": {
     "env": {
