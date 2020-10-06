@@ -20,7 +20,7 @@
   "main": "src/index.tsx",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack --mode=production",
+    "build": "cross-env NODE_ENV=production webpack",
     "lint": "eslint src/**/*.{tsx,ts}",
     "test": "jest",
     "analyzer": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json dist -s gzip"
@@ -38,6 +38,7 @@
     "@types/mockjs": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^2.8.0",
     "@typescript-eslint/parser": "^2.8.0",
+    "cross-env": "^7.0.2",
     "dotenv-webpack": "^1.7.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-preact-pure": "^2.2.0",

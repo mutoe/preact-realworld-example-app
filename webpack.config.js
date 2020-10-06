@@ -1,36 +1,39 @@
-const path = require("path")
-const HTMLWebpackPlugin = require("html-webpack-plugin")
-const DotEnv = require("dotenv-webpack")
+const path = require('path')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
+const DotEnv = require('dotenv-webpack')
+
+const isDev = process.env.NODE_ENV !== 'production'
+console.log(isDev)
 
 module.exports = {
-  mode: "development",
-  entry: "./src/index.tsx",
+  mode: isDev ? 'development' : 'production',
+  devtool: isDev ? 'eval-cheap-module-source-map' : false,
+  entry: './src/index.tsx',
   output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: [ ".ts", ".tsx", ".js" ],
+    extensions: [ '.ts', '.tsx', '.js' ],
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: 'ts-loader',
       },
     ],
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: "public/index.html",
+      template: 'public/index.html',
     }),
     new DotEnv(),
   ],
-  devtool: "eval-cheap-module-source-map",
   devServer: {
     proxy: {
-      "/api": {
-        target: "https://conduit.productionready.io",
+      '/api': {
+        target: 'https://conduit.productionready.io',
       },
     },
   },
