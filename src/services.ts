@@ -1,5 +1,4 @@
 import FetchRequest from './utils/request'
-import parseStorageGet from './utils/parse-storage-get'
 
 export const limit = 10
 
@@ -7,7 +6,6 @@ export const request = new FetchRequest({
   prefix: `${process.env.API_HOST}/api`,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Token ${parseStorageGet('user')?.token}`,
   },
 })
 
