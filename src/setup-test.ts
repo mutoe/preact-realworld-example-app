@@ -4,6 +4,7 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference types="enzyme-adapter-preact-pure"/>
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { JSDOM, DOMWindow } from 'jsdom'
 
 import { configure } from 'enzyme'
@@ -44,16 +45,16 @@ const localStorageMock = (function () {
   let store: Record<string, any> = {}
 
   return {
-    getItem(key: string) {
+    getItem (key: string) {
       return store[key] || null
     },
-    setItem(key: string, value: any) {
+    setItem (key: string, value: any) {
       store[key] = value.toString()
     },
-    removeItem(key: string) {
+    removeItem (key: string) {
       delete store[key]
     },
-    clear() {
+    clear () {
       store = {}
     },
   }

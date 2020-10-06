@@ -1,18 +1,8 @@
 import { h } from 'preact'
-import { getAllTags } from '../services'
-import { useEffect, useState } from 'preact/hooks'
+import useAllTags from '../hooks/useAllTags'
 
-export default function PopularTags() {
-  const [ tags, setTags ] = useState<string[]>([])
-
-  const fetchPopularTags = async () => {
-    const tags = await getAllTags()
-    setTags(tags)
-  }
-
-  useEffect(() => {
-    fetchPopularTags()
-  }, [])
+export default function PopularTags () {
+  const { tags } = useAllTags()
 
   return (
     <div className="sidebar">

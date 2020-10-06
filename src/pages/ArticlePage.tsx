@@ -10,12 +10,12 @@ interface ArticlePageProps {
   slug: string;
 }
 
-export default function ArticlePage(props: ArticlePageProps) {
+export default function ArticlePage (props: ArticlePageProps) {
   const { slug } = props
-  const [ article, setArticle ] = useState({ author: {} } as Article)
-  const [ comments, setComments ] = useState<ArticleComment[]>([])
-  const [ commentBody, setCommentBody ] = useState('')
-  const [ { user } ] = useRootState()
+  const [article, setArticle] = useState({ author: {} } as Article)
+  const [comments, setComments] = useState<ArticleComment[]>([])
+  const [commentBody, setCommentBody] = useState('')
+  const [{ user }] = useRootState()
 
   const fetchArticle = async () => {
     const article = await getArticle(slug)
@@ -35,7 +35,7 @@ export default function ArticlePage(props: ArticlePageProps) {
   const onPostComment = async () => {
     const comment = await postComment(slug, commentBody)
     setCommentBody('')
-    setComments(prevComments => [ comment, ...prevComments ])
+    setComments(prevComments => [comment, ...prevComments])
   }
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function ArticlePage(props: ArticlePageProps) {
       await fetchArticle()
       await fetchComments()
     })()
-  }, [ slug ])
+  }, [slug])
 
   return (
     <div className="article-page">

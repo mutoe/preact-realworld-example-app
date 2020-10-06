@@ -9,7 +9,7 @@ jest.mock('../../store')
 const useRootStateMock = useRootState as jest.Mock
 
 beforeEach(() => {
-  useRootStateMock.mockReturnValue([ { user: null } ])
+  useRootStateMock.mockReturnValue([{ user: null }])
 })
 
 afterEach(() => {
@@ -31,7 +31,7 @@ describe('# Navigation Bar Component', () => {
   })
 
   it('should jump to My Feed page when "Your Feed" clicked', function () {
-    useRootStateMock.mockReturnValue([ { user: { username: 'foo' } } ])
+    useRootStateMock.mockReturnValue([{ user: { username: 'foo' } }])
     const wrapper = shallow(<NavBar />)
     const myFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Your Feed')
 
@@ -58,14 +58,14 @@ describe('# Navigation Bar Component', () => {
   })
 
   it('should display "Your Feed" link when logged', function () {
-    useRootStateMock.mockReturnValue([ { user: {} } ])
+    useRootStateMock.mockReturnValue([{ user: {} }])
 
     const html = render(<NavBar />)
     expect(html).toContain('Your Feed')
   })
 
   it('should highlight global feed and not highlight personal label in home page and user logged', function () {
-    useRootStateMock.mockReturnValue([ { user: {} } ])
+    useRootStateMock.mockReturnValue([{ user: {} }])
     const wrapper = shallow(<NavBar currentActive="global" />)
 
     const globalFeedLink = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'Global Feed')

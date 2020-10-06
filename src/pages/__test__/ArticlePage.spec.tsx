@@ -28,7 +28,7 @@ beforeEach(() => {
   getArticleMock.mockResolvedValue({ author: {} } as Article)
   getCommentsByArticleMock.mockResolvedValue([])
   postCommentMock.mockResolvedValue({ author: {} } as ArticleComment)
-  useRootStateMock.mockReturnValue([ { user: loggedUser }, jest.fn() ])
+  useRootStateMock.mockReturnValue([{ user: loggedUser }, jest.fn()])
 })
 
 afterEach(() => {
@@ -36,7 +36,6 @@ afterEach(() => {
 })
 
 describe('# Article Page', function () {
-
   it('should request article when page loaded', async function () {
     const article = generateArticles()
     getArticleMock.mockResolvedValue(article)
@@ -77,7 +76,7 @@ describe('# Article Page', function () {
   it('should request delete comment and remove from list when delete comment triggered', async function () {
     deleteCommentMock.mockResolvedValue({})
     const comment = generateComments()
-    getCommentsByArticleMock.mockResolvedValue([ comment ])
+    getCommentsByArticleMock.mockResolvedValue([comment])
     const wrapper = shallow(<ArticlePage slug="slug" />)
     await new Promise(r => setImmediate(r))
     const commentWrap = wrapper.find(ArticleCommentCard)

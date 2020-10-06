@@ -72,7 +72,7 @@ describe('# Create Article', function () {
     wrapper.find('form').simulate('submit')
 
     expect(postArticle).toBeCalledWith(expect.objectContaining({
-      tagList: [ 'foo', 'bar' ],
+      tagList: ['foo', 'bar'],
     }))
   })
 })

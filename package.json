@@ -43,8 +43,13 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-preact-pure": "^2.2.0",
     "eslint": "^6.6.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^23.0.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-standard": "^4.0.1",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^4.2.3",
     "jest": "^25.1.0",
@@ -90,11 +95,8 @@
         "jsx": true
       }
     },
-    "plugins": [
-      "@typescript-eslint",
-      "jest"
-    ],
     "extends": [
+      "standard",
       "eslint:recommended",
       "plugin:react/recommended",
       "plugin:jest/recommended",
@@ -102,21 +104,15 @@
       "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-      "semi": "off",
-      "indent": [
-        "error",
-        2
-      ],
       "comma-dangle": [
         "error",
         "always-multiline"
       ],
-      "react/self-closing-comp": [
-        "error"
-      ],
+      "promise/param-names": "off",
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
+      "react/self-closing-comp": "error",
       "react/no-unescaped-entities": "off"
     }
   },

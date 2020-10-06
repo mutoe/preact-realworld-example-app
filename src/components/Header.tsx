@@ -2,8 +2,8 @@ import { Fragment, h } from 'preact'
 import { Link } from 'preact-router'
 import { useRootState } from '../store'
 
-export default function Header() {
-  const [ { user } ] = useRootState()
+export default function Header () {
+  const [{ user }] = useRootState()
 
   return <nav className="navbar navbar-light">
     <div className="container">
@@ -46,4 +46,3 @@ export default function Header() {
     </div>
   </nav>
 }
-

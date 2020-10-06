@@ -13,23 +13,23 @@ interface FormState {
   password?: string;
 }
 
-export default function Settings() {
-  const [ { user }, dispatch ] = useRootState()
-  const [ form, setForm ] = useState<FormState>({})
+export default function Settings () {
+  const [{ user }, dispatch] = useRootState()
+  const [form, setForm] = useState<FormState>({})
 
-  function onLogout() {
+  function onLogout () {
     dispatch({ type: UPDATE_USER })
   }
 
-  async function onSubmit() {
+  async function onSubmit () {
     // filter empty fields from form
-    const filteredForm = Object.entries(form).reduce((a, [ k, v ]) => (v == null ? a : { ...a, [k]: v }), {})
+    const filteredForm = Object.entries(form).reduce((a, [k, v]) => (v == null ? a : { ...a, [k]: v }), {})
     const profile = await putProfile(filteredForm)
     dispatch({ type: UPDATE_USER, user: profile })
   }
 
   useEffect(() => {
-    if (!user) {route('/login')} else {
+    if (!user) { route('/login') } else {
       setForm({
         image: user.image || undefined,
         username: user.username || undefined,
@@ -37,15 +37,15 @@ export default function Settings() {
         email: user.email || undefined,
       })
     }
-  }, [ user ])
+  }, [user])
 
   if (!user) return null
 
-  const buttonDisabled = form.image == user.image
-    && form.username == user.username
-    && form.email == user.email
-    && form.bio == user.bio
-    && !form.password
+  const buttonDisabled = form.image === user.image &&
+    form.username === user.username &&
+    form.email === user.email &&
+    form.bio === user.bio &&
+    !form.password
 
   return (
     <div className="settings-page">

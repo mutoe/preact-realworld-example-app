@@ -19,7 +19,7 @@ type RootContextProps = [
 export const RootContext = createContext<RootContextProps>({} as RootContextProps)
 
 export const RootProvider = (props: { children: VNode | VNode[] }) => {
-  const [ state, dispatch ] = useReducer(reducer, initialRootState)
+  const [state, dispatch] = useReducer(reducer, initialRootState)
 
   request.options.responseInterceptor = (response) => {
     if (response.status === 401) {
@@ -33,7 +33,7 @@ export const RootProvider = (props: { children: VNode | VNode[] }) => {
   }, [])
 
   return (
-    <RootContext.Provider value={[ state, dispatch ]}>
+    <RootContext.Provider value={[state, dispatch]}>
       {props.children}
     </RootContext.Provider>
   )

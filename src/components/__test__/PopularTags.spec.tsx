@@ -23,7 +23,7 @@ describe('# Popular Tags Component', () => {
   })
 
   it('should display tags those have in state', async function () {
-    getAllTagsMock.mockResolvedValue([ 'javascript', 'node' ])
+    getAllTagsMock.mockResolvedValue(['javascript', 'node'])
     const wrapper = shallow(<PopularTags />)
     await new Promise(r => setImmediate(r))
 
@@ -33,7 +33,7 @@ describe('# Popular Tags Component', () => {
   })
 
   it('should jump to the tag relative list when a tag clicked', async function () {
-    getAllTagsMock.mockResolvedValue([ 'javascript' ])
+    getAllTagsMock.mockResolvedValue(['javascript'])
     const wrapper = shallow(<PopularTags />)
     await new Promise(r => setImmediate(r))
     const targetTag = wrapper.findWhere(n => n.type() === 'a' && n.text() === 'javascript')

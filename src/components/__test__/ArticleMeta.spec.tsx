@@ -15,7 +15,7 @@ describe('# Article meta component', function () {
       body: 'body',
       createdAt: '1991-09-29T00:00:00.000Z',
       updatedAt: '2016-10-14T00:00:00.000Z',
-      tagList: [ 'foo', 'bar', 'baz' ],
+      tagList: ['foo', 'bar', 'baz'],
       description: 'description',
       favorited: false,
       favoritesCount: 34,

@@ -17,7 +17,7 @@ describe('# Actions', function () {
 
   it('should be trigger SET_ERRORS action after login failed with error message', async function () {
     const errors = {
-      password: [ 'is valid' ],
+      password: ['is valid'],
     }
     postLoginMock.mockRejectedValue({ errors })
 

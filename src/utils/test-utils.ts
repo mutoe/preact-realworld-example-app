@@ -1,7 +1,7 @@
 import mockjs, { Random } from 'mockjs'
 import { ReactWrapper } from 'enzyme'
 
-export function generateProfile(): Profile {
+export function generateProfile (): Profile {
   return mockjs.mock({
     username: Random.name(),
     bio: Random.sentence(),
@@ -12,7 +12,7 @@ export function generateProfile(): Profile {
 
 export function generateArticles(): Article
 export function generateArticles(count: number): Article[]
-export function generateArticles(count = 1): Article | Article[] {
+export function generateArticles (count = 1): Article | Article[] {
   const title = Random.title()
   const slug = `${title.replace(/[ -]/g, '-')}-${Number(new Date()).toString(36)}`
   return mockjs.mock({
@@ -23,7 +23,7 @@ export function generateArticles(count = 1): Article | Article[] {
         body: Random.paragraph(),
         createdAt: new Date(Random.date()).toISOString(),
         updatedAt: new Date(Random.date()).toISOString(),
-        'tagList|3': [ () => Random.word() ],
+        'tagList|3': [() => Random.word()],
         description: Random.sentence(),
         author: () => generateProfile(),
         favorited: Random.boolean(),
@@ -44,7 +44,7 @@ export const getInputValue = (wrapper: ReactWrapper<any>, selector: string): str
 
 export function generateComments(): ArticleComment
 export function generateComments(count: number): ArticleComment[]
-export function generateComments(count = 1): ArticleComment | ArticleComment[] {
+export function generateComments (count = 1): ArticleComment | ArticleComment[] {
   return mockjs.mock({
     [`comments|${count}`]: [
       {

@@ -1,7 +1,6 @@
 import parseStorageGet from '../parse-storage-get'
 
 describe('# parse storage get', function () {
-
   it('should get an object given valid local storage item', function () {
     jest.spyOn(global.localStorage, 'getItem')
       .mockReturnValue(JSON.stringify({ foo: 'bar' }))

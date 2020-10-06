@@ -3,10 +3,10 @@ import { postRegister } from '../services'
 import { route } from 'preact-router'
 import { useState } from 'preact/hooks'
 
-export default function Register() {
+export default function Register () {
   const formRef = createRef<HTMLFormElement>()
-  const [ errors, setErrors ] = useState<Record<string, string[]>>({})
-  const [ form, setForm ] = useState({
+  const [errors, setErrors] = useState<Record<string, string[]>>({})
+  const [form, setForm] = useState({
     username: '',
     email: '',
     password: '',
@@ -37,7 +37,7 @@ export default function Register() {
 
             <ul className="error-messages">
               {
-                Object.entries(errors || {}).map(([ field, errors ]) => {
+                Object.entries(errors || {}).map(([field, errors]) => {
                   return <li key={field}>{field} {errors[0]}</li>
                 })
               }

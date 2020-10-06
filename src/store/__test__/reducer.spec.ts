@@ -19,7 +19,7 @@ describe('# Reducer', function () {
   })
 
   it('should update error state when SET_ERRORS triggered', function () {
-    const rootState = reducer(initState, { type: SET_ERRORS, errors: { foo: [ 'bar' ] } })
+    const rootState = reducer(initState, { type: SET_ERRORS, errors: { foo: ['bar'] } })
 
     expect(rootState).toMatchObject({ errors: { foo: ['bar'] } })
   })

@@ -4,10 +4,10 @@ import { useEffect, useState } from 'preact/hooks'
 import { useRootState } from '../store'
 import { login } from '../store/actions'
 
-export default function Register() {
+export default function Register () {
   const formRef = createRef<HTMLFormElement>()
-  const [ { user, errors }, dispatch ] = useRootState()
-  const [ form, setForm ] = useState({
+  const [{ user, errors }, dispatch] = useRootState()
+  const [form, setForm] = useState({
     email: '',
     password: '',
   })
@@ -22,7 +22,7 @@ export default function Register() {
   // route to home page after user logged
   useEffect(() => {
     if (user) route('/')
-  }, [ user ])
+  }, [user])
 
   return (
     <div className="auth-page">
@@ -36,7 +36,7 @@ export default function Register() {
             </p>
 
             <ul className="error-messages">
-              {Object.entries(errors || {}).map(([ field, errors ]) => (
+              {Object.entries(errors || {}).map(([field, errors]) => (
                 <li key={field}>{field} {errors[0]}</li>
               ))}
             </ul>
@@ -70,5 +70,4 @@ export default function Register() {
       </div>
     </div>
   )
-
 }

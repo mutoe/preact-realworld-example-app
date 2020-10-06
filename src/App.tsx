@@ -12,7 +12,7 @@ import Footer from './components/Footer'
 import { h } from 'preact'
 import { createHashHistory } from 'history'
 
-export default function App() {
+export default function App () {
   return (
     <RootProvider>
       <Header />

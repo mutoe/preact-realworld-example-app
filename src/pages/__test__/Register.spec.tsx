@@ -35,7 +35,7 @@ describe('# Register error message', () => {
   it('should be show error message when given response error', async function () {
     postRegisterMock.mockRejectedValue({
       errors: {
-        'password': [ 'is invalid' ],
+        password: ['is invalid'],
       },
     })
     const wrapper = shallow(<Register />)
@@ -49,8 +49,8 @@ describe('# Register error message', () => {
   it('should be show multiple errors when given multiple response errors', async function () {
     postRegisterMock.mockRejectedValue({
       errors: {
-        'email': [ 'is already exists' ],
-        'password': [ 'is too long' ],
+        email: ['is already exists'],
+        password: ['is too long'],
       },
     })
     const wrapper = shallow(<Register />)
@@ -96,7 +96,7 @@ describe('# Register request', () => {
 
   it('can set error messages correctly when received error response', async function () {
     postRegisterMock.mockRejectedValue({
-      errors: { 'email and password': [ 'is invalid' ] },
+      errors: { 'email and password': ['is invalid'] },
     })
     const wrapper = mount(<Register />)
     setInputValue(wrapper, emailInputSelector, 'bad_account@example.com')
@@ -137,4 +137,3 @@ describe('# Register request', () => {
     expect(global.localStorage.setItem).toBeCalledWith('token', JSON.stringify(resolvedResult))
   })
 })
-

@@ -20,7 +20,7 @@ describe('# Root Component', function () {
       ok: true,
       status: 401,
       statusText: 'Unauthorized',
-      async json() {
+      async json () {
         return {}
       },
     })
@@ -29,5 +29,4 @@ describe('# Root Component', function () {
     expect(route).toBeCalledTimes(1)
     expect(route).toBeCalledWith('/login')
   })
-
 })

@@ -122,4 +122,3 @@ export default class FetchRequest {
       .then(this.handleResponse)
   }
 }
-

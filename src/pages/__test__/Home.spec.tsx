@@ -25,7 +25,7 @@ beforeEach(() => {
     articles: [],
     articlesCount: 0,
   })
-  useRootStateMock.mockReturnValue([ { user: undefined } ])
+  useRootStateMock.mockReturnValue([{ user: undefined }])
 })
 
 afterEach(() => {
@@ -68,7 +68,7 @@ describe('# Feeds list', () => {
   it('should update ArticlePreview component when setArticle called', async function () {
     const article = generateArticles()
     article.favoritesCount = 0
-    getArticlesMock.mockResolvedValue({ articles: [ article ], articlesCount: 1 })
+    getArticlesMock.mockResolvedValue({ articles: [article], articlesCount: 1 })
     const wrapper = shallow(<Home />)
     await new Promise(r => setImmediate(r))
 

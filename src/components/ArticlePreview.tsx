@@ -2,17 +2,18 @@ import { h } from 'preact'
 import { deleteFavoriteArticle, postFavoriteArticle } from '../services'
 import { useEffect, useState } from 'preact/hooks'
 import { DEFAULT_AVATAR } from '../store/constants'
+import noop from '../utils/noop'
 
 interface ArticlePreviewProps {
   article: Article;
   setArticle?: (article: Article) => void;
 }
 
-export default function ArticlePreview(props: ArticlePreviewProps) {
-  const { article, setArticle =  () => void {} } = props
-  const [ isFavorited, setIsFavorited ] = useState(false)
+export default function ArticlePreview (props: ArticlePreviewProps) {
+  const { article, setArticle = noop } = props
+  const [isFavorited, setIsFavorited] = useState(false)
 
-  async function onFavorite() {
+  async function onFavorite () {
     if (article.favorited) {
       const newArticle = await deleteFavoriteArticle(article.slug)
       setArticle(newArticle)
@@ -24,7 +25,7 @@ export default function ArticlePreview(props: ArticlePreviewProps) {
 
   useEffect(() => {
     setIsFavorited(article.favorited)
-  }, [ article ])
+  }, [article])
 
   const favoriteButtonClass = isFavorited
     ? 'btn-primary'

@@ -6,8 +6,8 @@ interface NavBarProps {
   tag?: string;
 }
 
-export default function NavBar(props: NavBarProps = {}) {
-  const [ { user } ] = useRootState()
+export default function NavBar (props: NavBarProps = {}) {
+  const [{ user }] = useRootState()
 
   return (
     <div className="feed-toggle">

@@ -19,7 +19,6 @@ afterEach(() => {
 })
 
 describe('# Service', function () {
-
   test('login', async function () {
     const form = {
       email: 'test@example.com',
@@ -48,7 +47,7 @@ describe('# Service', function () {
       title: 'title',
       description: 'description',
       body: 'body',
-      tagList: [ 'dragons', 'training' ],
+      tagList: ['dragons', 'training'],
     }
     jest.spyOn(FetchRequest.prototype, 'post').mockResolvedValue({ article: form })
     const article = await postArticle(form)

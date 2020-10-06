@@ -2,14 +2,15 @@ import { h } from 'preact'
 import { dateFilter } from '../utils/filters'
 import { DEFAULT_AVATAR } from '../store/constants'
 import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../services'
+import noop from '../utils/noop'
 
 interface ArticleMetaProps {
   article: Article;
   setArticle?: (article: Article) => void;
 }
 
-export default function ArticleMeta(props: ArticleMetaProps) {
-  const { article, setArticle = () => void {} } = props
+export default function ArticleMeta (props: ArticleMetaProps) {
+  const { article, setArticle = noop } = props
 
   const onFollowProfile = async () => {
     if (article.author.following) {

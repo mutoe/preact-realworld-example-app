@@ -20,7 +20,7 @@ beforeEach(() => {
   getProfileMock.mockResolvedValue({} as Profile)
   getArticlesMock.mockResolvedValue({ articles: [], articlesCount: 0 })
   getProfileArticlesMock.mockResolvedValue({ articles: [], articlesCount: 0 })
-  useRootStateMock.mockReturnValue([ {}, jest.fn() ])
+  useRootStateMock.mockReturnValue([{}, jest.fn()])
 })
 
 afterEach(() => {
@@ -72,7 +72,6 @@ describe('# Profile Page', function () {
 
     expect(wrapper.find(ArticlePreview)).toHaveLength(2)
   })
-
 })
 
 describe('# Follow user', () => {
@@ -126,7 +125,7 @@ describe('# Follow user', () => {
 
   it('should display edit profile instead follow in owner self profile page', async function () {
     getProfileMock.mockResolvedValue(loggedUser)
-    useRootStateMock.mockReturnValue([ { user: loggedUser }, jest.fn() ])
+    useRootStateMock.mockReturnValue([{ user: loggedUser }, jest.fn()])
     const wrapper = shallow(<Profile username="@username" />)
     await new Promise(r => setImmediate(r))
     wrapper.update()

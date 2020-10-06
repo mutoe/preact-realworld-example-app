@@ -18,7 +18,7 @@ const emailInputSelector = '[placeholder="Email"]'
 const passwordInputSelector = '[placeholder="Password"]'
 
 beforeEach(() => {
-  useRootStateMock.mockReturnValue([ { user: undefined }, jest.fn() ])
+  useRootStateMock.mockReturnValue([{ user: undefined }, jest.fn()])
 })
 
 afterEach(() => {
@@ -51,8 +51,8 @@ describe('# Login form validate', () => {
       {
         user: null,
         errors: {
-          'email': [ 'is already exists' ],
-          'password': [ 'is too long' ],
+          email: ['is already exists'],
+          password: ['is too long'],
         },
       }, jest.fn(),
     ])
@@ -87,10 +87,9 @@ describe('# Login request', () => {
   })
 
   it('should can goto home page after logged', async function () {
-    useRootStateMock.mockReturnValue([ { user: {} }, jest.fn() ])
+    useRootStateMock.mockReturnValue([{ user: {} }, jest.fn()])
     shallow(<Login />)
 
     expect(route).toBeCalledWith('/')
   })
 })
-

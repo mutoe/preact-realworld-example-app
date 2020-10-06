@@ -1,23 +1,24 @@
 import render from 'preact-render-to-string'
+import noop from '../../utils/noop'
 import Pagination from '../Pagination'
 import { h } from 'preact'
 import { shallow } from 'enzyme'
 
 describe('# Pagination Component', function () {
   it('should display normally', function () {
-    const html = render(<Pagination count={1} page={1} setPage={() => void {}} />)
+    const html = render(<Pagination count={1} page={1} setPage={noop} />)
 
     expect(html).toMatchSnapshot()
   })
 
   it('should display multiple items when count is passed in', function () {
-    const wrapper = shallow(<Pagination count={50} page={1} setPage={() => void {}} />)
+    const wrapper = shallow(<Pagination count={50} page={1} setPage={() => noop} />)
 
     expect(wrapper.find('.page-item')).toHaveLength(5)
   })
 
   it('should highlight current page that is passed in props', function () {
-    const wrapper = shallow(<Pagination count={50} page={2} setPage={() => void {}} />)
+    const wrapper = shallow(<Pagination count={50} page={2} setPage={() => noop} />)
 
     expect(wrapper.find('.page-item').at(1).hasClass('active')).toBeTruthy()
   })
@@ -30,5 +31,4 @@ describe('# Pagination Component', function () {
 
     expect(setPage).toBeCalledWith(2)
   })
-
 })

@@ -12,7 +12,7 @@ const useRootStateMock = useRootState as jest.Mock
 const loggedUser = generateProfile()
 
 beforeEach(() => {
-  useRootStateMock.mockReturnValue([ { user: loggedUser }, jest.fn() ])
+  useRootStateMock.mockReturnValue([{ user: loggedUser }, jest.fn()])
 })
 
 afterEach(jest.clearAllMocks)

@@ -8,7 +8,7 @@ interface PaginationProps {
   setPage: (page: number) => void;
 }
 
-export default function Pagination(props: PaginationProps) {
+export default function Pagination (props: PaginationProps) {
   const pagesCount = Math.ceil(props.count / limit)
   const countArray = new Array(pagesCount).fill('')
   const isActive = (index: number) => props.page === index + 1 ? 'active' : ''

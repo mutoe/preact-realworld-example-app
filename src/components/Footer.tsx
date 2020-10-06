@@ -1,6 +1,6 @@
 import { h } from 'preact'
 
-export default function Footer() {
+export default function Footer () {
   return (
     <footer>
       <div className="container">

@@ -21,7 +21,7 @@ const emailInputSelector = '[placeholder="Email"]'
 const passwordInputSelector = '[placeholder="Password"]'
 
 beforeEach(() => {
-  useRootStateMock.mockReturnValue([ { user: {} }, jest.fn() ])
+  useRootStateMock.mockReturnValue([{ user: {} }, jest.fn()])
 })
 
 afterEach(() => {
@@ -31,7 +31,7 @@ afterEach(() => {
 describe('# Settings page', function () {
   it('should dispatch LOGOUT action when logout button clicked', function () {
     const dispatch = jest.fn()
-    useRootStateMock.mockReturnValue([ { user: {} }, dispatch ])
+    useRootStateMock.mockReturnValue([{ user: {} }, dispatch])
     const wrapper = shallow(<Settings />)
 
     wrapper.find('button.btn-outline-danger').simulate('click')
@@ -40,7 +40,7 @@ describe('# Settings page', function () {
   })
 
   it('should jump to login page after logout or unauthorized', function () {
-    useRootStateMock.mockReturnValue([ { user: null }, jest.fn() ])
+    useRootStateMock.mockReturnValue([{ user: null }, jest.fn()])
     shallow(<Settings />)
 
     expect(route).toBeCalledTimes(1)
@@ -56,7 +56,7 @@ describe('# Settings page', function () {
       image: 'image',
       token: 'token',
     }
-    useRootStateMock.mockReturnValue([ { user }, jest.fn() ])
+    useRootStateMock.mockReturnValue([{ user }, jest.fn()])
     const wrapper = mount(<Settings />)
 
     expect(getInputValue(wrapper, imageInputSelector)).toBe(user.image)
@@ -90,7 +90,7 @@ describe('# Settings page', function () {
 
   it('should update user state after submit', async function () {
     const dispatch = jest.fn()
-    useRootStateMock.mockReturnValue([ { user: {} }, dispatch ])
+    useRootStateMock.mockReturnValue([{ user: {} }, dispatch])
     putProfileMock.mockResolvedValue({ email: 'foo' })
     const wrapper = mount(<Settings />)
     setInputValue(wrapper, emailInputSelector, 'foo')

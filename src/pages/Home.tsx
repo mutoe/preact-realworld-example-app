@@ -11,10 +11,10 @@ interface HomeProps {
   tag?: string;
 }
 
-export default function Home(props: HomeProps) {
-  const [ articles, setArticles ] = useState<Article[]>([])
-  const [ articlesCount, setArticlesCount ] = useState(0)
-  const [ page, setPage ] = useState(1)
+export default function Home (props: HomeProps) {
+  const [articles, setArticles] = useState<Article[]>([])
+  const [articlesCount, setArticlesCount] = useState(0)
+  const [page, setPage] = useState(1)
 
   const currentActive = getCurrentUrl() === '/my-feeds' ? 'personal' : props.tag ? 'tag' : 'global'
 
@@ -23,35 +23,35 @@ export default function Home(props: HomeProps) {
     setArticlesCount(0)
 
     switch (currentActive) {
-    case 'global': {
-      const { articles = [], articlesCount = 0 } = await getArticles(page)
-      setArticles(articles)
-      setArticlesCount(articlesCount)
-      break
-    }
-    case 'tag': {
-      const { articles = [], articlesCount = 0 } = await getArticlesByTag(props.tag!, page)
-      setArticles(articles)
-      setArticlesCount(articlesCount)
-      break
-    }
-    case 'personal': {
-      const { articles = [], articlesCount = 0 } = await getFeeds(page)
-      setArticles(articles)
-      setArticlesCount(articlesCount)
-    }
+      case 'global': {
+        const { articles = [], articlesCount = 0 } = await getArticles(page)
+        setArticles(articles)
+        setArticlesCount(articlesCount)
+        break
+      }
+      case 'tag': {
+        const { articles = [], articlesCount = 0 } = await getArticlesByTag(props.tag!, page)
+        setArticles(articles)
+        setArticlesCount(articlesCount)
+        break
+      }
+      case 'personal': {
+        const { articles = [], articlesCount = 0 } = await getFeeds(page)
+        setArticles(articles)
+        setArticlesCount(articlesCount)
+      }
     }
   }
 
   const setArticle = (articleIndex: number, article: Article) => {
-    const articlesCopy = [ ...articles ]
+    const articlesCopy = [...articles]
     articlesCopy[articleIndex] = article
     setArticles(articlesCopy)
   }
 
   useEffect(() => {
     fetchFeeds()
-  }, [ page, currentActive ])
+  }, [page, currentActive])
 
   return (
     <div className="home-page">

@@ -10,13 +10,13 @@ interface ProfileProps {
   favorites?: boolean;
 }
 
-export default function Profile(props: ProfileProps) {
+export default function Profile (props: ProfileProps) {
   const username = props.username?.replace(/^@/, '') || ''
-  const [ user, setUser ] = useState({} as Profile)
-  const [ articles, setArticles ] = useState<Article[]>([])
-  const [ articlesCount, setArticlesCount ] = useState(0)
-  const [ page, setPage ] = useState(1)
-  const [ { user: loggedUser } ] = useRootState()
+  const [user, setUser] = useState({} as Profile)
+  const [articles, setArticles] = useState<Article[]>([])
+  const [articlesCount, setArticlesCount] = useState(0)
+  const [page, setPage] = useState(1)
+  const [{ user: loggedUser }] = useRootState()
 
   const fetchProfile = async () => {
     const user = await getProfile(username)
@@ -30,7 +30,7 @@ export default function Profile(props: ProfileProps) {
   }
 
   const setArticle = (articleIndex: number, article: Article) => {
-    const articlesCopy = [ ...articles ]
+    const articlesCopy = [...articles]
     articlesCopy[articleIndex] = article
     setArticles(articlesCopy)
   }
@@ -48,7 +48,7 @@ export default function Profile(props: ProfileProps) {
   useEffect(() => {
     fetchProfile()
     fetchArticles()
-  }, [ username ])
+  }, [username])
 
   return (
     <div className="profile-page">

@@ -14,15 +14,15 @@ interface FormState {
   tagList: string[];
 }
 
-export default function EditArticle(props: EditArticleProps) {
-  const [ form, setForm ] = useState<FormState>({
+export default function EditArticle (props: EditArticleProps) {
+  const [form, setForm] = useState<FormState>({
     title: '',
     description: '',
     body: '',
     tagList: [],
   })
 
-  async function onSubmit(e: Event) {
+  async function onSubmit (e: Event) {
     e.preventDefault()
 
     let article: Article
@@ -34,7 +34,7 @@ export default function EditArticle(props: EditArticleProps) {
     route(`/article/${article.slug}`)
   }
 
-  async function fetchArticle(slug: string) {
+  async function fetchArticle (slug: string) {
     const article = await getArticle(slug)
     setForm({
       title: article.title,

@@ -23,7 +23,7 @@ describe('# Article Preview Component', () => {
     const article = generateArticles()
     const wrapper = shallow(<ArticlePreview article={article} />)
 
-    expect(wrapper.find(`.preview-link`).prop(`href`)).toBe(`/article/${article.slug}`)
+    expect(wrapper.find('.preview-link').prop('href')).toBe(`/article/${article.slug}`)
   })
 
   it('should display article meta info correctly', function () {
@@ -45,11 +45,9 @@ describe('# Article Preview Component', () => {
     expect(userImage.prop('href')).toBe(`/@${article.author.username}`)
     expect(userName.prop('href')).toBe(`/@${article.author.username}`)
   })
-
 })
 
 describe('# Favorite article', () => {
-
   it('should display favorites count correctly', function () {
     const article = generateArticles()
     const wrapper = shallow(<ArticlePreview article={article} />)
@@ -101,5 +99,4 @@ describe('# Favorite article', () => {
     expect(setArticle).toBeCalledTimes(1)
     expect(setArticle).toBeCalledWith({ favorited: true, favoritesCount: 1 })
   })
-
 })
