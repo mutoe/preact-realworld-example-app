@@ -30,3 +30,8 @@ report.*.json
 # Env file
 .env.local
 .env.*.local
+
+# Lock files (Not needed for a showcase like this)
+yarn.lock
+package-lock.json
+
