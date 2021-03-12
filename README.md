@@ -1,4 +1,4 @@
-# ![RealWorld Example App](logo.png)
+# ![RealWorld Example App](project-logo.png)
 
 [![Build Status](https://img.shields.io/github/workflow/status/mutoe/preact-realworld-example-app/Node%20CI?style=flat-square)](https://github.com/mutoe/preact-realworld-example-app/actions)
 [![Coverage Status](https://img.shields.io/coveralls/github/mutoe/preact-realworld-example-app?style=flat-square)](https://coveralls.io/github/mutoe/preact-realworld-example-app?branch=master)
