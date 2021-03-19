@@ -1,9 +1,16 @@
-name: Node CI
+name: Test
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
 
 jobs:
-  build:
+  test:
+    name: Test
     env:
       CI: true
 
@@ -12,10 +19,10 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - name: Use Node.js 12.x
+    - name: Use Node.js 14.x
       uses: actions/setup-node@v1
       with:
-        node-version: 12.x
+        node-version: 14.x
 
     - name: Get yarn cache
       id: yarn-cache
@@ -40,18 +47,3 @@ jobs:
       uses: coverallsapp/github-action@v1.0.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: build
-      run: |
-        cp .env .env.local
-        sed -i "/BASE_URL/s#/#/preact-realworld-example-app/#" .env.local
-        yarn build
-
-    - name: deploy
-      uses: s0/git-publish-subdir-action@master
-      env:
-        REPO: self
-        BRANCH: gh-pages
-        FOLDER: dist
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
