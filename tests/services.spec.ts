@@ -1,4 +1,4 @@
-import FetchRequest from '../utils/request'
+import FetchRequest from '../src/utils/request'
 import {
   limit,
   deleteComment,
@@ -11,8 +11,8 @@ import {
   postFavoriteArticle,
   postLogin,
   postRegister,
-} from '../services'
-import { generateArticles, generateComments } from '../utils/test-utils'
+} from '../src/services'
+import { generateArticles, generateComments } from './utils/test-utils'
 
 afterEach(() => {
   jest.clearAllMocks()

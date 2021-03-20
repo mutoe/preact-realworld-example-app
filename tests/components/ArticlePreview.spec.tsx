@@ -1,10 +1,11 @@
-import { generateArticles } from '../../utils/test-utils'
-import ArticlePreview from '../ArticlePreview'
-import { shallow } from 'enzyme'
 import { h } from 'preact'
-import { deleteFavoriteArticle, postFavoriteArticle } from '../../services'
+import { shallow } from 'enzyme'
 
-jest.mock('../../services')
+import { generateArticles } from '../utils/test-utils'
+import ArticlePreview from '../../src/components/ArticlePreview'
+import { deleteFavoriteArticle, postFavoriteArticle } from '../../src/services'
+
+jest.mock('../../src/services')
 
 const setArticle = jest.fn()
 

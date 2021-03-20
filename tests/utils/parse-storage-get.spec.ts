@@ -1,4 +1,4 @@
-import parseStorageGet from '../parse-storage-get'
+import parseStorageGet from '../../src/utils/parse-storage-get'
 
 describe('# parse storage get', function () {
   it('should get an object given valid local storage item', function () {

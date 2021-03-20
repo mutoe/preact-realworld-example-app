@@ -10,7 +10,7 @@ exports[`# Article comment card should render correctly 1`] = `
       <img src="http://dummyimage.com/336x280" class="comment-author-img" />
     </a> 
     <a href="/@Shirley Davis" class="comment-author">Shirley Davis</a>
-    <span class="date-posted">February 19</span>
+    <span class="date-posted">February 18</span>
     <span class="mod-options"></span>
   </div>
 </div>

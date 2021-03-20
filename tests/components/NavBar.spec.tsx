@@ -1,10 +1,11 @@
-import { shallow } from 'enzyme'
-import NavBar from '../NavBar'
 import { h } from 'preact'
 import render from 'preact-render-to-string'
-import { useRootState } from '../../store'
+import { shallow } from 'enzyme'
 
-jest.mock('../../store')
+import NavBar from '../../src/components/NavBar'
+import { useRootState } from '../../src/store'
+
+jest.mock('../../src/store')
 
 const useRootStateMock = useRootState as jest.Mock
 
