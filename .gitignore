@@ -30,3 +30,9 @@ report.*.json
 # Env file
 .env.local
 .env.*.local
+
+
+# Lock files
+yarn.lock
+package-lock.json
+
