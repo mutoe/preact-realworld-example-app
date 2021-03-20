@@ -7,7 +7,7 @@ exports[`# Article meta component should match snapshot 1`] = `
   </a>
   <div class="info">
     <a href="/@Brenda Taylor" class="author">Brenda Taylor</a>
-    <span class="date">September 28</span>
+    <span class="date">September 29</span>
   </div>
   <button class="btn btn-sm btn-outline-secondary">
     <i class="ion-plus-round"></i>Follow Brenda Taylor</button>  
