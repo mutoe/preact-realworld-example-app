@@ -1,7 +1,7 @@
 {
   "name": "preact-realworld-example-app",
-  "private": "true",
-  "homepage": "https://github.com/mutoe/preact-realworld-example-app#readme",
+  "version": "0.1.2",
+  "private": true,
   "scripts": {
     "start": "webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack",
