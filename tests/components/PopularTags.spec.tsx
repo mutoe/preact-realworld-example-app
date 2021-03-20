@@ -1,9 +1,10 @@
-import PopularTags from '../PopularTags'
-import { shallow } from 'enzyme'
 import { h } from 'preact'
-import { getAllTags } from '../../services'
+import { shallow } from 'enzyme'
 
-jest.mock('../../services')
+import PopularTags from '../../src/components/PopularTags'
+import { getAllTags } from '../../src/services'
+
+jest.mock('../../src/services')
 
 const getAllTagsMock = getAllTags as jest.Mock<Promise<string[]>>
 

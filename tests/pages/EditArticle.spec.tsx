@@ -1,12 +1,13 @@
-import { mount, shallow } from 'enzyme'
-import EditArticle from '../EditArticle'
 import { h } from 'preact'
-import FetchRequest from '../../utils/request'
-import { getArticle, postArticle, putArticle } from '../../services'
-import { route } from 'preact-router'
-import { generateArticles, getInputValue, setInputValue } from '../../utils/test-utils'
+import { mount, shallow } from 'enzyme'
 
-jest.mock('../../services')
+import EditArticle from '../../src/pages/EditArticle'
+import FetchRequest from '../../src/utils/request'
+import { getArticle, postArticle, putArticle } from '../../src/services'
+import { route } from 'preact-router'
+import { generateArticles, getInputValue, setInputValue } from '../utils/test-utils'
+
+jest.mock('../../src/services')
 jest.mock('preact-router')
 
 const postArticleMock = postArticle as jest.Mock<Promise<Article>>

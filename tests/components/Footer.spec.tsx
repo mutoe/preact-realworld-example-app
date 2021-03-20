@@ -1,6 +1,7 @@
-import render from 'preact-render-to-string'
-import Footer from '../Footer'
 import { h } from 'preact'
+import render from 'preact-render-to-string'
+
+import Footer from '../../src/components/Footer'
 
 describe('# Footer', () => {
   it('should be display normally', function () {
