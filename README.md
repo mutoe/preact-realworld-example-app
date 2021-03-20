@@ -32,25 +32,4 @@ yarn test --coverage
 
 # build
 yarn build
-
-# analyzer bundle size
-yarn analyzer
 ```
-
-# Bundle size
-
-![Bundle analyzer](.github/bundle-analyzer.png)
-
-There is 72KB left after gzip for the whole project, It was larger than I expected because I didn't introduce redux/mobx, using preact hooks.
-
-`history.js` is too big, I don't want it, but I have to use it to hash history.
-
-I used `axios` before, and later I created a fetch tool myself to further reduce the packet size.
-
-According to the [report](https://www.infoq.com/news/2019/04/real-world-framework-benchmark/), Preact isn't much ahead of React.
-
-However, if `history.js` is removed, I think it can be compared with the data of Vue.
-
-Here's what happens when you remove history.
-
-![Bundle analyzer(no history.js)](./.github/bundle-size-after-remove-history.png)

@@ -18,6 +18,7 @@ Thumbs.db
 
 # Runtime files
 *.log
+.cache
 report.*.json
 
 # Test files
