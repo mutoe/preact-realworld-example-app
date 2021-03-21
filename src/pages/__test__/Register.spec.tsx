@@ -1,12 +1,11 @@
-import { h } from 'preact'
-import { route } from 'preact-router'
 import { mount, shallow } from 'enzyme'
+import { h } from 'preact'
+import { postRegister } from '../../services'
+import Register from '../Register'
+import { route } from 'preact-router'
+import { setInputValue } from '../../utils/test-utils'
 
-import { postRegister } from '../../src/services'
-import Register from '../../src/pages/Register'
-import { setInputValue } from '../utils/test-utils'
-
-jest.mock('../../src/services')
+jest.mock('../../services')
 jest.mock('preact-router')
 
 const postRegisterMock = postRegister as jest.Mock<Promise<User>>

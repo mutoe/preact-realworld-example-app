@@ -1,12 +1,11 @@
-import { h } from 'preact'
 import render from 'preact-render-to-string'
+import ArticleMeta from '../ArticleMeta'
+import { h } from 'preact'
 import { shallow } from 'enzyme'
+import { generateArticles } from '../../utils/test-utils'
+import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../../services'
 
-import ArticleMeta from '../../src/components/ArticleMeta'
-import { generateArticles } from '../utils/test-utils'
-import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../../src/services'
-
-jest.mock('../../src/services')
+jest.mock('../../services')
 
 describe('# Article meta component', function () {
   const setArticle = jest.fn()

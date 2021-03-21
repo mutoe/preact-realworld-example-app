@@ -1,10 +1,9 @@
 import { h } from 'preact'
+import Header from '../Header'
 import render from 'preact-render-to-string'
+import { useRootState } from '../../store'
 
-import Header from '../../src/components/Header'
-import { useRootState } from '../../src/store'
-
-jest.mock('../../src/store')
+jest.mock('../../store')
 
 const useRootStateMock = useRootState as jest.Mock
 

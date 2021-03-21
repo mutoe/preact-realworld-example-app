@@ -15,6 +15,7 @@
     "preact-router": "^3.1.0"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.10.3",
     "@types/history": "^4.7.3",
     "@types/jest": "^25.1.4",
     "@types/jsdom": "^16.1.0",
@@ -68,10 +69,10 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "testPathIgnorePatterns": [
-      "<rootDir>/{dist,src}"
+      "<rootDir>/dist"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/tests/setup-test.ts"
+      "<rootDir>/src/setup-test.ts"
     ],
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.{ts,tsx}",

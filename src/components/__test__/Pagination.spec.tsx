@@ -1,8 +1,7 @@
-import { h } from 'preact'
 import render from 'preact-render-to-string'
+import Pagination from '../Pagination'
+import { h } from 'preact'
 import { shallow } from 'enzyme'
-
-import Pagination from '../../src/components/Pagination'
 
 describe('# Pagination Component', function () {
   const setPage = jest.fn()

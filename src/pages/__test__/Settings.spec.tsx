@@ -1,16 +1,15 @@
-import { h } from 'preact'
-import { route } from 'preact-router'
 import { mount, shallow } from 'enzyme'
+import { h } from 'preact'
+import Settings from '../Settings'
+import { useRootState } from '../../store'
+import { route } from 'preact-router'
+import { getInputValue, setInputValue } from '../../utils/test-utils'
+import { putProfile } from '../../services'
+import { UPDATE_USER } from '../../store/constants'
 
-import Settings from '../../src/pages/Settings'
-import { useRootState } from '../../src/store'
-import { getInputValue, setInputValue } from '../utils/test-utils'
-import { putProfile } from '../../src/services'
-import { UPDATE_USER } from '../../src/store/constants'
-
-jest.mock('../../src/store')
+jest.mock('../../store')
 jest.mock('preact-router')
-jest.mock('../../src/services')
+jest.mock('../../services')
 
 const useRootStateMock = useRootState as jest.Mock
 const putProfileMock = putProfile as jest.Mock
