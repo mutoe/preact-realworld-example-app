@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/components/NavBar.spec.tsx
 import { h } from 'preact'
 import render from 'preact-render-to-string'
 import { shallow } from 'enzyme'
@@ -7,15 +6,6 @@ import NavBar from '../../src/components/NavBar'
 import { useRootState } from '../../src/store'
 
 jest.mock('../../src/store')
-=======
-import { shallow } from 'enzyme';
-import NavBar from '../NavBar';
-import { h } from 'preact';
-import render from 'preact-render-to-string';
-import { useRootState } from '../../store';
-
-jest.mock('../../store');
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/components/__test__/NavBar.spec.tsx
 
 const useRootStateMock = useRootState as jest.Mock;
 

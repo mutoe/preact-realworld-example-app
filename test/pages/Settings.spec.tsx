@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/pages/Settings.spec.tsx
 import { h } from 'preact'
 import { route } from 'preact-router'
 import { mount, shallow } from 'enzyme'
@@ -21,29 +20,6 @@ const nameInputSelector = '[placeholder="Your Name"]'
 const bioInputSelector = '[placeholder="Short bio about you"]'
 const emailInputSelector = '[placeholder="Email"]'
 const passwordInputSelector = '[placeholder="Password"]'
-=======
-import { mount, shallow } from 'enzyme';
-import { h } from 'preact';
-import Settings from '../Settings';
-import { useRootState } from '../../store';
-import { route } from 'preact-router';
-import { getInputValue, setInputValue } from '../../utils/test-utils';
-import { putProfile } from '../../services';
-import { UPDATE_USER } from '../../store/constants';
-
-jest.mock('../../store');
-jest.mock('preact-router');
-jest.mock('../../services');
-
-const useRootStateMock = useRootState as jest.Mock;
-const putProfileMock = putProfile as jest.Mock;
-
-const imageInputSelector = '[placeholder$="profile picture"]';
-const nameInputSelector = '[placeholder="Your Name"]';
-const bioInputSelector = '[placeholder="Short bio about you"]';
-const emailInputSelector = '[placeholder="Email"]';
-const passwordInputSelector = '[placeholder="Password"]';
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/pages/__test__/Settings.spec.tsx
 
 beforeEach(() => {
   useRootStateMock.mockReturnValue([{ user: {} }, jest.fn()]);

@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/components/Pagination.spec.tsx
 import { h } from 'preact'
 import render from 'preact-render-to-string'
 import { shallow } from 'enzyme'
@@ -7,15 +6,6 @@ import Pagination from '../../src/components/Pagination'
 
 describe('# Pagination Component', function () {
   const setPage = jest.fn()
-=======
-import render from 'preact-render-to-string';
-import Pagination from '../Pagination';
-import { h } from 'preact';
-import { shallow } from 'enzyme';
-
-describe('# Pagination Component', () => {
-  const setPage = jest.fn();
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/components/__test__/Pagination.spec.tsx
 
   it('should display normally', () => {
     const html = render(<Pagination count={1} page={1} setPage={setPage} />);

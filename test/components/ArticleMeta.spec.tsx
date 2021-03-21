@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/components/ArticleMeta.spec.tsx
 import { h } from 'preact'
 import render from 'preact-render-to-string'
 import { shallow } from 'enzyme'
@@ -8,21 +7,6 @@ import { generateArticles } from '../utils/test-utils'
 import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../../src/services'
 
 jest.mock('../../src/services')
-=======
-import render from 'preact-render-to-string';
-import ArticleMeta from '../ArticleMeta';
-import { h } from 'preact';
-import { shallow } from 'enzyme';
-import { generateArticles } from '../../utils/test-utils';
-import {
-  deleteFavoriteArticle,
-  deleteFollowProfile,
-  postFavoriteArticle,
-  postFollowProfile,
-} from '../../services';
-
-jest.mock('../../services');
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/components/__test__/ArticleMeta.spec.tsx
 
 describe('# Article meta component', () => {
   const setArticle = jest.fn();

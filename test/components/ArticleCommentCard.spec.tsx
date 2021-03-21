@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/components/ArticleCommentCard.spec.tsx
 import { h } from 'preact'
 import render from 'preact-render-to-string'
 import { shallow } from 'enzyme'
@@ -8,16 +7,6 @@ import { generateProfile, generateComments } from '../utils/test-utils'
 import { useRootState } from '../../src/store'
 
 jest.mock('../../src/store')
-=======
-import render from 'preact-render-to-string';
-import ArticleCommentCard from '../ArticleCommentCard';
-import { h } from 'preact';
-import { shallow } from 'enzyme';
-import { generateProfile, generateComments } from '../../utils/test-utils';
-import { useRootState } from '../../store';
-
-jest.mock('../../store');
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/components/__test__/ArticleCommentCard.spec.tsx
 
 const useRootStateMock = useRootState as jest.Mock;
 

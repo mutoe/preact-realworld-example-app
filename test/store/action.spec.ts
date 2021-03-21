@@ -1,16 +1,8 @@
-<<<<<<< HEAD:test/store/action.spec.ts
 import { postLogin } from '../../src/services'
 import { login } from '../../src/store/actions'
 import { SET_ERRORS, UPDATE_USER } from '../../src/store/constants'
 
 jest.mock('../../src/services')
-=======
-import { postLogin } from '../../services';
-import { login } from '../actions';
-import { SET_ERRORS, UPDATE_USER } from '../constants';
-
-jest.mock('../../services');
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/store/__test__/action.spec.ts
 
 const postLoginMock = postLogin as jest.Mock;
 

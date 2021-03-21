@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/pages/Profile.spec.tsx
 import { h } from 'preact'
 import { shallow } from 'enzyme'
 
@@ -17,31 +16,6 @@ const getProfileArticlesMock = getProfileArticles as jest.Mock<Promise<ArticlesR
 const useRootStateMock = useRootState as jest.Mock
 
 const loggedUser = generateProfile()
-=======
-import { generateArticles, generateProfile } from '../../utils/test-utils';
-import { shallow } from 'enzyme';
-import Profile from '../Profile';
-import { h } from 'preact';
-import {
-  deleteFollowProfile,
-  getArticles,
-  getProfile,
-  getProfileArticles,
-  postFollowProfile,
-} from '../../services';
-import ArticlePreview from '../../components/ArticlePreview';
-import { useRootState } from '../../store';
-
-jest.mock('../../services');
-jest.mock('../../store');
-
-const getProfileMock = getProfile as jest.Mock<Promise<Profile>>;
-const getArticlesMock = getArticles as jest.Mock<Promise<ArticlesResponse>>;
-const getProfileArticlesMock = getProfileArticles as jest.Mock<Promise<ArticlesResponse>>;
-const useRootStateMock = useRootState as jest.Mock;
-
-const loggedUser = generateProfile();
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/pages/__test__/Profile.spec.tsx
 
 beforeEach(() => {
   getProfileMock.mockResolvedValue({} as Profile);

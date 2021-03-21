@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/pages/EditArticle.spec.tsx
 import { h } from 'preact'
 import { mount, shallow } from 'enzyme'
 
@@ -19,27 +18,6 @@ const titleInputSelector = '[placeholder="Article Title"]'
 const descriptionInputSelector = '[placeholder^="What\'s this article"]'
 const bodyInputSelector = '[placeholder^="Write your article"]'
 const tagInputSelector = '[placeholder="Enter tags"]'
-=======
-import { mount, shallow } from 'enzyme';
-import EditArticle from '../EditArticle';
-import { h } from 'preact';
-import FetchRequest from '../../utils/request';
-import { getArticle, postArticle, putArticle } from '../../services';
-import { route } from 'preact-router';
-import { generateArticles, getInputValue, setInputValue } from '../../utils/test-utils';
-
-jest.mock('../../services');
-jest.mock('preact-router');
-
-const postArticleMock = postArticle as jest.Mock<Promise<Article>>;
-const getArticleMock = getArticle as jest.Mock<Promise<Article>>;
-const putArticleMock = putArticle as jest.Mock<Promise<Article>>;
-
-const titleInputSelector = '[placeholder="Article Title"]';
-const descriptionInputSelector = '[placeholder^="What\'s this article"]';
-const bodyInputSelector = '[placeholder^="Write your article"]';
-const tagInputSelector = '[placeholder="Enter tags"]';
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/pages/__test__/EditArticle.spec.tsx
 
 beforeEach(() => {
   postArticleMock.mockResolvedValue({} as Article);

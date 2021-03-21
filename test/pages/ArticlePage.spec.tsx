@@ -1,22 +1,14 @@
-<<<<<<< HEAD:test/pages/ArticlePage.spec.tsx
 import { h } from 'preact'
 import { mount, shallow } from 'enzyme'
 
 import ArticlePage from '../../src/pages/ArticlePage'
 import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../../src/services'
-=======
-import { mount, shallow } from 'enzyme';
-import { h } from 'preact';
-import ArticlePage from '../ArticlePage';
-import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../../services';
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/pages/__test__/ArticlePage.spec.tsx
 import {
   generateArticles,
   generateProfile,
   generateComments,
   getInputValue,
   setInputValue,
-<<<<<<< HEAD:test/pages/ArticlePage.spec.tsx
 } from '../utils/test-utils'
 import ArticleMeta from '../../src/components/ArticleMeta'
 import ArticleCommentCard from '../../src/components/ArticleCommentCard'
@@ -24,15 +16,6 @@ import { useRootState } from '../../src/store'
 
 jest.mock('../../src/services')
 jest.mock('../../src/store')
-=======
-} from '../../utils/test-utils';
-import ArticleMeta from '../../components/ArticleMeta';
-import ArticleCommentCard from '../../components/ArticleCommentCard';
-import { useRootState } from '../../store';
-
-jest.mock('../../services');
-jest.mock('../../store');
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/pages/__test__/ArticlePage.spec.tsx
 
 const getArticleMock = getArticle as jest.Mock<Promise<Article>>;
 const getCommentsByArticleMock = getCommentsByArticle as jest.Mock<Promise<ArticleComment[]>>;

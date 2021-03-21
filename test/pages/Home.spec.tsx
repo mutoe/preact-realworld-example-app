@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/pages/Home.spec.tsx
 import { h } from 'preact'
 import { mount, shallow } from 'enzyme'
 
@@ -17,25 +16,6 @@ const getArticlesByTagMock = getArticlesByTag as jest.Mock<Promise<ArticlesRespo
 const getArticlesMock = getArticles as jest.Mock<Promise<ArticlesResponse>>
 const getAllTagsMock = getAllTags as jest.Mock
 const useRootStateMock = useRootState as jest.Mock
-=======
-import { mount, shallow } from 'enzyme';
-import Home from '../Home';
-import { h } from 'preact';
-import NavBar from '../../components/NavBar';
-import PopularTags from '../../components/PopularTags';
-import { getAllTags, getArticles, getArticlesByTag } from '../../services';
-import { generateArticles } from '../../utils/test-utils';
-import ArticlePreview from '../../components/ArticlePreview';
-import { useRootState } from '../../store';
-
-jest.mock('../../services');
-jest.mock('../../store');
-
-const getArticlesByTagMock = getArticlesByTag as jest.Mock<Promise<ArticlesResponse>>;
-const getArticlesMock = getArticles as jest.Mock<Promise<ArticlesResponse>>;
-const getAllTagsMock = getAllTags as jest.Mock;
-const useRootStateMock = useRootState as jest.Mock;
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/pages/__test__/Home.spec.tsx
 
 beforeEach(() => {
   getArticlesMock.mockResolvedValue({

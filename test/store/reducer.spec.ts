@@ -1,10 +1,5 @@
-<<<<<<< HEAD:test/store/reducer.spec.ts
 import reducer from '../../src/store/reducer'
 import { CLEAN_ERRORS, SET_ERRORS, UPDATE_USER } from '../../src/store/constants'
-=======
-import reducer from '../reducer';
-import { CLEAN_ERRORS, SET_ERRORS, UPDATE_USER } from '../constants';
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/store/__test__/reducer.spec.ts
 
 let initState: RootState;
 

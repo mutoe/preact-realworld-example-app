@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/pages/Login.spec.tsx
 import { h } from 'preact'
 import { route } from 'preact-router'
 import { mount, shallow } from 'enzyme'
@@ -13,21 +12,6 @@ jest.mock('../../src/services')
 jest.mock('preact-router')
 jest.mock('../../src/store/actions')
 jest.mock('../../src/store')
-=======
-import { h } from 'preact';
-import Login from '../Login';
-import { postLogin } from '../../services';
-import { route } from 'preact-router';
-import { mount, shallow } from 'enzyme';
-import { setInputValue } from '../../utils/test-utils';
-import { useRootState } from '../../store';
-import { login } from '../../store/actions';
-
-jest.mock('../../services');
-jest.mock('preact-router');
-jest.mock('../../store/actions');
-jest.mock('../../store');
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/pages/__test__/Login.spec.tsx
 
 const useRootStateMock = useRootState as jest.Mock;
 

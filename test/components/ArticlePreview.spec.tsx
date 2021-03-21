@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/components/ArticlePreview.spec.tsx
 import { h } from 'preact'
 import { shallow } from 'enzyme'
 
@@ -7,15 +6,6 @@ import ArticlePreview from '../../src/components/ArticlePreview'
 import { deleteFavoriteArticle, postFavoriteArticle } from '../../src/services'
 
 jest.mock('../../src/services')
-=======
-import { generateArticles } from '../../utils/test-utils';
-import ArticlePreview from '../ArticlePreview';
-import { shallow } from 'enzyme';
-import { h } from 'preact';
-import { deleteFavoriteArticle, postFavoriteArticle } from '../../services';
-
-jest.mock('../../services');
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/components/__test__/ArticlePreview.spec.tsx
 
 const setArticle = jest.fn();
 

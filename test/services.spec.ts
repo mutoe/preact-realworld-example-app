@@ -1,8 +1,4 @@
-<<<<<<< HEAD:test/services.spec.ts
 import FetchRequest from '../src/utils/request'
-=======
-import FetchRequest from '../utils/request';
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/__test__/services.spec.ts
 import {
   limit,
   deleteComment,
@@ -15,13 +11,8 @@ import {
   postFavoriteArticle,
   postLogin,
   postRegister,
-<<<<<<< HEAD:test/services.spec.ts
 } from '../src/services'
 import { generateArticles, generateComments } from './utils/test-utils'
-=======
-} from '../services';
-import { generateArticles, generateComments } from '../utils/test-utils';
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/__test__/services.spec.ts
 
 afterEach(() => {
   jest.clearAllMocks();

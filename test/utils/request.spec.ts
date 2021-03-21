@@ -1,8 +1,4 @@
-<<<<<<< HEAD:test/utils/request.spec.ts
 import FetchRequest from '../../src/utils/request'
-=======
-import FetchRequest from '../request';
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/utils/__test__/request.spec.ts
 
 beforeEach(() => {
   global.fetch = jest.fn().mockResolvedValue({

@@ -1,4 +1,3 @@
-<<<<<<< HEAD:test/components/Header.spec.tsx
 import { h } from 'preact'
 import render from 'preact-render-to-string'
 
@@ -6,14 +5,6 @@ import Header from '../../src/components/Header'
 import { useRootState } from '../../src/store'
 
 jest.mock('../../src/store')
-=======
-import { h } from 'preact';
-import Header from '../Header';
-import render from 'preact-render-to-string';
-import { useRootState } from '../../store';
-
-jest.mock('../../store');
->>>>>>> 2b7be12 (style: Switching to Preact code style):src/components/__test__/Header.spec.tsx
 
 const useRootStateMock = useRootState as jest.Mock;
 
