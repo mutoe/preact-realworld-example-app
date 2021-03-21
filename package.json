@@ -71,7 +71,7 @@
       "<rootDir>/{dist,src}"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/test/setup-test.ts"
+      "<rootDir>/tests/setup-test.ts"
     ],
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.{ts,tsx}",
