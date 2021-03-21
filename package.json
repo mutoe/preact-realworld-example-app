@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack",
-    "lint": "eslint 'src/**/*.{ts,tsx}' --fix && prettier 'src/**' --write",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --fix && prettier 'src/**/*{ts,tsx}' --write",
     "test": "jest",
     "analyzer": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json dist -s gzip"
   },
