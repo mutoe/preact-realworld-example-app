@@ -6,7 +6,7 @@
     "start": "webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack",
     "lint": "eslint 'src/**/*.{ts,tsx}' --fix && prettier 'src/**/*{ts,tsx}' --write",
-    "test": "jest",
+    "test": "cross-env TZ=America/New_York jest",
     "analyzer": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json dist -s gzip"
   },
   "dependencies": {
