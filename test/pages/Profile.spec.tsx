@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 
 import { generateArticles, generateProfile } from '../utils/test-utils'
 import Profile from '../../src/pages/Profile'
@@ -127,7 +127,7 @@ describe('# Follow user', () => {
   it('should display edit profile instead follow in owner self profile page', async () => {
     getProfileMock.mockResolvedValue(loggedUser);
     useRootStateMock.mockReturnValue([{ user: loggedUser }, jest.fn()]);
-    const wrapper = shallow(<Profile username="@username" />);
+    const wrapper = mount(<Profile username="@username" />);
     await new Promise((r) => setImmediate(r));
     wrapper.update();
 
