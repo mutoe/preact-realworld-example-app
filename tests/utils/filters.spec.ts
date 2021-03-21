@@ -1,4 +1,4 @@
-import { dateFilter } from '../filters'
+import { dateFilter } from '../../src/utils/filters'
 
 describe('# Date filters', function () {
   it('should format date correctly', function () {

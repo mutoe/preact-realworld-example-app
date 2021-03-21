@@ -1,15 +1,16 @@
-import { mount, shallow } from 'enzyme'
-import Home from '../Home'
 import { h } from 'preact'
-import NavBar from '../../components/NavBar'
-import PopularTags from '../../components/PopularTags'
-import { getAllTags, getArticles, getArticlesByTag } from '../../services'
-import { generateArticles } from '../../utils/test-utils'
-import ArticlePreview from '../../components/ArticlePreview'
-import { useRootState } from '../../store'
+import { mount, shallow } from 'enzyme'
 
-jest.mock('../../services')
-jest.mock('../../store')
+import Home from '../../src/pages/Home'
+import NavBar from '../../src/components/NavBar'
+import PopularTags from '../../src/components/PopularTags'
+import { getAllTags, getArticles, getArticlesByTag } from '../../src/services'
+import { generateArticles } from '../utils/test-utils'
+import ArticlePreview from '../../src/components/ArticlePreview'
+import { useRootState } from '../../src/store'
+
+jest.mock('../../src/services')
+jest.mock('../../src/store')
 
 const getArticlesByTagMock = getArticlesByTag as jest.Mock<Promise<ArticlesResponse>>
 const getArticlesMock = getArticles as jest.Mock<Promise<ArticlesResponse>>
