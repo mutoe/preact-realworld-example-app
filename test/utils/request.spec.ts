@@ -1,208 +1,230 @@
+<<<<<<< HEAD:test/utils/request.spec.ts
 import FetchRequest from '../../src/utils/request'
+=======
+import FetchRequest from '../request';
+>>>>>>> 2b7be12 (style: Switching to Preact code style):src/utils/__test__/request.spec.ts
 
 beforeEach(() => {
   global.fetch = jest.fn().mockResolvedValue({
     ok: true,
     status: 200,
-    async json () {
-      return {}
+    async json() {
+      return {};
     },
-  })
-})
+  });
+});
 
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});
 
-describe('# Request GET', function () {
-  it('should implement GET method', async function () {
-    const request = new FetchRequest()
-    await request.get('/path')
+describe('# Request GET', () => {
+  it('should implement GET method', async () => {
+    const request = new FetchRequest();
+    await request.get('/path');
 
-    expect(global.fetch).toBeCalledTimes(1)
-    expect(global.fetch).toBeCalledWith('/path', expect.objectContaining({
-      method: 'GET',
-    }))
-  })
+    expect(global.fetch).toBeCalledTimes(1);
+    expect(global.fetch).toBeCalledWith(
+      '/path',
+      expect.objectContaining({
+        method: 'GET',
+      })
+    );
+  });
 
-  it('should can set prefix of request url with global', async function () {
-    const request = new FetchRequest({ prefix: '/prefix' })
-    await request.get('/path')
+  it('should can set prefix of request url with global', async () => {
+    const request = new FetchRequest({ prefix: '/prefix' });
+    await request.get('/path');
 
-    expect(global.fetch).toBeCalledWith('/prefix/path', expect.any(Object))
-  })
+    expect(global.fetch).toBeCalledWith('/prefix/path', expect.any(Object));
+  });
 
-  it('should can be set prefix of request url with single request', async function () {
-    const request = new FetchRequest()
-    await request.get('/path', { prefix: '/prefix' })
+  it('should can be set prefix of request url with single request', async () => {
+    const request = new FetchRequest();
+    await request.get('/path', { prefix: '/prefix' });
 
-    expect(global.fetch).toBeCalledWith('/prefix/path', expect.any(Object))
-  })
+    expect(global.fetch).toBeCalledWith('/prefix/path', expect.any(Object));
+  });
 
-  it('can be convert query object to query string in request url', async function () {
-    const request = new FetchRequest()
-    await request.get('/path', { params: { foo: 'bar' } })
+  it('can be convert query object to query string in request url', async () => {
+    const request = new FetchRequest();
+    await request.get('/path', { params: { foo: 'bar' } });
 
-    expect(global.fetch).toBeCalledWith('/path?foo=bar', expect.any(Object))
-  })
+    expect(global.fetch).toBeCalledWith('/path?foo=bar', expect.any(Object));
+  });
 
-  it('should converted response body to json', async function () {
+  it('should converted response body to json', async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       status: 200,
-      async json () {
+      async json() {
         return {
           foo: 'bar',
-        }
+        };
       },
-    })
-    const request = new FetchRequest()
-    const response = await request.get('/path')
+    });
+    const request = new FetchRequest();
+    const response = await request.get('/path');
 
-    expect(response).toMatchObject({ foo: 'bar' })
-  })
+    expect(response).toMatchObject({ foo: 'bar' });
+  });
 
-  it('should throw Error with response when request status code is not 2xx', async function () {
+  it('should throw Error with response when request status code is not 2xx', async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       status: 400,
       statusText: 'Bad request',
-      async json () {
-        return {}
+      async json() {
+        return {};
       },
-    })
+    });
 
-    const request = new FetchRequest()
+    const request = new FetchRequest();
 
-    await expect(request.post('/path')).rejects.toThrow('Bad request')
-  })
-})
+    await expect(request.post('/path')).rejects.toThrow('Bad request');
+  });
+});
 
-describe('# Request POST', function () {
-  it('should implement POST method', async function () {
-    const request = new FetchRequest()
-    await request.post('/path')
+describe('# Request POST', () => {
+  it('should implement POST method', async () => {
+    const request = new FetchRequest();
+    await request.post('/path');
 
-    expect(global.fetch).toBeCalledTimes(1)
-    expect(global.fetch).toBeCalledWith('/path', expect.objectContaining({
-      method: 'POST',
-    }))
-  })
+    expect(global.fetch).toBeCalledTimes(1);
+    expect(global.fetch).toBeCalledWith(
+      '/path',
+      expect.objectContaining({
+        method: 'POST',
+      })
+    );
+  });
 
-  it('should can set prefix of request url with global', async function () {
-    const request = new FetchRequest({ prefix: '/prefix' })
-    await request.post('/path')
+  it('should can set prefix of request url with global', async () => {
+    const request = new FetchRequest({ prefix: '/prefix' });
+    await request.post('/path');
 
-    expect(global.fetch).toBeCalledWith('/prefix/path', expect.any(Object))
-  })
+    expect(global.fetch).toBeCalledWith('/prefix/path', expect.any(Object));
+  });
 
-  it('should can be set prefix of request url with single request', async function () {
-    const request = new FetchRequest()
-    await request.post('/path', {}, { prefix: '/prefix' })
+  it('should can be set prefix of request url with single request', async () => {
+    const request = new FetchRequest();
+    await request.post('/path', {}, { prefix: '/prefix' });
 
-    expect(global.fetch).toBeCalledWith('/prefix/path', expect.any(Object))
-  })
+    expect(global.fetch).toBeCalledWith('/prefix/path', expect.any(Object));
+  });
 
-  it('should can be send json data in request body', async function () {
-    const request = new FetchRequest()
-    await request.post('/path', { foo: 'bar' })
+  it('should can be send json data in request body', async () => {
+    const request = new FetchRequest();
+    await request.post('/path', { foo: 'bar' });
 
-    expect(global.fetch).toBeCalledWith('/path', expect.objectContaining({
-      body: JSON.stringify({ foo: 'bar' }),
-    }))
-  })
+    expect(global.fetch).toBeCalledWith(
+      '/path',
+      expect.objectContaining({
+        body: JSON.stringify({ foo: 'bar' }),
+      })
+    );
+  });
 
-  it('can be convert query object to query string in request url', async function () {
-    const request = new FetchRequest()
-    await request.post('/path', {}, { params: { foo: 'bar' } })
+  it('can be convert query object to query string in request url', async () => {
+    const request = new FetchRequest();
+    await request.post('/path', {}, { params: { foo: 'bar' } });
 
-    expect(global.fetch).toBeCalledWith('/path?foo=bar', expect.any(Object))
-  })
+    expect(global.fetch).toBeCalledWith('/path?foo=bar', expect.any(Object));
+  });
 
-  it('should converted response body to json', async function () {
+  it('should converted response body to json', async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       status: 200,
-      async json () {
+      async json() {
         return {
           foo: 'bar',
-        }
+        };
       },
-    })
-    const request = new FetchRequest()
-    const response = await request.post('/path')
+    });
+    const request = new FetchRequest();
+    const response = await request.post('/path');
 
-    expect(response).toMatchObject({ foo: 'bar' })
-  })
+    expect(response).toMatchObject({ foo: 'bar' });
+  });
 
-  it('should throw Error with response when request status code is not 2xx', async function () {
+  it('should throw Error with response when request status code is not 2xx', async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       status: 400,
       statusText: 'Bad request',
-      async json () {
-        return {}
+      async json() {
+        return {};
       },
-    })
+    });
 
-    const request = new FetchRequest()
+    const request = new FetchRequest();
 
-    await expect(request.post('/path')).rejects.toThrow('Bad request')
-  })
+    await expect(request.post('/path')).rejects.toThrow('Bad request');
+  });
 
-  it('should throw Error with 4xx code', function () {
+  it('should throw Error with 4xx code', () => {
     global.fetch = jest.fn().mockReturnValue({
       ok: true,
       status: 422,
-      async json () {
+      async json() {
         return {
           errors: {
             some: ['error'],
           },
-        }
+        };
       },
-    })
+    });
 
-    const request = new FetchRequest()
+    const request = new FetchRequest();
 
     expect(() => {
-      request.get('/')
-    }).toThrow()
-  })
-})
+      request.get('/');
+    }).toThrow();
+  });
+});
 
-describe('# Request DELETE', function () {
-  it('should implement DELETE method', async function () {
-    const request = new FetchRequest()
-    await request.delete('/path')
+describe('# Request DELETE', () => {
+  it('should implement DELETE method', async () => {
+    const request = new FetchRequest();
+    await request.delete('/path');
 
-    expect(global.fetch).toBeCalledTimes(1)
-    expect(global.fetch).toBeCalledWith('/path', expect.objectContaining({
-      method: 'DELETE',
-    }))
-  })
-})
+    expect(global.fetch).toBeCalledTimes(1);
+    expect(global.fetch).toBeCalledWith(
+      '/path',
+      expect.objectContaining({
+        method: 'DELETE',
+      })
+    );
+  });
+});
 
-describe('# Request PUT', function () {
-  it('should implement PUT method', async function () {
-    const request = new FetchRequest()
-    await request.put('/path')
+describe('# Request PUT', () => {
+  it('should implement PUT method', async () => {
+    const request = new FetchRequest();
+    await request.put('/path');
 
-    expect(global.fetch).toBeCalledTimes(1)
-    expect(global.fetch).toBeCalledWith('/path', expect.objectContaining({
-      method: 'PUT',
-    }))
-  })
-})
+    expect(global.fetch).toBeCalledTimes(1);
+    expect(global.fetch).toBeCalledWith(
+      '/path',
+      expect.objectContaining({
+        method: 'PUT',
+      })
+    );
+  });
+});
 
-describe('# Request PATCH', function () {
-  it('should implement PATCH method', async function () {
-    const request = new FetchRequest()
-    await request.patch('/path')
+describe('# Request PATCH', () => {
+  it('should implement PATCH method', async () => {
+    const request = new FetchRequest();
+    await request.patch('/path');
 
-    expect(global.fetch).toBeCalledTimes(1)
-    expect(global.fetch).toBeCalledWith('/path', expect.objectContaining({
-      method: 'PATCH',
-    }))
-  })
-})
+    expect(global.fetch).toBeCalledTimes(1);
+    expect(global.fetch).toBeCalledWith(
+      '/path',
+      expect.objectContaining({
+        method: 'PATCH',
+      })
+    );
+  });
+});

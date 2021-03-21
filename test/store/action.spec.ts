@@ -1,28 +1,36 @@
+<<<<<<< HEAD:test/store/action.spec.ts
 import { postLogin } from '../../src/services'
 import { login } from '../../src/store/actions'
 import { SET_ERRORS, UPDATE_USER } from '../../src/store/constants'
 
 jest.mock('../../src/services')
+=======
+import { postLogin } from '../../services';
+import { login } from '../actions';
+import { SET_ERRORS, UPDATE_USER } from '../constants';
 
-const postLoginMock = postLogin as jest.Mock
+jest.mock('../../services');
+>>>>>>> 2b7be12 (style: Switching to Preact code style):src/store/__test__/action.spec.ts
 
-describe('# Actions', function () {
-  it('should be trigger LOGIN reducer after login success', async function () {
-    postLoginMock.mockResolvedValue({})
+const postLoginMock = postLogin as jest.Mock;
 
-    const action = await login({ email: 'test@example.com', password: '12345678' })
+describe('# Actions', () => {
+  it('should be trigger LOGIN reducer after login success', async () => {
+    postLoginMock.mockResolvedValue({});
 
-    expect(action).toMatchObject({ type: UPDATE_USER })
-  })
+    const action = await login({ email: 'test@example.com', password: '12345678' });
 
-  it('should be trigger SET_ERRORS action after login failed with error message', async function () {
+    expect(action).toMatchObject({ type: UPDATE_USER });
+  });
+
+  it('should be trigger SET_ERRORS action after login failed with error message', async () => {
     const errors = {
       password: ['is valid'],
-    }
-    postLoginMock.mockRejectedValue({ errors })
+    };
+    postLoginMock.mockRejectedValue({ errors });
 
-    const action = await login({ email: 'test@example.com', password: '' })
+    const action = await login({ email: 'test@example.com', password: '' });
 
-    expect(action).toMatchObject({ type: SET_ERRORS, errors })
-  })
-})
+    expect(action).toMatchObject({ type: SET_ERRORS, errors });
+  });
+});
