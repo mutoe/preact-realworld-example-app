@@ -1,4 +1,4 @@
-import FetchRequest from '../../src/utils/request'
+import FetchRequest from '../request'
 
 beforeEach(() => {
   global.fetch = jest.fn().mockResolvedValue({

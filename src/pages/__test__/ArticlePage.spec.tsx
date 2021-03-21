@@ -1,21 +1,20 @@
-import { h } from 'preact'
 import { mount, shallow } from 'enzyme'
-
-import ArticlePage from '../../src/pages/ArticlePage'
-import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../../src/services'
+import { h } from 'preact'
+import ArticlePage from '../ArticlePage'
+import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../../services'
 import {
   generateArticles,
   generateProfile,
   generateComments,
   getInputValue,
   setInputValue,
-} from '../utils/test-utils'
-import ArticleMeta from '../../src/components/ArticleMeta'
-import ArticleCommentCard from '../../src/components/ArticleCommentCard'
-import { useRootState } from '../../src/store'
+} from '../../utils/test-utils'
+import ArticleMeta from '../../components/ArticleMeta'
+import ArticleCommentCard from '../../components/ArticleCommentCard'
+import { useRootState } from '../../store'
 
-jest.mock('../../src/services')
-jest.mock('../../src/store')
+jest.mock('../../services')
+jest.mock('../../store')
 
 const getArticleMock = getArticle as jest.Mock<Promise<Article>>
 const getCommentsByArticleMock = getCommentsByArticle as jest.Mock<Promise<ArticleComment[]>>

@@ -1,5 +1,5 @@
-import reducer from '../../src/store/reducer'
-import { CLEAN_ERRORS, SET_ERRORS, UPDATE_USER } from '../../src/store/constants'
+import reducer from '../reducer'
+import { CLEAN_ERRORS, SET_ERRORS, UPDATE_USER } from '../constants'
 
 let initState: RootState
 

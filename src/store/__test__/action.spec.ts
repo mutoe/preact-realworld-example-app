@@ -1,8 +1,8 @@
-import { postLogin } from '../../src/services'
-import { login } from '../../src/store/actions'
-import { SET_ERRORS, UPDATE_USER } from '../../src/store/constants'
+import { postLogin } from '../../services'
+import { login } from '../actions'
+import { SET_ERRORS, UPDATE_USER } from '../constants'
 
-jest.mock('../../src/services')
+jest.mock('../../services')
 
 const postLoginMock = postLogin as jest.Mock
 

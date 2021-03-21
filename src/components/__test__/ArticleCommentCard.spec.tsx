@@ -1,12 +1,11 @@
-import { h } from 'preact'
 import render from 'preact-render-to-string'
+import ArticleCommentCard from '../ArticleCommentCard'
+import { h } from 'preact'
 import { shallow } from 'enzyme'
+import { generateProfile, generateComments } from '../../utils/test-utils'
+import { useRootState } from '../../store'
 
-import ArticleCommentCard from '../../src/components/ArticleCommentCard'
-import { generateProfile, generateComments } from '../utils/test-utils'
-import { useRootState } from '../../src/store'
-
-jest.mock('../../src/store')
+jest.mock('../../store')
 
 const useRootStateMock = useRootState as jest.Mock
 
