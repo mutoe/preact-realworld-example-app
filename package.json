@@ -69,10 +69,10 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "testPathIgnorePatterns": [
-      "<rootDir>/dist"
+      "<rootDir>/{dist,src}"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/src/setup-test.ts"
+      "<rootDir>/test/setup-test.ts"
     ],
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.{ts,tsx}",

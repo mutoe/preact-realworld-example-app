@@ -1,8 +1,8 @@
 import { route } from 'preact-router'
 import { h, render } from 'preact'
 import { unmountComponentAtNode } from 'preact/compat'
-import App from '../App'
-import { request } from '../services'
+import App from '../src/App'
+import { request } from '../src/services'
 
 jest.mock('preact-router')
 

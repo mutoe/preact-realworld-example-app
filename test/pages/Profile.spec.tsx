@@ -1,13 +1,14 @@
-import { generateArticles, generateProfile } from '../../utils/test-utils'
-import { shallow } from 'enzyme'
-import Profile from '../Profile'
 import { h } from 'preact'
-import { deleteFollowProfile, getArticles, getProfile, getProfileArticles, postFollowProfile } from '../../services'
-import ArticlePreview from '../../components/ArticlePreview'
-import { useRootState } from '../../store'
+import { shallow } from 'enzyme'
 
-jest.mock('../../services')
-jest.mock('../../store')
+import { generateArticles, generateProfile } from '../utils/test-utils'
+import Profile from '../../src/pages/Profile'
+import { deleteFollowProfile, getArticles, getProfile, getProfileArticles, postFollowProfile } from '../../src/services'
+import ArticlePreview from '../../src/components/ArticlePreview'
+import { useRootState } from '../../src/store'
+
+jest.mock('../../src/services')
+jest.mock('../../src/store')
 
 const getProfileMock = getProfile as jest.Mock<Promise<Profile>>
 const getArticlesMock = getArticles as jest.Mock<Promise<ArticlesResponse>>
