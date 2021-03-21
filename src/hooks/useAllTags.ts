@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'preact/hooks'
-import { getAllTags } from '../services'
+import { useEffect, useState } from 'preact/hooks';
+import { getAllTags } from '../services';
 
-export default function useAllTags () {
-  const [tags, setTags] = useState<string[]>([])
+export default function useAllTags() {
+  const [tags, setTags] = useState<string[]>([]);
 
   const fetchPopularTags = async () => {
-    const tags = await getAllTags()
-    setTags(tags)
-  }
+    const tags = await getAllTags();
+    setTags(tags);
+  };
 
   useEffect(() => {
-    fetchPopularTags()
-  }, [])
+    fetchPopularTags();
+  }, []);
 
-  return { tags }
+  return { tags };
 }

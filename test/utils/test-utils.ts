@@ -1,20 +1,20 @@
-import mockjs, { Random } from 'mockjs'
-import { ReactWrapper } from 'enzyme'
+import mockjs, { Random } from 'mockjs';
+import { ReactWrapper } from 'enzyme';
 
-export function generateProfile (): Profile {
+export function generateProfile(): Profile {
   return mockjs.mock({
     username: Random.name(),
     bio: Random.sentence(),
     image: Random.image(),
     following: Random.boolean(),
-  })
+  });
 }
 
-export function generateArticles(): Article
-export function generateArticles(count: number): Article[]
-export function generateArticles (count = 1): Article | Article[] {
-  const title = Random.title()
-  const slug = `${title.replace(/[ -]/g, '-')}-${Number(new Date()).toString(36)}`
+export function generateArticles(): Article;
+export function generateArticles(count: number): Article[];
+export function generateArticles(count = 1): Article | Article[] {
+  const title = Random.title();
+  const slug = `${title.replace(/[ -]/g, '-')}-${Number(new Date()).toString(36)}`;
   return mockjs.mock({
     [`articles|${count}`]: [
       {
@@ -30,21 +30,21 @@ export function generateArticles (count = 1): Article | Article[] {
         'favoritesCount|0-200': 200,
       },
     ],
-  }).articles
+  }).articles;
 }
 
 export const setInputValue = (wrapper: ReactWrapper<any>, selector: string, value: string) => {
-  wrapper.find(selector).getDOMNode<HTMLInputElement>().value = value
-  wrapper.find(selector).simulate('input')
-}
+  wrapper.find(selector).getDOMNode<HTMLInputElement>().value = value;
+  wrapper.find(selector).simulate('input');
+};
 
 export const getInputValue = (wrapper: ReactWrapper<any>, selector: string): string => {
-  return wrapper.find(selector).getDOMNode<HTMLInputElement>().value
-}
+  return wrapper.find(selector).getDOMNode<HTMLInputElement>().value;
+};
 
-export function generateComments(): ArticleComment
-export function generateComments(count: number): ArticleComment[]
-export function generateComments (count = 1): ArticleComment | ArticleComment[] {
+export function generateComments(): ArticleComment;
+export function generateComments(count: number): ArticleComment[];
+export function generateComments(count = 1): ArticleComment | ArticleComment[] {
   return mockjs.mock({
     [`comments|${count}`]: [
       {
@@ -55,5 +55,5 @@ export function generateComments (count = 1): ArticleComment | ArticleComment[] 
         author: () => generateProfile(),
       },
     ],
-  }).comments
+  }).comments;
 }

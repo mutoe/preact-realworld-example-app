@@ -3,7 +3,7 @@ interface RootState {
   errors: ResponseError;
 }
 
-type Action = ActionSetErrors | ActionCleanErrors | ActionUpdateUser | { type: '' }
+type Action = ActionSetErrors | ActionCleanErrors | ActionUpdateUser | { type: '' };
 
 interface ActionSetErrors {
   type: 'SET_ERRORS';

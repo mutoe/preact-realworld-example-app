@@ -6,26 +6,26 @@ import { getAllTags } from '../../src/services'
 
 jest.mock('../../src/services')
 
-const getAllTagsMock = getAllTags as jest.Mock<Promise<string[]>>
+const getAllTagsMock = getAllTags as jest.Mock<Promise<string[]>>;
 
 beforeEach(() => {
-  getAllTagsMock.mockResolvedValue([])
-})
+  getAllTagsMock.mockResolvedValue([]);
+});
 
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});
 
 describe('# Popular Tags Component', () => {
-  it('should display title', function () {
-    const wrapper = shallow(<PopularTags />)
+  it('should display title', () => {
+    const wrapper = shallow(<PopularTags />);
 
-    expect(wrapper.text()).toContain('Popular Tags')
-  })
+    expect(wrapper.text()).toContain('Popular Tags');
+  });
 
-  it('should request all tags when component did mounted', function () {
-    shallow(<PopularTags />)
+  it('should request all tags when component did mounted', () => {
+    shallow(<PopularTags />);
 
-    expect(getAllTags).toBeCalledTimes(1)
-  })
-})
+    expect(getAllTags).toBeCalledTimes(1);
+  });
+});

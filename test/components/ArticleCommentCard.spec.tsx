@@ -8,18 +8,18 @@ import { useRootState } from '../../src/store'
 
 jest.mock('../../src/store')
 
-const useRootStateMock = useRootState as jest.Mock
+const useRootStateMock = useRootState as jest.Mock;
 
-const loggedUser = generateProfile()
+const loggedUser = generateProfile();
 
 beforeEach(() => {
-  useRootStateMock.mockReturnValue([{ user: loggedUser }, jest.fn()])
-})
+  useRootStateMock.mockReturnValue([{ user: loggedUser }, jest.fn()]);
+});
 
-afterEach(jest.clearAllMocks)
+afterEach(jest.clearAllMocks);
 
-describe('# Article comment card', function () {
-  it('should render correctly', function () {
+describe('# Article comment card', () => {
+  it('should render correctly', () => {
     const comment: ArticleComment = {
       id: 1,
       body: 'body.',
@@ -31,27 +31,27 @@ describe('# Article comment card', function () {
         image: 'http://dummyimage.com/336x280',
         following: true,
       },
-    }
-    const output = render(<ArticleCommentCard comment={comment} />)
+    };
+    const output = render(<ArticleCommentCard comment={comment} />);
 
-    expect(output).toMatchSnapshot()
-  })
+    expect(output).toMatchSnapshot();
+  });
 
-  it('should not display trash icon in other\'s comment', async function () {
-    const comment = generateComments()
-    const wrapper = shallow(<ArticleCommentCard comment={comment} />)
+  it("should not display trash icon in other's comment", async () => {
+    const comment = generateComments();
+    const wrapper = shallow(<ArticleCommentCard comment={comment} />);
 
-    expect(wrapper.find('i.ion-trash-a')).toHaveLength(0)
-  })
+    expect(wrapper.find('i.ion-trash-a')).toHaveLength(0);
+  });
 
-  it('should trigger onDelete when trash icon clicked', function () {
-    const onDelete = jest.fn()
-    const comment = generateComments()
-    comment.author = loggedUser
-    const wrapper = shallow(<ArticleCommentCard onDelete={onDelete} comment={comment} />)
+  it('should trigger onDelete when trash icon clicked', () => {
+    const onDelete = jest.fn();
+    const comment = generateComments();
+    comment.author = loggedUser;
+    const wrapper = shallow(<ArticleCommentCard onDelete={onDelete} comment={comment} />);
 
-    wrapper.find('i.ion-trash-a').simulate('click')
+    wrapper.find('i.ion-trash-a').simulate('click');
 
-    expect(onDelete).toBeCalledWith(comment.id)
-  })
-})
+    expect(onDelete).toBeCalledWith(comment.id);
+  });
+});

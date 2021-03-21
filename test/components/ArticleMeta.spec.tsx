@@ -8,10 +8,10 @@ import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFo
 
 jest.mock('../../src/services')
 
-describe('# Article meta component', function () {
-  const setArticle = jest.fn()
+describe('# Article meta component', () => {
+  const setArticle = jest.fn();
 
-  it('should match snapshot', function () {
+  it('should match snapshot', () => {
     const article = {
       title: 'title',
       slug: 'title-slug',
@@ -28,53 +28,53 @@ describe('# Article meta component', function () {
         image: 'http://dummyimage.com/234x60',
         following: false,
       },
-    }
-    const wrapper = render(<ArticleMeta article={article} setArticle={setArticle} />)
+    };
+    const wrapper = render(<ArticleMeta article={article} setArticle={setArticle} />);
 
-    expect(wrapper).toMatchSnapshot()
-  })
+    expect(wrapper).toMatchSnapshot();
+  });
 
-  it('should follow user correctly', async function () {
-    const article = generateArticles()
-    article.author.following = false
-    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />)
-    const followButton = wrapper.find('.ion-plus-round').parents('button')
-    followButton.simulate('click')
+  it('should follow user correctly', async () => {
+    const article = generateArticles();
+    article.author.following = false;
+    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />);
+    const followButton = wrapper.find('.ion-plus-round').parents('button');
+    followButton.simulate('click');
 
-    expect(postFollowProfile).toBeCalledTimes(1)
-    expect(postFollowProfile).toBeCalledWith(article.author.username)
-  })
+    expect(postFollowProfile).toBeCalledTimes(1);
+    expect(postFollowProfile).toBeCalledWith(article.author.username);
+  });
 
-  it('should unfollow user correctly', async function () {
-    const article = generateArticles()
-    article.author.following = true
-    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />)
-    const followButton = wrapper.find('.ion-plus-round').parents('button')
-    followButton.simulate('click')
+  it('should unfollow user correctly', async () => {
+    const article = generateArticles();
+    article.author.following = true;
+    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />);
+    const followButton = wrapper.find('.ion-plus-round').parents('button');
+    followButton.simulate('click');
 
-    expect(deleteFollowProfile).toBeCalledTimes(1)
-    expect(deleteFollowProfile).toBeCalledWith(article.author.username)
-  })
+    expect(deleteFollowProfile).toBeCalledTimes(1);
+    expect(deleteFollowProfile).toBeCalledWith(article.author.username);
+  });
 
-  it('should favorite article correctly', function () {
-    const article = generateArticles()
-    article.favorited = false
-    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />)
-    const favoriteButton = wrapper.find('.ion-heart').parents('button')
-    favoriteButton.simulate('click')
+  it('should favorite article correctly', () => {
+    const article = generateArticles();
+    article.favorited = false;
+    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />);
+    const favoriteButton = wrapper.find('.ion-heart').parents('button');
+    favoriteButton.simulate('click');
 
-    expect(postFavoriteArticle).toBeCalledTimes(1)
-    expect(postFavoriteArticle).toBeCalledWith(article.slug)
-  })
+    expect(postFavoriteArticle).toBeCalledTimes(1);
+    expect(postFavoriteArticle).toBeCalledWith(article.slug);
+  });
 
-  it('should unfavored article correctly', function () {
-    const article = generateArticles()
-    article.favorited = true
-    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />)
-    const favoriteButton = wrapper.find('.ion-heart').parents('button')
-    favoriteButton.simulate('click')
+  it('should unfavored article correctly', () => {
+    const article = generateArticles();
+    article.favorited = true;
+    const wrapper = shallow(<ArticleMeta article={article} setArticle={setArticle} />);
+    const favoriteButton = wrapper.find('.ion-heart').parents('button');
+    favoriteButton.simulate('click');
 
-    expect(deleteFavoriteArticle).toBeCalledTimes(1)
-    expect(deleteFavoriteArticle).toBeCalledWith(article.slug)
-  })
-})
+    expect(deleteFavoriteArticle).toBeCalledTimes(1);
+    expect(deleteFavoriteArticle).toBeCalledWith(article.slug);
+  });
+});

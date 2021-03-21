@@ -9,11 +9,11 @@ import { setInputValue } from '../utils/test-utils'
 jest.mock('../../src/services')
 jest.mock('preact-router')
 
-const postRegisterMock = postRegister as jest.Mock<Promise<User>>
+const postRegisterMock = postRegister as jest.Mock<Promise<User>>;
 
-const emailInputSelector = '[placeholder="Email"]'
-const passwordInputSelector = '[placeholder="Password"]'
-const usernameInputSelector = '[placeholder="Your Name"]'
+const emailInputSelector = '[placeholder="Email"]';
+const passwordInputSelector = '[placeholder="Password"]';
+const usernameInputSelector = '[placeholder="Your Name"]';
 
 const resolvedResult = {
   id: 1,
@@ -22,119 +22,119 @@ const resolvedResult = {
   bio: null,
   image: null,
   token: 'foobar',
-}
+};
 
 const mockResolvedPostRegister = () => {
-  postRegisterMock.mockResolvedValue(resolvedResult)
-}
+  postRegisterMock.mockResolvedValue(resolvedResult);
+};
 
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});
 
 describe('# Register error message', () => {
-  it('should be show error message when given response error', async function () {
+  it('should be show error message when given response error', async () => {
     postRegisterMock.mockRejectedValue({
       errors: {
         password: ['is invalid'],
       },
-    })
-    const wrapper = shallow(<Register />)
-    wrapper.find('form button.btn-lg.btn-primary').simulate('click')
-    await new Promise(r => setImmediate(r))
+    });
+    const wrapper = shallow(<Register />);
+    wrapper.find('form button.btn-lg.btn-primary').simulate('click');
+    await new Promise((r) => setImmediate(r));
 
-    expect(wrapper.find('.error-messages')).toHaveLength(1)
-    expect(wrapper.find('.error-messages').text()).toContain('password is invalid')
-  })
+    expect(wrapper.find('.error-messages')).toHaveLength(1);
+    expect(wrapper.find('.error-messages').text()).toContain('password is invalid');
+  });
 
-  it('should be show multiple errors when given multiple response errors', async function () {
+  it('should be show multiple errors when given multiple response errors', async () => {
     postRegisterMock.mockRejectedValue({
       errors: {
         email: ['is already exists'],
         password: ['is too long'],
       },
-    })
-    const wrapper = shallow(<Register />)
-    wrapper.find('form button.btn-lg.btn-primary').simulate('click')
-    await new Promise(r => setImmediate(r))
+    });
+    const wrapper = shallow(<Register />);
+    wrapper.find('form button.btn-lg.btn-primary').simulate('click');
+    await new Promise((r) => setImmediate(r));
 
-    expect(wrapper.find('.error-messages > li')).toHaveLength(2)
-  })
-})
+    expect(wrapper.find('.error-messages > li')).toHaveLength(2);
+  });
+});
 
 describe('# Register form validate', () => {
-  it('should set button disabled when submit a empty form field', function () {
-    const wrapper = mount(<Register />)
-    setInputValue(wrapper, emailInputSelector, '123')
-    wrapper.update()
+  it('should set button disabled when submit a empty form field', () => {
+    const wrapper = mount(<Register />);
+    setInputValue(wrapper, emailInputSelector, '123');
+    wrapper.update();
 
-    const submitButton = wrapper.find('form button.btn-lg.btn-primary')
-    expect(submitButton.props().disabled).toBe(true)
-  })
+    const submitButton = wrapper.find('form button.btn-lg.btn-primary');
+    expect(submitButton.props().disabled).toBe(true);
+  });
 
-  it('should not be send when given invalid form', function () {
-    const wrapper = mount(<Register />)
-    setInputValue(wrapper, emailInputSelector, '123')
-    setInputValue(wrapper, usernameInputSelector, '123')
-    setInputValue(wrapper, passwordInputSelector, '123')
-    wrapper.find('form button.btn-lg.btn-primary').simulate('click')
+  it('should not be send when given invalid form', () => {
+    const wrapper = mount(<Register />);
+    setInputValue(wrapper, emailInputSelector, '123');
+    setInputValue(wrapper, usernameInputSelector, '123');
+    setInputValue(wrapper, passwordInputSelector, '123');
+    wrapper.find('form button.btn-lg.btn-primary').simulate('click');
 
-    expect(postRegister).not.toBeCalled()
-  })
-})
+    expect(postRegister).not.toBeCalled();
+  });
+});
 
 describe('# Register request', () => {
-  it('should be send form when sign up button clicked', function () {
-    const wrapper = mount(<Register />)
-    setInputValue(wrapper, emailInputSelector, 'test@example.com')
-    setInputValue(wrapper, usernameInputSelector, 'test')
-    setInputValue(wrapper, passwordInputSelector, '12345678')
+  it('should be send form when sign up button clicked', () => {
+    const wrapper = mount(<Register />);
+    setInputValue(wrapper, emailInputSelector, 'test@example.com');
+    setInputValue(wrapper, usernameInputSelector, 'test');
+    setInputValue(wrapper, passwordInputSelector, '12345678');
 
-    wrapper.find('form button.btn-lg.btn-primary').simulate('click')
+    wrapper.find('form button.btn-lg.btn-primary').simulate('click');
 
-    expect(postRegister).toBeCalledTimes(1)
-  })
+    expect(postRegister).toBeCalledTimes(1);
+  });
 
-  it('can set error messages correctly when received error response', async function () {
+  it('can set error messages correctly when received error response', async () => {
     postRegisterMock.mockRejectedValue({
       errors: { 'email and password': ['is invalid'] },
-    })
-    const wrapper = mount(<Register />)
-    setInputValue(wrapper, emailInputSelector, 'bad_account@example.com')
-    setInputValue(wrapper, usernameInputSelector, 'test')
-    setInputValue(wrapper, passwordInputSelector, '12345678')
+    });
+    const wrapper = mount(<Register />);
+    setInputValue(wrapper, emailInputSelector, 'bad_account@example.com');
+    setInputValue(wrapper, usernameInputSelector, 'test');
+    setInputValue(wrapper, passwordInputSelector, '12345678');
 
-    wrapper.find('form button.btn-lg.btn-primary').simulate('click')
-    expect(postRegister).toBeCalled()
-    await new Promise(r => setImmediate(r))
+    wrapper.find('form button.btn-lg.btn-primary').simulate('click');
+    expect(postRegister).toBeCalled();
+    await new Promise((r) => setImmediate(r));
 
-    expect(wrapper.find('.error-messages').text()).toContain('email and password')
-  })
+    expect(wrapper.find('.error-messages').text()).toContain('email and password');
+  });
 
-  it('should can goto home page when entering the correct account', async function () {
-    mockResolvedPostRegister()
-    const wrapper = mount(<Register />)
-    setInputValue(wrapper, emailInputSelector, 'test@example.com')
-    setInputValue(wrapper, usernameInputSelector, 'test')
-    setInputValue(wrapper, passwordInputSelector, '12345678')
+  it('should can goto home page when entering the correct account', async () => {
+    mockResolvedPostRegister();
+    const wrapper = mount(<Register />);
+    setInputValue(wrapper, emailInputSelector, 'test@example.com');
+    setInputValue(wrapper, usernameInputSelector, 'test');
+    setInputValue(wrapper, passwordInputSelector, '12345678');
 
-    wrapper.find('form button.btn-lg.btn-primary').simulate('click')
-    await new Promise(r => setImmediate(r))
+    wrapper.find('form button.btn-lg.btn-primary').simulate('click');
+    await new Promise((r) => setImmediate(r));
 
-    expect(route).toBeCalledWith('/')
-  })
+    expect(route).toBeCalledWith('/');
+  });
 
-  it('should save token locally when register successful', async function () {
-    mockResolvedPostRegister()
-    const wrapper = mount(<Register />)
-    jest.spyOn(global.localStorage, 'setItem')
-    setInputValue(wrapper, emailInputSelector, 'test@example.com')
-    setInputValue(wrapper, usernameInputSelector, 'test')
-    setInputValue(wrapper, passwordInputSelector, '12345678')
+  it('should save token locally when register successful', async () => {
+    mockResolvedPostRegister();
+    const wrapper = mount(<Register />);
+    jest.spyOn(global.localStorage, 'setItem');
+    setInputValue(wrapper, emailInputSelector, 'test@example.com');
+    setInputValue(wrapper, usernameInputSelector, 'test');
+    setInputValue(wrapper, passwordInputSelector, '12345678');
 
-    wrapper.find('form button.btn-lg.btn-primary').simulate('click')
-    await new Promise(r => setImmediate(r))
+    wrapper.find('form button.btn-lg.btn-primary').simulate('click');
+    await new Promise((r) => setImmediate(r));
 
-    expect(global.localStorage.setItem).toBeCalledWith('token', JSON.stringify(resolvedResult))
-  })
-})
+    expect(global.localStorage.setItem).toBeCalledWith('token', JSON.stringify(resolvedResult));
+  });
+});
