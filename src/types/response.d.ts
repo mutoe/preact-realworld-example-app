@@ -1,36 +1,36 @@
 interface ResponseError {
-  [field: string]: string[];
+	[field: string]: string[];
 }
 
 interface Response {
-  errors: ResponseError;
+	errors: ResponseError;
 }
 
 interface UserResponse {
-  user: User;
+	user: User;
 }
 
 interface TagsResponse {
-  tags: string[];
+	tags: string[];
 }
 
 interface ProfileResponse {
-  profile: Profile;
+	profile: Profile;
 }
 
 interface ArticleResponse {
-  article: Article;
+	article: Article;
 }
 
 interface ArticlesResponse {
-  articles: Article[];
-  articlesCount: number;
+	articles: Article[];
+	articlesCount: number;
 }
 
 interface CommentResponse {
-  comment: ArticleComment;
+	comment: ArticleComment;
 }
 
 interface CommentsResponse {
-  comments: ArticleComment[];
+	comments: ArticleComment[];
 }
