@@ -26,3 +26,4 @@ export async function apiUnfollowProfile(username: string): Promise<Profile> {
 		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while unfollowing profile';
 	}
 }
+

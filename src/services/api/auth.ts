@@ -26,3 +26,4 @@ export async function apiUpdateProfile(profileDetails: Partial<Profile>): Promis
 		throw error?.data?.errors ? error.data.errors : { unknown: ['Unknown error while updating user details'] };
 	}
 }
+
