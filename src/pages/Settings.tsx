@@ -1,9 +1,9 @@
 import { h } from 'preact';
-import { useRootState } from '../store';
 import { useEffect, useState } from 'preact/hooks';
 import { route } from 'preact-router';
-import { putProfile } from '../services';
-import { UPDATE_USER } from '../store/constants';
+
+import { apiUpdateProfile } from '../services/api/profile';
+import useStore from '../store';
 
 interface FormState {
 	username?: string;
@@ -14,17 +14,17 @@ interface FormState {
 }
 
 export default function Settings() {
-	const [{ user }, dispatch] = useRootState();
+	const { isAuthenticated, logout, user } = useStore(state => ({
+		isAuthenticated: state.isAuthenticated,
+		logout: state.logout,
+		user: state.user
+	}));
 	const [form, setForm] = useState<FormState>({});
-
-	function onLogout() {
-		dispatch({ type: UPDATE_USER });
-	}
 
 	async function onSubmit() {
 		// filter empty fields from form
 		const filteredForm = Object.entries(form).reduce((a, [k, v]) => (v == null ? a : { ...a, [k]: v }), {});
-		const profile = await putProfile(filteredForm);
+		const profile = await apiUpdateProfile(filteredForm);
 		dispatch({ type: UPDATE_USER, user: profile });
 	}
 
@@ -41,8 +41,6 @@ export default function Settings() {
 		}
 	}, [user]);
 
-	if (!user) return null;
-
 	const buttonDisabled =
 		form.image === user.image &&
 		form.username === user.username &&
@@ -50,7 +48,7 @@ export default function Settings() {
 		form.bio === user.bio &&
 		!form.password;
 
-	return (
+	return !isAuthenticated ? null : (
 		<div class="settings-page">
 			<div class="container page">
 				<div class="row">
@@ -112,7 +110,7 @@ export default function Settings() {
 
 						<hr />
 
-						<button class="btn btn-outline-danger" onClick={onLogout}>
+						<button class="btn btn-outline-danger" onClick={logout}>
 							Or click here to logout.
 						</button>
 					</div>

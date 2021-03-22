@@ -13,3 +13,14 @@ interface User {
 	image: string | null;
 	token: string;
 }
+
+interface LoginUser {
+    email: string;
+    password: string;
+}
+
+interface RegistrationUser {
+    username: string;
+    email: string;
+    password: string;
+}

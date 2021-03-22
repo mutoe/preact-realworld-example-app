@@ -9,27 +9,6 @@ export const request = new FetchRequest({
 	}
 });
 
-export interface PostLoginForm {
-	email: string;
-	password: string;
-}
-
-export async function postLogin(form: PostLoginForm) {
-	return request
-		.post<UserResponse>('/users/login', { user: form })
-		.then(res => res.user);
-}
-
-interface PostRegisterForm extends PostLoginForm {
-	username: string;
-}
-
-export async function postRegister(form: PostRegisterForm) {
-	return request
-		.post<UserResponse>('/users', { user: form })
-		.then(res => res.user);
-}
-
 export async function getAllTags() {
 	return request.get<TagsResponse>('/tags').then(res => res.tags);
 }
@@ -106,10 +85,6 @@ export async function deleteFavoriteArticle(slug: string) {
 
 export async function getProfile(username: string) {
 	return request.get<ProfileResponse>(`/profiles/${username}`).then(res => res.profile);
-}
-
-export async function putProfile(form: Partial<Profile>) {
-	return request.put<ProfileResponse>('/user', form).then(res => res.profile);
 }
 
 export async function postFollowProfile(username: string) {

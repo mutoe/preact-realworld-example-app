@@ -2,7 +2,6 @@ import { h } from 'preact';
 import { Route, Router } from 'preact-router';
 import { createHashHistory } from 'history';
 
-import { RootProvider } from './store';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -15,7 +14,7 @@ import Footer from './components/Footer';
 
 export default function App() {
 	return (
-		<RootProvider>
+		<div>
 			<Header />
 			<Router history={createHashHistory()}>
 				<Route path="/" component={Home} />
@@ -31,6 +30,6 @@ export default function App() {
 				<Route path="/:username/favorites" component={Profile} />
 			</Router>
 			<Footer />
-		</RootProvider>
+		</div>
 	);
 }

@@ -1,12 +1,17 @@
 import { h } from 'preact';
-import { useEffect, useRef, useState } from 'preact/hooks';
-import { Link, route } from 'preact-router';
-import { useRootState } from '../store';
-import { login } from '../store/actions';
+import { useRef, useState } from 'preact/hooks';
+import { Link } from 'preact-router';
+
+import useStore from '../store';
 
 export default function Register() {
+	const { error, login, resetErrors } = useStore(state => ({
+		error: state.error,
+		login: state.login,
+		resetErrors: state.resetErrors
+	}));
+
 	const formRef = useRef<HTMLFormElement>();
-	const [{ user, errors }, dispatch] = useRootState();
 	const [form, setForm] = useState({
 		email: '',
 		password: ''
@@ -15,14 +20,8 @@ export default function Register() {
 	const onLogin = async (e: Event) => {
 		e.preventDefault();
 		if (!formRef.current?.checkValidity()) return;
-
-		dispatch(await login(form));
+		await login(form);
 	};
-
-	// route to home page after user logged
-	useEffect(() => {
-		if (user) route('/');
-	}, [user]);
 
 	return (
 		<div class="auth-page">
@@ -34,13 +33,11 @@ export default function Register() {
 							<Link href="/register">Need an account?</Link>
 						</p>
 
-						<ul class="error-messages">
-							{Object.entries(errors || {}).map(([field, errors]) => (
-								<li key={field}>
-									{field} {errors[0]}
-								</li>
-							))}
-						</ul>
+						{error && (
+							<ul class="error-messages">
+								<li>{error.charAt(0).toUpperCase() + error.slice(1)}</li>
+							</ul>
+						)}
 
 						<form ref={formRef} onSubmit={onLogin}>
 							<fieldset class="form-group">
@@ -50,7 +47,10 @@ export default function Register() {
 									placeholder="Email"
 									required
 									value={form.email}
-									onInput={e => setForm(prev => ({ ...prev, email: e.currentTarget.value }))}
+									onInput={e => {
+										resetErrors();
+										setForm(prev => ({ ...prev, email: e.currentTarget.value }));
+									}}
 								/>
 							</fieldset>
 							<fieldset class="form-group">
@@ -60,7 +60,10 @@ export default function Register() {
 									placeholder="Password"
 									required
 									value={form.password}
-									onInput={e => setForm(prev => ({ ...prev, password: e.currentTarget.value }))}
+									onInput={e => {
+										resetErrors();
+										setForm(prev => ({ ...prev, password: e.currentTarget.value }));
+									}}
 								/>
 							</fieldset>
 							<button

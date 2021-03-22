@@ -5,7 +5,7 @@ import { Link } from 'preact-router/match';
 import ArticlePreview from '../components/ArticlePreview';
 import Pagination from '../components/Pagination';
 import { deleteFollowProfile, getProfile, getProfileArticles, postFollowProfile } from '../services';
-import { useRootState } from '../store';
+import useStore from '../store';
 
 interface ProfileProps {
 	username?: string;
@@ -18,7 +18,7 @@ export default function Profile(props: ProfileProps) {
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
 	const [page, setPage] = useState(1);
-	const [{ user: loggedUser }] = useRootState();
+	const isAuthenticated = useStore(state => state.isAuthenticated);
 
 	const fetchProfile = async () => {
 		const user = await getProfile(username);
@@ -61,7 +61,7 @@ export default function Profile(props: ProfileProps) {
 							<img src={user.image} class="user-img" />
 							<h4>{username}</h4>
 							<p>{user.bio}</p>
-							{loggedUser ? (
+							{isAuthenticated ? (
 								<Link href="/settings" class="btn btn-sm btn-outline-secondary action-btn">
 									<i class="ion-gear-a" />
 									&nbsp; Edit Profile Settings

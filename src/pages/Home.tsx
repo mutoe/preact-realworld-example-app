@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { getCurrentUrl } from 'preact-router';
+
 import NavBar from '../components/NavBar';
 import PopularTags from '../components/PopularTags';
 import { getArticles, getArticlesByTag, getFeeds } from '../services';

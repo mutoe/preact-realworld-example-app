@@ -1,9 +1,10 @@
 import { h } from 'preact';
-import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../services';
 import { useEffect, useState } from 'preact/hooks';
+
+import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../services';
 import ArticleMeta from '../components/ArticleMeta';
 import ArticleCommentCard from '../components/ArticleCommentCard';
-import { useRootState } from '../store';
+import useStore from '../store';
 import { DEFAULT_AVATAR } from '../store/constants';
 import snarkdown from 'snarkdown';
 
@@ -16,7 +17,7 @@ export default function ArticlePage(props: ArticlePageProps) {
 	const [article, setArticle] = useState({ author: {} } as Article);
 	const [comments, setComments] = useState<ArticleComment[]>([]);
 	const [commentBody, setCommentBody] = useState('');
-	const [{ user }] = useRootState();
+	const user = useStore(state => state.user);
 
 	const fetchArticle = async () => {
 		const article = await getArticle(slug);
