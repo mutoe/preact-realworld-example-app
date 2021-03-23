@@ -1,9 +1,10 @@
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { Link } from 'preact-router';
-import { deleteFollowProfile, getProfile, getProfileArticles, postFollowProfile } from '../services';
+import { Link } from 'preact-router/match';
+
 import ArticlePreview from '../components/ArticlePreview';
 import Pagination from '../components/Pagination';
+import { deleteFollowProfile, getProfile, getProfileArticles, postFollowProfile } from '../services';
 import { useRootState } from '../store';
 
 interface ProfileProps {
@@ -63,7 +64,7 @@ export default function Profile(props: ProfileProps) {
 							{loggedUser ? (
 								<Link href="/settings" class="btn btn-sm btn-outline-secondary action-btn">
 									<i class="ion-gear-a" />
-									&nbsp; Edit profile settings
+									&nbsp; Edit Profile Settings
 								</Link>
 							) : (
 								<button class="btn btn-sm btn-outline-secondary action-btn" onClick={onFollowUser}>
@@ -82,16 +83,15 @@ export default function Profile(props: ProfileProps) {
 					<div class="col-xs-12 col-md-10 offset-md-1">
 						<div class="articles-toggle">
 							<ul class="nav nav-pills outline-active">
-								{/* TODO: add link */}
 								<li class="nav-item">
-									<a class="nav-link active" href="">
+									<Link class="nav-link" activeClassName="active" href={`/@${user.username}`}>
 										My Articles
-									</a>
+									</Link>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="">
+									<Link class="nav-link" activeClassName="active" href={`/@${user.username}/favorites`}>
 										Favorited Articles
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>

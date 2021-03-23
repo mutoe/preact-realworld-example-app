@@ -1,5 +1,6 @@
 import { h } from 'preact';
 import { Link } from 'preact-router';
+
 import useAllTags from '../hooks/useAllTags';
 
 export default function PopularTags() {

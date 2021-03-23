@@ -1,5 +1,7 @@
 import { Fragment, h } from 'preact';
-import { Link } from 'preact-router';
+import { getCurrentUrl } from 'preact-router';
+import { Link } from 'preact-router/match';
+
 import { useRootState } from '../store';
 
 export default function Header() {
@@ -21,7 +23,7 @@ export default function Header() {
 						<Fragment>
 							<li class="nav-item">
 								<Link class="nav-link" href="/article/create">
-									<i class="ion-compose" /> New Post
+									<i class="ion-compose" /> New Article
 								</Link>
 							</li>
 							<li class="nav-item">
@@ -30,7 +32,11 @@ export default function Header() {
 								</Link>
 							</li>
 							<li class="nav-item">
-								<Link class="nav-link" activeClassName="active" href={`/@${user?.username}`}>
+								{/* The URL is checked manually so that /@<username>/favorites also makes the profile tab active */}
+								<Link
+									class={`nav-link ${/^\/@.*/g.test(getCurrentUrl()) ? 'active' : ''}`}
+									href={`/@${user?.username}`}
+								>
 									{user?.username}
 								</Link>
 							</li>
