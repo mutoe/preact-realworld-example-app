@@ -1,7 +1,8 @@
 import { h } from 'preact';
-import { deleteFavoriteArticle, postFavoriteArticle } from '../services';
 import { useEffect, useState } from 'preact/hooks';
-import { DEFAULT_AVATAR } from '../store/constants';
+
+import { deleteFavoriteArticle, postFavoriteArticle } from '../services';
+import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticlePreviewProps {
 	article: Article;

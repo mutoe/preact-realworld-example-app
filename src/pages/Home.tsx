@@ -2,22 +2,23 @@ import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { getCurrentUrl } from 'preact-router';
 
+import ArticlePreview from '../components/ArticlePreview';
 import NavBar from '../components/NavBar';
+import Pagination from '../components/Pagination';
 import PopularTags from '../components/PopularTags';
 import { getArticles, getArticlesByTag, getFeeds } from '../services';
-import ArticlePreview from '../components/ArticlePreview';
-import Pagination from '../components/Pagination';
-import { useRootState } from '../store';
+import useStore from '../store';
 
 interface HomeProps {
 	tag?: string;
 }
 
 export default function Home(props: HomeProps) {
+	const isAuthenticated = useStore(state => state.isAuthenticated);
+
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
 	const [page, setPage] = useState(1);
-	const [{ user }] = useRootState();
 
 	const currentActive = getCurrentUrl() === '/my-feeds' ? 'personal' : props.tag ? 'tag' : 'global';
 
@@ -42,6 +43,7 @@ export default function Home(props: HomeProps) {
 				const { articles = [], articlesCount = 0 } = await getFeeds(page);
 				setArticles(articles);
 				setArticlesCount(articlesCount);
+				break;
 			}
 		}
 	};
@@ -58,7 +60,7 @@ export default function Home(props: HomeProps) {
 
 	return (
 		<div class="home-page">
-			{!user && (
+			{!isAuthenticated && (
 				<div class="banner">
 					<div class="container">
 						<h1 class="logo-font">conduit</h1>

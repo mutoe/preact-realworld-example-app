@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { Fragment, h } from 'preact';
 import { Route, Router } from 'preact-router';
 import { createHashHistory } from 'history';
 
@@ -14,7 +14,7 @@ import Footer from './components/Footer';
 
 export default function App() {
 	return (
-		<div>
+		<Fragment>
 			<Header />
 			<Router history={createHashHistory()}>
 				<Route path="/" component={Home} />
@@ -30,6 +30,6 @@ export default function App() {
 				<Route path="/:username/favorites" component={Profile} />
 			</Router>
 			<Footer />
-		</div>
+		</Fragment>
 	);
 }

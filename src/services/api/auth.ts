@@ -21,3 +21,14 @@ export const apiRegister = async (credentials: RegistrationUser): Promise<User> 
             : 'Unknown error while registering';
     }
 };
+
+export const apiUpdateProfile = async (profileDetails: Partial<Profile>): Promise<User> => {
+    try {
+        const { data } = await apiService.put('user', { user: profileDetails });
+        return data.user;
+    } catch (error) {
+        throw error?.data?.errors[0]
+            ? error.data.errors[0]
+            : 'Unknown error while logging in';
+    }
+};

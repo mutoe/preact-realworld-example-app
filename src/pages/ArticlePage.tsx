@@ -1,12 +1,12 @@
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import snarkdown from 'snarkdown';
 
-import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../services';
 import ArticleMeta from '../components/ArticleMeta';
 import ArticleCommentCard from '../components/ArticleCommentCard';
+import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../services';
 import useStore from '../store';
-import { DEFAULT_AVATAR } from '../store/constants';
-import snarkdown from 'snarkdown';
+import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticlePageProps {
 	slug: string;

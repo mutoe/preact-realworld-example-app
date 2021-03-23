@@ -1,7 +1,8 @@
 import { Fragment, h } from 'preact';
+
 import { dateFilter } from '../utils/filters';
-import { DEFAULT_AVATAR } from '../store/constants';
 import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../services';
+import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticleMetaProps {
 	article: Article;

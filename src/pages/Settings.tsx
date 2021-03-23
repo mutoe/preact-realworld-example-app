@@ -2,7 +2,6 @@ import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { route } from 'preact-router';
 
-import { apiUpdateProfile } from '../services/api/profile';
 import useStore from '../store';
 
 interface FormState {
@@ -14,18 +13,18 @@ interface FormState {
 }
 
 export default function Settings() {
-	const { isAuthenticated, logout, user } = useStore(state => ({
-		isAuthenticated: state.isAuthenticated,
+	const { logout, user, updateUserDetails } = useStore(state => ({
 		logout: state.logout,
+		updateUserDetails: state.updateUserDetails,
 		user: state.user
 	}));
 	const [form, setForm] = useState<FormState>({});
 
-	async function onSubmit() {
+	async function onSubmit(event: Event) {
+		event.preventDefault();
 		// filter empty fields from form
 		const filteredForm = Object.entries(form).reduce((a, [k, v]) => (v == null ? a : { ...a, [k]: v }), {});
-		const profile = await apiUpdateProfile(filteredForm);
-		dispatch({ type: UPDATE_USER, user: profile });
+		updateUserDetails(filteredForm);
 	}
 
 	useEffect(() => {
@@ -41,6 +40,8 @@ export default function Settings() {
 		}
 	}, [user]);
 
+	if (!user) return null;
+
 	const buttonDisabled =
 		form.image === user.image &&
 		form.username === user.username &&
@@ -48,14 +49,14 @@ export default function Settings() {
 		form.bio === user.bio &&
 		!form.password;
 
-	return !isAuthenticated ? null : (
+	return (
 		<div class="settings-page">
 			<div class="container page">
 				<div class="row">
 					<div class="col-md-6 offset-md-3 col-xs-12">
 						<h1 class="text-xs-center">Your Settings</h1>
 
-						<form>
+						<form onSubmit={onSubmit}>
 							<fieldset>
 								<fieldset class="form-group">
 									<input
@@ -102,7 +103,10 @@ export default function Settings() {
 										onInput={e => setForm(prev => ({ ...prev, password: e.currentTarget.value }))}
 									/>
 								</fieldset>
-								<button class="btn btn-lg btn-primary pull-xs-right" disabled={buttonDisabled} onClick={onSubmit}>
+								<button
+									class="btn btn-lg btn-primary pull-xs-right"
+									disabled={buttonDisabled}
+								>
 									Update Settings
 								</button>
 							</fieldset>

@@ -1,5 +1,6 @@
 import { h } from 'preact';
-import { useRootState } from '../store';
+
+import useStore from '../store';
 
 interface NavBarProps {
 	currentActive?: 'global' | 'personal' | 'tag';
@@ -7,12 +8,12 @@ interface NavBarProps {
 }
 
 export default function NavBar(props: NavBarProps) {
-	const [{ user }] = useRootState();
+	const isAuthenticated = useStore(state => state.isAuthenticated);
 
 	return (
 		<div class="feed-toggle">
 			<ul class="nav nav-pills outline-active">
-				{user && (
+				{isAuthenticated && (
 					<li class="nav-item">
 						<a class={`nav-link ${props.currentActive === 'personal' ? 'active' : ''}`} href="/my-feeds">
 							Your Feed
