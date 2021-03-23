@@ -29,9 +29,11 @@
 		"eslint": "^7.22.0",
 		"eslint-config-preact": "^1.1.3",
 		"html-webpack-plugin": "^3.2.0",
+		"husky": "^5.2.0",
 		"jest": "^25.1.0",
 		"jest-serializer-html-string": "^1.0.1",
 		"jsdom": "^16.2.0",
+		"lint-staged": "^10.5.4",
 		"mockjs": "^1.1.0",
 		"preact-render-to-string": "^5.1.1",
 		"prettier": "^2.2.1",
@@ -42,6 +44,16 @@
 		"webpack-bundle-analyzer": "^3.6.0",
 		"webpack-cli": "^3.3.10",
 		"webpack-dev-server": "^3.9.0"
+	},
+	"lint-staged": {
+		"**/*.{js,jsx,ts,tsx,json}": [
+			"prettier --write"
+		]
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
 	},
 	"eslintConfig": {
 		"parser": "@typescript-eslint/parser",
