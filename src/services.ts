@@ -82,15 +82,3 @@ export async function postFavoriteArticle(slug: string) {
 export async function deleteFavoriteArticle(slug: string) {
 	return request.delete<ArticleResponse>(`/articles/${slug}/favorite`).then(res => res.article);
 }
-
-export async function getProfile(username: string) {
-	return request.get<ProfileResponse>(`/profiles/${username}`).then(res => res.profile);
-}
-
-export async function postFollowProfile(username: string) {
-	return request.post<ProfileResponse>(`/profiles/${username}/follow`).then(res => res.profile);
-}
-
-export async function deleteFollowProfile(username: string) {
-	return request.delete<ProfileResponse>(`/profiles/${username}/follow`).then(res => res.profile);
-}

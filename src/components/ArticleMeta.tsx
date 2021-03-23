@@ -1,7 +1,8 @@
 import { Fragment, h } from 'preact';
 
+import { deleteFavoriteArticle, postFavoriteArticle } from '../services';
+import { apiFollowProfile, apiUnfollowProfile } from '../services/api/profile';
 import { dateFilter } from '../utils/filters';
-import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../services';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticleMetaProps {
@@ -15,8 +16,8 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 
 	const onFollow = async () => {
 		const profile = article.author.following
-			? await deleteFollowProfile(article.author.username)
-			: await postFollowProfile(article.author.username);
+			? await apiFollowProfile(article.author.username)
+			: await apiUnfollowProfile(article.author.username);
 		setArticle({ ...article, author: profile });
 	};
 

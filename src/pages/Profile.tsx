@@ -4,8 +4,9 @@ import { Link } from 'preact-router/match';
 
 import ArticlePreview from '../components/ArticlePreview';
 import Pagination from '../components/Pagination';
-import { deleteFollowProfile, getProfile, getProfileArticles, postFollowProfile } from '../services';
+import { apiFollowProfile, apiUnfollowProfile, apiGetProfile } from '../services/api/profile';
 import useStore from '../store';
+import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ProfileProps {
 	username?: string;
@@ -18,18 +19,7 @@ export default function Profile(props: ProfileProps) {
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
 	const [page, setPage] = useState(1);
-	const isAuthenticated = useStore(state => state.isAuthenticated);
-
-	const fetchProfile = async () => {
-		const user = await getProfile(username);
-		setUser(user);
-	};
-
-	const fetchArticles = async () => {
-		const { articles, articlesCount } = await getProfileArticles(username, page);
-		setArticles(articles);
-		setArticlesCount(articlesCount);
-	};
+	const isOwnProfile = username == useStore(state => state.user?.username);
 
 	const setArticle = (articleIndex: number, article: Article) => {
 		const articlesCopy = [...articles];
@@ -40,14 +30,23 @@ export default function Profile(props: ProfileProps) {
 	const onFollowUser = async () => {
 		if (user.following) {
 			setUser(prev => ({ ...prev, following: false }));
-			await deleteFollowProfile(username);
+			await apiUnfollowProfile(username);
 		} else {
 			setUser(prev => ({ ...prev, following: true }));
-			await postFollowProfile(username);
+			await apiFollowProfile(username);
 		}
 	};
 
 	useEffect(() => {
+		async function fetchProfile() {
+			setUser(await apiGetProfile(username));
+		}
+		async function fetchArticles() {
+			const { articles, articlesCount } = await getProfileArticles(username, page);
+			setArticles(articles);
+			setArticlesCount(articlesCount);
+		};
+
 		fetchProfile();
 		fetchArticles();
 	}, [username]);
@@ -58,10 +57,10 @@ export default function Profile(props: ProfileProps) {
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 col-md-10 offset-md-1">
-							<img src={user.image} class="user-img" />
+							<img src={user.image || DEFAULT_AVATAR} class="user-img" />
 							<h4>{username}</h4>
 							<p>{user.bio}</p>
-							{isAuthenticated ? (
+							{isOwnProfile ? (
 								<Link href="/settings" class="btn btn-sm btn-outline-secondary action-btn">
 									<i class="ion-gear-a" />
 									&nbsp; Edit Profile Settings
