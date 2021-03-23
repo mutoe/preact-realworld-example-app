@@ -27,6 +27,7 @@ export default function App() {
 				<Route path="/article/create" component={EditArticle} />
 				<Route path="/article/:slug/edit" component={EditArticle} />
 				<Route path="/article/:slug" component={ArticlePage} />
+				<Route path="/:username" component={Profile} />
 				<Route path="/:username/favorites" component={Profile} />
 			</Router>
 			<Footer />
