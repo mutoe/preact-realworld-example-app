@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import Router, { Route } from 'preact-router';
+import { Route, Router } from 'preact-router';
 import { createHashHistory } from 'history';
 
 import { RootProvider } from './store';
