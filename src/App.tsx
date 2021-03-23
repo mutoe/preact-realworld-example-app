@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import Router, { Route } from 'preact-router';
+import { Route, Router } from 'preact-router';
 import { createHashHistory } from 'history';
 
 import { RootProvider } from './store';
@@ -27,6 +27,7 @@ export default function App() {
 				<Route path="/article/create" component={EditArticle} />
 				<Route path="/article/:slug/edit" component={EditArticle} />
 				<Route path="/article/:slug" component={ArticlePage} />
+				<Route path="/:username" component={Profile} />
 				<Route path="/:username/favorites" component={Profile} />
 			</Router>
 			<Footer />

@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { useRef, useState } from 'preact/hooks';
-import { route } from 'preact-router';
+import { Link, route } from 'preact-router';
 import { postRegister } from '../services';
 
 export default function Register() {
@@ -31,7 +31,7 @@ export default function Register() {
 					<div class="col-md-6 offset-md-3 col-xs-12">
 						<h1 class="text-xs-center">Sign up</h1>
 						<p class="text-xs-center">
-							<a href="/login">Have an account?</a>
+							<Link href="/login">Have an account?</Link>
 						</p>
 
 						<ul class="error-messages">

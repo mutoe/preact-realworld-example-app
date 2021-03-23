@@ -1,4 +1,5 @@
 import { h } from 'preact';
+
 import { limit } from '../services';
 
 interface PaginationProps {
