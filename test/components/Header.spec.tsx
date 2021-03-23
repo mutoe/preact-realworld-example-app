@@ -28,7 +28,7 @@ describe('# Header Component', () => {
 		useRootStateMock.mockReturnValue([{ user: {} }]);
 		const html = render(<Header />);
 
-		expect(html).toContain('New Post');
+		expect(html).toContain('New Article');
 	});
 
 	it('should display username after user logged', () => {
