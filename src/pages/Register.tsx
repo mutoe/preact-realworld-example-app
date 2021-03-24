@@ -1,7 +1,6 @@
 import { h } from 'preact';
 import { useRef, useState } from 'preact/hooks';
-import { Link, route } from 'preact-router';
-import { postRegister } from '../services';
+import { Link } from 'preact-router';
 
 import useStore from '../store';
 

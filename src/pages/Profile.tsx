@@ -4,6 +4,7 @@ import { Link } from 'preact-router/match';
 
 import ArticlePreview from '../components/ArticlePreview';
 import Pagination from '../components/Pagination';
+import { getProfileArticles } from '../services';
 import { apiFollowProfile, apiUnfollowProfile, apiGetProfile } from '../services/api/profile';
 import useStore from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
