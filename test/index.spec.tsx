@@ -1,20 +1,21 @@
+import { h, render } from 'preact';
 import { route } from 'preact-router';
+import { unmountComponentAtNode } from 'preact/compat';
 
+import App from '../src/App';
 import { request } from '../src/services';
 
 jest.mock('preact-router');
+jest.mock('preact-router/match');
 
 describe('# Root Component', () => {
-	// Commented out as preact-router/match seemingly doesn't work
-	// in the jest environment. Temporary solution as we're moving
-	// to WMR anyways
-	//it('renders without crashing', () => {
-	//	expect(() => {
-	//		const div = document.createElement('div');
-	//		render(<App />, div);
-	//		unmountComponentAtNode(div);
-	//	}).not.toThrow();
-	//});
+	it('renders without crashing', () => {
+		expect(() => {
+			const div = document.createElement('div');
+			render(<App />, div);
+			unmountComponentAtNode(div);
+		}).not.toThrow();
+	});
 
 	it('should be jump Login page when request 401 code got', async () => {
 		global.fetch = jest.fn().mockResolvedValue({
