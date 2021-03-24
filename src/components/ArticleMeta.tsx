@@ -38,7 +38,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 			</div>
 			{props.isAuthor ? (
 				<Fragment>
-					<a class="btn btn-sm btn-outline-secondary" href={`/article/${article.slug}/edit`}>
+					<a class="btn btn-sm btn-outline-secondary" href={`/editor/${article.slug}`}>
 						<i class="ion-edit" /> Edit Article
 					</a>
 					&nbsp;&nbsp;
