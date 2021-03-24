@@ -96,9 +96,17 @@ export default function Profile(props: ProfileProps) {
 							</ul>
 						</div>
 
-						{articles.map((article, index) => (
-							<ArticlePreview key={article.slug} article={article} setArticle={article => setArticle(index, article)} />
-						))}
+						{articles.length > 0 ? (
+							articles.map((article, index) => (
+								<ArticlePreview
+									key={article.slug}
+									article={article}
+									setArticle={article => setArticle(index, article)}
+								/>
+							))
+						) : (
+							<div class="article-preview">No articles are here... yet.</div>
+						)}
 
 						<Pagination count={articlesCount} page={page} setPage={setPage} />
 					</div>
