@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useRef, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { Link } from 'preact-router';
 
 import useStore from '../store';
@@ -22,6 +22,10 @@ export default function Register() {
 		if (!formRef.current?.checkValidity()) return;
 		await login(form);
 	};
+
+	useEffect(() => {
+		resetErrors();
+	}, []);
 
 	return (
 		<div class="auth-page">
