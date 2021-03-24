@@ -38,14 +38,13 @@ export default function Profile(props: ProfileProps) {
 	};
 
 	useEffect(() => {
-		async function fetchProfile() {
+		(async function fetchProfile() {
 			setUser(await apiGetProfile(username));
-		}
-		fetchProfile();
+		})();
 	}, [username]);
 
 	useEffect(() => {
-		async function fetchArticles() {
+		(async function fetchArticles() {
 			const { articles, articlesCount } = await apiGetArticles(
 				{ [/.*\/favorites/g.test(getCurrentUrl()) ? 'favorited' : 'author']: username },
 				page
@@ -53,9 +52,7 @@ export default function Profile(props: ProfileProps) {
 
 			setArticles(articles);
 			setArticlesCount(articlesCount);
-		}
-
-		fetchArticles();
+		})();
 	}, [getCurrentUrl(), username]);
 
 	return (
@@ -95,7 +92,11 @@ export default function Profile(props: ProfileProps) {
 									</Link>
 								</li>
 								<li class="nav-item">
-									<Link class="nav-link" activeClassName="active" href={`/@${user.username}/favorites`}>
+									<Link
+										class="nav-link"
+										activeClassName="active"
+										href={`/@${user.username}/favorites`}
+									>
 										Favorited Articles
 									</Link>
 								</li>
