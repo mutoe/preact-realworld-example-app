@@ -41,9 +41,9 @@ jobs:
     - name: lint and tests
       run: |
         yarn lint
-        yarn test --coverage
+   #    yarn test --coverage
 
-    - name: collect coverage
-      uses: coverallsapp/github-action@v1.0.1
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+   #- name: collect coverage
+   #  uses: coverallsapp/github-action@v1.0.1
+   #  with:
+   #    github-token: ${{ secrets.GITHUB_TOKEN }}
