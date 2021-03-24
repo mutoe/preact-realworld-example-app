@@ -12,8 +12,8 @@ export default function Register() {
 		password: ''
 	});
 
-	const onLogin = async (event: Event) => {
-		event.preventDefault();
+	const onLogin = async (e: Event) => {
+		e.preventDefault();
 		if (!formRef.current?.checkValidity()) return;
 
 		dispatch(await login(form));
@@ -43,30 +43,29 @@ export default function Register() {
 						</ul>
 
 						<form ref={formRef} onSubmit={onLogin}>
-							<fieldset class="form-group" aria-required>
+							<fieldset class="form-group">
 								<input
-									value={form.email}
 									class="form-control form-control-lg"
 									type="email"
-									required
 									placeholder="Email"
+									required
+									value={form.email}
 									onInput={e => setForm(prev => ({ ...prev, email: e.currentTarget.value }))}
 								/>
 							</fieldset>
 							<fieldset class="form-group">
 								<input
-									value={form.password}
 									class="form-control form-control-lg"
 									type="password"
-									required
 									placeholder="Password"
+									required
+									value={form.password}
 									onInput={e => setForm(prev => ({ ...prev, password: e.currentTarget.value }))}
 								/>
 							</fieldset>
 							<button
 								class="btn btn-lg btn-primary pull-xs-right"
 								disabled={!form.email || !form.password}
-								type="submit"
 							>
 								Sign in
 							</button>

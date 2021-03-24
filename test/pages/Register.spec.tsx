@@ -11,9 +11,9 @@ jest.mock('preact-router');
 
 const postRegisterMock = postRegister as jest.Mock<Promise<User>>;
 
+const usernameInputSelector = '[placeholder="Username"]';
 const emailInputSelector = '[placeholder="Email"]';
 const passwordInputSelector = '[placeholder="Password"]';
-const usernameInputSelector = '[placeholder="Your Name"]';
 
 const resolvedResult = {
 	id: 1,
@@ -32,36 +32,6 @@ afterEach(() => {
 	jest.clearAllMocks();
 });
 
-describe('# Register error message', () => {
-	it('should be show error message when given response error', async () => {
-		postRegisterMock.mockRejectedValue({
-			errors: {
-				password: ['is invalid']
-			}
-		});
-		const wrapper = shallow(<Register />);
-		wrapper.find('form button.btn-lg.btn-primary').simulate('click');
-		await new Promise(r => setImmediate(r));
-
-		expect(wrapper.find('.error-messages')).toHaveLength(1);
-		expect(wrapper.find('.error-messages').text()).toContain('password is invalid');
-	});
-
-	it('should be show multiple errors when given multiple response errors', async () => {
-		postRegisterMock.mockRejectedValue({
-			errors: {
-				email: ['is already exists'],
-				password: ['is too long']
-			}
-		});
-		const wrapper = shallow(<Register />);
-		wrapper.find('form button.btn-lg.btn-primary').simulate('click');
-		await new Promise(r => setImmediate(r));
-
-		expect(wrapper.find('.error-messages > li')).toHaveLength(2);
-	});
-});
-
 describe('# Register form validate', () => {
 	it('should set button disabled when submit a empty form field', () => {
 		const wrapper = mount(<Register />);
@@ -74,8 +44,8 @@ describe('# Register form validate', () => {
 
 	it('should not be send when given invalid form', () => {
 		const wrapper = mount(<Register />);
-		setInputValue(wrapper, emailInputSelector, '123');
 		setInputValue(wrapper, usernameInputSelector, '123');
+		setInputValue(wrapper, emailInputSelector, '123');
 		setInputValue(wrapper, passwordInputSelector, '123');
 		wrapper.find('form button.btn-lg.btn-primary').simulate('click');
 
@@ -86,8 +56,8 @@ describe('# Register form validate', () => {
 describe('# Register request', () => {
 	it('should be send form when sign up button clicked', () => {
 		const wrapper = mount(<Register />);
-		setInputValue(wrapper, emailInputSelector, 'test@example.com');
 		setInputValue(wrapper, usernameInputSelector, 'test');
+		setInputValue(wrapper, emailInputSelector, 'test@example.com');
 		setInputValue(wrapper, passwordInputSelector, '12345678');
 
 		wrapper.find('form button.btn-lg.btn-primary').simulate('click');
