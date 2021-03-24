@@ -3,7 +3,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { route } from 'preact-router';
 import { getArticle, postArticle, putArticle } from '../services';
 
-interface EditArticleProps {
+interface EditorProps {
 	slug?: string;
 }
 
@@ -14,7 +14,7 @@ interface FormState {
 	tagList: string[];
 }
 
-export default function EditArticle(props: EditArticleProps) {
+export default function Editor(props: EditorProps) {
 	const [form, setForm] = useState<FormState>({
 		title: '',
 		description: '',

@@ -22,7 +22,7 @@ export default function Header() {
 					{user ? (
 						<Fragment>
 							<li class="nav-item">
-								<Link class="nav-link" href="/article/create">
+								<Link class="nav-link" href="/editor">
 									<i class="ion-compose" /> New Article
 								</Link>
 							</li>
