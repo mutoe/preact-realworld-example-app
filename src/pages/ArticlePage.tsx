@@ -50,19 +50,27 @@ export default function ArticlePage(props: ArticlePageProps) {
 			<div class="banner">
 				<div class="container">
 					<h1>{article.title}</h1>
-					<ArticleMeta article={article} setArticle={setArticle} />
+					<ArticleMeta
+						article={article}
+						setArticle={setArticle}
+						isAuthor={user?.username === article.author.username}
+					/>
 				</div>
 			</div>
 
 			<div class="container page">
 				<div class="row article-content">
-					<div class="col-md-12">{article.body}</div>
+					<div class="col-xs-12">{article.body}</div>
 				</div>
 
 				<hr />
 
 				<div class="article-actions">
-					<ArticleMeta article={article} setArticle={setArticle} />
+					<ArticleMeta
+						article={article}
+						setArticle={setArticle}
+						isAuthor={user?.username === article.author.username}
+					/>
 				</div>
 
 				<div class="row">

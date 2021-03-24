@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { Fragment, h } from 'preact';
 import { dateFilter } from '../utils/filters';
 import { DEFAULT_AVATAR } from '../store/constants';
 import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../services';
@@ -6,33 +6,24 @@ import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFo
 interface ArticleMetaProps {
 	article: Article;
 	setArticle: (article: Article) => void;
+	isAuthor: boolean;
 }
 
 export default function ArticleMeta(props: ArticleMetaProps) {
 	const { article, setArticle } = props;
 
-	const onFollowProfile = async () => {
-		if (article.author.following) {
-			const profile = await deleteFollowProfile(article.author.username);
-			setArticle({ ...article, author: profile });
-		} else {
-			const profile = await postFollowProfile(article.author.username);
-			setArticle({ ...article, author: profile });
-		}
+	const onFollow = async () => {
+		const profile = article.author.following
+			? await deleteFollowProfile(article.author.username)
+			: await postFollowProfile(article.author.username);
+		setArticle({ ...article, author: profile });
 	};
 
-	const onFavoriteArticle = async () => {
-		if (article.favorited) {
-			const newArticle = await deleteFavoriteArticle(article.slug);
-			setArticle(newArticle);
-		} else {
-			const newArticle = await postFavoriteArticle(article.slug);
-			setArticle(newArticle);
-		}
+	const onFavorite = async () => {
+		setArticle(
+			article.favorited ? await deleteFavoriteArticle(article.slug) : await postFavoriteArticle(article.slug)
+		);
 	};
-
-	const followButtonClass = article.author.following ? 'btn-secondary' : 'btn-outline-secondary';
-	const favoriteButtonClass = article.favorited ? 'btn-primary' : 'btn-outline-primary';
 
 	return (
 		<div class="article-meta">
@@ -45,14 +36,36 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 				</a>
 				<span class="date">{dateFilter(article.createdAt)}</span>
 			</div>
-			<button class={`btn btn-sm ${followButtonClass}`} onClick={onFollowProfile}>
-				<i class="ion-plus-round" /> {article.author.following ? 'Unfollow' : 'Follow'} {article.author.username}
-			</button>
-			&nbsp;&nbsp;
-			<button class={`btn btn-sm ${favoriteButtonClass}`} onClick={onFavoriteArticle}>
-				<i class="ion-heart" />
-				&nbsp; Favorite Post <span class="counter">({article.favoritesCount})</span>
-			</button>
+			{props.isAuthor ? (
+				<Fragment>
+					<a class="btn btn-sm btn-outline-secondary" href={`/article/${article.slug}/edit`}>
+						<i class="ion-edit" /> Edit Article
+					</a>
+					&nbsp;&nbsp;
+					{/* TODO: Implement delete */}
+					<button class="btn btn-sm btn-outline-danger" onClick={onFavorite}>
+						<i class="ion-trash-a" /> Delete Article
+					</button>
+				</Fragment>
+			) : (
+				<Fragment>
+					<button
+						class={`btn btn-sm ${article.author.following ? 'btn-secondary' : 'btn-outline-secondary'}`}
+						onClick={onFollow}
+					>
+						<i class="ion-plus-round" /> {article.author.following ? 'Unfollow' : 'Follow'}{' '}
+						{article.author.username}
+					</button>
+					&nbsp;&nbsp;
+					<button
+						class={`btn btn-sm ${article.favorited ? 'btn-primary' : 'btn-outline-primary'}`}
+						onClick={onFavorite}
+					>
+						<i class="ion-heart" />
+						&nbsp; Favorite Post <span class="counter">({article.favoritesCount})</span>
+					</button>
+				</Fragment>
+			)}
 		</div>
 	);
 }
