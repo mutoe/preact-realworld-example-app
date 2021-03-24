@@ -1,4 +1,4 @@
-name: Test
+name: Build
 
 on:
   workflow_run:
