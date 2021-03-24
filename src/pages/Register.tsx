@@ -12,7 +12,8 @@ export default function Register() {
 		password: ''
 	});
 
-	const onRegister = async () => {
+	const onRegister = async (e: Event) => {
+		e.preventDefault();
 		if (!formRef.current?.checkValidity()) return;
 
 		try {
@@ -44,12 +45,13 @@ export default function Register() {
 							})}
 						</ul>
 
-						<form ref={formRef}>
+						<form ref={formRef} onSubmit={onRegister}>
 							<fieldset class="form-group">
 								<input
 									class="form-control form-control-lg"
 									type="text"
-									placeholder="Your Name"
+									placeholder="Username"
+									required
 									value={form.username}
 									onInput={e => setForm(prev => ({ ...prev, username: e.currentTarget.value }))}
 								/>
@@ -59,24 +61,25 @@ export default function Register() {
 									class="form-control form-control-lg"
 									type="email"
 									placeholder="Email"
-									onInput={e => setForm(prev => ({ ...prev, email: e.currentTarget.value }))}
+									required
 									value={form.email}
+									onInput={e => setForm(prev => ({ ...prev, email: e.currentTarget.value }))}
 								/>
 							</fieldset>
 							<fieldset class="form-group">
 								<input
 									class="form-control form-control-lg"
 									type="password"
-									minLength={8}
 									placeholder="Password"
-									onInput={e => setForm(prev => ({ ...prev, password: e.currentTarget.value }))}
+									required
+									minLength={8}
 									value={form.password}
+									onInput={e => setForm(prev => ({ ...prev, password: e.currentTarget.value }))}
 								/>
 							</fieldset>
 							<button
 								class="btn btn-lg btn-primary pull-xs-right"
 								disabled={!(form.email && form.username && form.password)}
-								onClick={onRegister}
 							>
 								Sign up
 							</button>
