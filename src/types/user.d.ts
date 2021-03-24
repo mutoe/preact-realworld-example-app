@@ -9,8 +9,8 @@ interface User {
 	id: number;
 	email: string;
 	username: string;
-	bio: string | null;
-	image: string | null;
+	bio?: string;
+	image?: string;
 	token: string;
 }
 

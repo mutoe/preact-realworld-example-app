@@ -1,17 +1,17 @@
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import { getCurrentUrl } from 'preact-router';
 import { Link } from 'preact-router/match';
 
 import ArticlePreview from '../components/ArticlePreview';
 import Pagination from '../components/Pagination';
-import { getProfileArticles } from '../services';
+import { apiGetArticles } from '../services/api/article';
 import { apiFollowProfile, apiUnfollowProfile, apiGetProfile } from '../services/api/profile';
 import useStore from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ProfileProps {
-	username?: string;
-	favorites?: boolean;
+	username: string;
 }
 
 export default function Profile(props: ProfileProps) {
@@ -20,7 +20,6 @@ export default function Profile(props: ProfileProps) {
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
 	const [page, setPage] = useState(1);
-	const isOwnProfile = username == useStore(state => state.user?.username);
 
 	const setArticle = (articleIndex: number, article: Article) => {
 		const articlesCopy = [...articles];
@@ -42,15 +41,22 @@ export default function Profile(props: ProfileProps) {
 		async function fetchProfile() {
 			setUser(await apiGetProfile(username));
 		}
+		fetchProfile();
+	}, [username]);
+
+	useEffect(() => {
 		async function fetchArticles() {
-			const { articles, articlesCount } = await getProfileArticles(username, page);
+			const { articles, articlesCount } = await apiGetArticles(
+				{ [/.*\/favorites/g.test(getCurrentUrl()) ? 'favorited' : 'author']: username },
+				page
+			);
+
 			setArticles(articles);
 			setArticlesCount(articlesCount);
-		};
+		}
 
-		fetchProfile();
 		fetchArticles();
-	}, [username]);
+	}, [getCurrentUrl(), username]);
 
 	return (
 		<div class="profile-page">
@@ -61,7 +67,7 @@ export default function Profile(props: ProfileProps) {
 							<img src={user.image || DEFAULT_AVATAR} class="user-img" />
 							<h4>{username}</h4>
 							<p>{user.bio}</p>
-							{isOwnProfile ? (
+							{username == useStore(state => state.user?.username) ? (
 								<Link href="/settings" class="btn btn-sm btn-outline-secondary action-btn">
 									<i class="ion-gear-a" />
 									&nbsp; Edit Profile Settings

@@ -1,6 +1,5 @@
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { route } from 'preact-router';
 
 import useStore from '../store';
 
@@ -16,7 +15,9 @@ export default function Settings() {
 	const { logout, user, updateUserDetails } = useStore(state => ({
 		logout: state.logout,
 		updateUserDetails: state.updateUserDetails,
-		user: state.user
+		// We do the `as User` here as this route is protected by a route guard.
+		// There's no way `user` could be undefined
+		user: state.user as User
 	}));
 	const [form, setForm] = useState<FormState>({});
 
@@ -28,19 +29,13 @@ export default function Settings() {
 	}
 
 	useEffect(() => {
-		if (!user) {
-			route('/login');
-		} else {
-			setForm({
-				image: user.image || undefined,
-				username: user.username || undefined,
-				bio: user.bio || undefined,
-				email: user.email || undefined
-			});
-		}
+		setForm({
+			username: user.username,
+			email: user.email,
+			bio: user.bio,
+			image: user.image,
+		});
 	}, [user]);
-
-	if (!user) return null;
 
 	const buttonDisabled =
 		form.image === user.image &&
