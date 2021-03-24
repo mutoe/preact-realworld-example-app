@@ -8,6 +8,9 @@ module.exports = {
 	mode: isDev ? 'development' : 'production',
 	devtool: isDev ? 'eval-cheap-module-source-map' : false,
 	entry: './src/index.tsx',
+	devServer: {
+		port: process.env.port || 8080
+	},
 	output: {
 		filename: 'main.js',
 		path: path.resolve(__dirname, 'dist')
