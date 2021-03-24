@@ -42,3 +42,11 @@ export async function apiUpdateArticle(slug: string, article: ArticleCore): Prom
 		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while updating article';
 	}
 }
+
+export async function apiDeleteArticle(slug: string): Promise<void> {
+	try {
+		await apiService.delete(`articles/${slug}`);
+	} catch (error) {
+		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while deleting article';
+	}
+}

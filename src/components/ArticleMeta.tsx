@@ -1,6 +1,8 @@
 import { Fragment, h } from 'preact';
+import { route } from 'preact-router';
 
 import { deleteFavoriteArticle, postFavoriteArticle } from '../services';
+import { apiDeleteArticle } from '../services/api/article';
 import { apiFollowProfile, apiUnfollowProfile } from '../services/api/profile';
 import { dateFilter } from '../utils/filters';
 import { DEFAULT_AVATAR } from '../utils/constants';
@@ -13,6 +15,11 @@ interface ArticleMetaProps {
 
 export default function ArticleMeta(props: ArticleMetaProps) {
 	const { article, setArticle } = props;
+
+	const onDelete = async () => {
+		await apiDeleteArticle(article.slug);
+		route('/');
+	};
 
 	const onFollow = async () => {
 		const profile = article.author.following
@@ -45,7 +52,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 					</a>
 					&nbsp;&nbsp;
 					{/* TODO: Implement delete */}
-					<button class="btn btn-sm btn-outline-danger" onClick={onFavorite}>
+					<button class="btn btn-sm btn-outline-danger" onClick={onDelete}>
 						<i class="ion-trash-a" /> Delete Article
 					</button>
 				</Fragment>
