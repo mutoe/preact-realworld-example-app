@@ -43,6 +43,24 @@ export async function apiUpdateArticle(slug: string, article: ArticleCore): Prom
 	}
 }
 
+export async function apiFavoriteArticle(slug: string): Promise<Article> {
+	try {
+		const { data } = await apiService.post(`articles/${slug}/favorite`);
+		return data.article;
+	} catch (error) {
+		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while favoriting article';
+	}
+}
+
+export async function apiUnfavoriteArticle(slug: string): Promise<Article> {
+	try {
+		const { data } = await apiService.delete(`articles/${slug}/favorite`);
+		return data.article;
+	} catch (error) {
+		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while unfavoriting article';
+	}
+}
+
 export async function apiDeleteArticle(slug: string): Promise<void> {
 	try {
 		await apiService.delete(`articles/${slug}`);

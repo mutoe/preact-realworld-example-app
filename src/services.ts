@@ -41,11 +41,3 @@ export async function postComment(slug: string, body: string) {
 		.post<CommentResponse>(`/articles/${slug}/comments`, { comment: { body } })
 		.then(res => res.comment);
 }
-
-export async function postFavoriteArticle(slug: string) {
-	return request.post<ArticleResponse>(`/articles/${slug}/favorite`).then(res => res.article);
-}
-
-export async function deleteFavoriteArticle(slug: string) {
-	return request.delete<ArticleResponse>(`/articles/${slug}/favorite`).then(res => res.article);
-}

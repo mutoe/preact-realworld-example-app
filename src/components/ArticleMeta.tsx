@@ -1,8 +1,7 @@
 import { Fragment, h } from 'preact';
 import { route } from 'preact-router';
 
-import { deleteFavoriteArticle, postFavoriteArticle } from '../services';
-import { apiDeleteArticle } from '../services/api/article';
+import { apiDeleteArticle, apiFavoriteArticle, apiUnfavoriteArticle } from '../services/api/article';
 import { apiFollowProfile, apiUnfollowProfile } from '../services/api/profile';
 import { dateFilter } from '../utils/filters';
 import { DEFAULT_AVATAR } from '../utils/constants';
@@ -30,7 +29,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 
 	const onFavorite = async () => {
 		setArticle(
-			article.favorited ? await deleteFavoriteArticle(article.slug) : await postFavoriteArticle(article.slug)
+			article.favorited ? await apiUnfavoriteArticle(article.slug) : await apiFavoriteArticle(article.slug)
 		);
 	};
 
