@@ -6,6 +6,7 @@ import PopularTags from '../components/PopularTags';
 import { getArticles, getArticlesByTag, getFeeds } from '../services';
 import ArticlePreview from '../components/ArticlePreview';
 import Pagination from '../components/Pagination';
+import { useRootState } from '../store';
 
 interface HomeProps {
 	tag?: string;
@@ -15,6 +16,7 @@ export default function Home(props: HomeProps) {
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
 	const [page, setPage] = useState(1);
+	const [{ user }] = useRootState();
 
 	const currentActive = getCurrentUrl() === '/my-feeds' ? 'personal' : props.tag ? 'tag' : 'global';
 
@@ -55,12 +57,14 @@ export default function Home(props: HomeProps) {
 
 	return (
 		<div class="home-page">
-			<div class="banner">
-				<div class="container">
-					<h1 class="logo-font">conduit</h1>
-					<p>A place to share your knowledge.</p>
+			{!user && (
+				<div class="banner">
+					<div class="container">
+						<h1 class="logo-font">conduit</h1>
+						<p>A place to share your knowledge.</p>
+					</div>
 				</div>
-			</div>
+			)}
 
 			<div class="container page">
 				<div class="row">
