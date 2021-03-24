@@ -1,11 +1,14 @@
-interface Article {
+interface ArticleCore {
 	title: string;
-	slug: string;
+	description: string;
 	body: string;
+	tagList: string[];
+}
+
+interface Article extends ArticleCore {
+	slug: string;
 	createdAt: string;
 	updatedAt: string;
-	tagList: string[];
-	description: string;
 	author: Profile;
 	favorited: boolean;
 	favoritesCount: number;

@@ -4,7 +4,8 @@ import snarkdown from 'snarkdown';
 
 import ArticleMeta from '../components/ArticleMeta';
 import ArticleCommentCard from '../components/ArticleCommentCard';
-import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../services';
+import { deleteComment, getCommentsByArticle, postComment } from '../services';
+import { apiGetArticle } from '../services/api/article';
 import useStore from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
@@ -13,39 +14,28 @@ interface ArticlePageProps {
 }
 
 export default function ArticlePage(props: ArticlePageProps) {
-	const { slug } = props;
 	const [article, setArticle] = useState({ author: {} } as Article);
 	const [comments, setComments] = useState<ArticleComment[]>([]);
 	const [commentBody, setCommentBody] = useState('');
 	const user = useStore(state => state.user);
 
-	const fetchArticle = async () => {
-		const article = await getArticle(slug);
-		setArticle(article);
-	};
-
-	const fetchComments = async () => {
-		const comments = await getCommentsByArticle(slug);
-		setComments(comments);
-	};
-
 	const onDeleteComment = async (commentId: number) => {
-		await deleteComment(slug, commentId);
+		await deleteComment(props.slug, commentId);
 		setComments(prevState => prevState.filter(c => c.id !== commentId));
 	};
 
 	const onPostComment = async () => {
-		const comment = await postComment(slug, commentBody);
+		const comment = await postComment(props.slug, commentBody);
 		setCommentBody('');
 		setComments(prevComments => [comment, ...prevComments]);
 	};
 
 	useEffect(() => {
 		(async function () {
-			await fetchArticle();
-			await fetchComments();
+			setArticle(await apiGetArticle(props.slug));
+			setComments(await getCommentsByArticle(props.slug));
 		})();
-	}, [slug]);
+	}, [props.slug]);
 
 	return (
 		<div class="article-page">
