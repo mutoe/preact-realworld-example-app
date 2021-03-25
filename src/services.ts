@@ -9,10 +9,6 @@ export const request = new FetchRequest({
 	}
 });
 
-export async function getAllTags() {
-	return request.get<TagsResponse>('/tags').then(res => res.tags);
-}
-
 export async function getArticles(page = 1) {
 	const params = { limit, offset: (page - 1) * limit };
 	return request.get<ArticlesResponse>('/articles', { params });
