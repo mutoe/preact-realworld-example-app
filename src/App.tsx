@@ -25,8 +25,7 @@ export default function App() {
 				<Route path="/login" component={Login} />
 				<Route path="/register" component={Register} />
 				<AuthenticatedRoute path="/settings" component={Settings} />
-				<Route path="/editor" component={Editor} />
-				<Route path="/editor/:slug" component={Editor} />
+				<Route path="/editor/:slug?" component={Editor} />
 				<Route path="/article/:slug" component={ArticlePage} />
 				<Route path="/:username" component={Profile} />
 				<Route path="/:username/favorites" component={Profile} />

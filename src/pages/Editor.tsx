@@ -41,6 +41,10 @@ export default function Editor(props: EditorProps) {
 					tagList: article.tagList
 				});
 			})(props.slug);
+		} else {
+			// Needed in case user switches from editing to creating a new
+			// -- state initializer will not fire again as it's the same component
+			setForm({ title: '', description: '', body: '', tagList: [] });
 		}
 	}, [props.slug]);
 
