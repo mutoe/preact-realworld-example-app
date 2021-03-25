@@ -20,8 +20,6 @@ export default function App() {
 			<Header />
 			<Router history={createHashHistory()}>
 				<Route path="/" component={Home} />
-				<Route path="/my-feeds" component={Home} />
-				<Route path="/tag/:tag" component={Home} />
 				<Route path="/login" component={Login} />
 				<Route path="/register" component={Register} />
 				<AuthenticatedRoute path="/settings" component={Settings} />

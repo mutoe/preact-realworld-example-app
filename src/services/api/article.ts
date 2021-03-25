@@ -11,6 +11,16 @@ export async function apiGetArticle(slug: string): Promise<Article> {
 	}
 }
 
+export async function apiGetFeed(page = 1): Promise<ArticlesResponse> {
+	try {
+		const params = { limit: articleLimit, offset: (page - 1) * articleLimit };
+		const { data } = await apiService.get('articles/feed', params);
+		return data;
+	} catch (error) {
+		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while fetching feed';
+	}
+}
+
 export async function apiGetArticles(
 	page = 1,
 	searchParam?: Partial<Record<'author' | 'favorited' | 'tag', string>>
