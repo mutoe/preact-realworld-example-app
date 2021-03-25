@@ -12,8 +12,8 @@ export async function apiGetArticle(slug: string): Promise<Article> {
 }
 
 export async function apiGetArticles(
-	searchParam?: Partial<Record<'author' | 'favorited' | 'tag', string>>,
-	page = 1
+	page = 1,
+	searchParam?: Partial<Record<'author' | 'favorited' | 'tag', string>>
 ): Promise<ArticlesResponse> {
 	try {
 		let params = { limit: articleLimit, offset: (page - 1) * articleLimit };

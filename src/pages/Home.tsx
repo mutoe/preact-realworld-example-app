@@ -6,7 +6,8 @@ import ArticlePreview from '../components/ArticlePreview';
 import NavBar from '../components/NavBar';
 import Pagination from '../components/Pagination';
 import PopularTags from '../components/PopularTags';
-import { getArticles, getArticlesByTag, getFeeds } from '../services';
+import { getFeeds } from '../services';
+import { apiGetArticles } from '../services/api/article';
 import useStore from '../store';
 
 interface HomeProps {
@@ -22,32 +23,6 @@ export default function Home(props: HomeProps) {
 
 	const currentActive = getCurrentUrl() === '/my-feeds' ? 'personal' : props.tag ? 'tag' : 'global';
 
-	const fetchFeeds = async () => {
-		setArticles([]);
-		setArticlesCount(0);
-
-		switch (currentActive) {
-			case 'global': {
-				const { articles = [], articlesCount = 0 } = await getArticles(page);
-				setArticles(articles);
-				setArticlesCount(articlesCount);
-				break;
-			}
-			case 'tag': {
-				const { articles = [], articlesCount = 0 } = await getArticlesByTag(props.tag!, page);
-				setArticles(articles);
-				setArticlesCount(articlesCount);
-				break;
-			}
-			case 'personal': {
-				const { articles = [], articlesCount = 0 } = await getFeeds(page);
-				setArticles(articles);
-				setArticlesCount(articlesCount);
-				break;
-			}
-		}
-	};
-
 	const setArticle = (articleIndex: number, article: Article) => {
 		const articlesCopy = [...articles];
 		articlesCopy[articleIndex] = article;
@@ -55,8 +30,29 @@ export default function Home(props: HomeProps) {
 	};
 
 	useEffect(() => {
-		fetchFeeds();
-	}, [page, currentActive]);
+		(async function fetchFeeds() {
+			switch (currentActive) {
+				case 'global': {
+					const { articles = [], articlesCount = 0 } = await apiGetArticles(page);
+					setArticles(articles);
+					setArticlesCount(articlesCount);
+					break;
+				}
+				case 'tag': {
+					const { articles = [], articlesCount = 0 } = await apiGetArticles(page, { tag: props.tag });
+					setArticles(articles);
+					setArticlesCount(articlesCount);
+					break;
+				}
+				case 'personal': {
+					const { articles = [], articlesCount = 0 } = await getFeeds(page);
+					setArticles(articles);
+					setArticlesCount(articlesCount);
+					break;
+				}
+			}
+		})();
+	}, [currentActive, page, props.tag]);
 
 	return (
 		<div class="home-page">
@@ -75,7 +71,11 @@ export default function Home(props: HomeProps) {
 						<NavBar currentActive={currentActive} {...{ tag: props.tag }} />
 
 						{articles.map((article, index) => (
-							<ArticlePreview key={article.slug} article={article} setArticle={article => setArticle(index, article)} />
+							<ArticlePreview
+								key={article.slug}
+								article={article}
+								setArticle={article => setArticle(index, article)}
+							/>
 						))}
 
 						<Pagination count={articlesCount} page={page} setPage={setPage} />

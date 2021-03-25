@@ -45,10 +45,9 @@ export default function Profile(props: ProfileProps) {
 
 	useEffect(() => {
 		(async function fetchArticles() {
-			const { articles, articlesCount } = await apiGetArticles(
-				{ [/.*\/favorites/g.test(getCurrentUrl()) ? 'favorited' : 'author']: username },
-				page
-			);
+			const { articles, articlesCount } = await apiGetArticles(page, {
+				[/.*\/favorites/g.test(getCurrentUrl()) ? 'favorited' : 'author']: username
+			});
 
 			setArticles(articles);
 			setArticlesCount(articlesCount);
