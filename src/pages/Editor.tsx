@@ -70,9 +70,7 @@ export default function Editor(props: EditorProps) {
 										type="text"
 										placeholder="What's this article about?"
 										value={form.description}
-										onInput={e =>
-											setForm(prev => ({ ...prev, description: e.currentTarget.value }))
-										}
+										onInput={e => setForm(prev => ({ ...prev, description: e.currentTarget.value }))}
 									/>
 								</fieldset>
 								<fieldset class="form-group">
@@ -91,9 +89,7 @@ export default function Editor(props: EditorProps) {
 										type="text"
 										placeholder="Enter tags"
 										value={form.tagList.join(' ')}
-										onInput={e =>
-											setForm(prev => ({ ...prev, tagList: e.currentTarget.value.split(' ') }))
-										}
+										onInput={e => setForm(prev => ({ ...prev, tagList: e.currentTarget.value.split(' ') }))}
 									/>
 									<div class="tag-list" />
 								</fieldset>

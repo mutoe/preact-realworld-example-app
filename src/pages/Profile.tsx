@@ -16,6 +16,7 @@ interface ProfileProps {
 
 export default function Profile(props: ProfileProps) {
 	const username = props.username?.replace(/^@/, '') || '';
+	const currentUrl = getCurrentUrl();
 	const [user, setUser] = useState({} as Profile);
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
@@ -46,13 +47,13 @@ export default function Profile(props: ProfileProps) {
 	useEffect(() => {
 		(async function fetchArticles() {
 			const { articles, articlesCount } = await apiGetArticles(page, {
-				[/.*\/favorites/g.test(getCurrentUrl()) ? 'favorited' : 'author']: username
+				[/.*\/favorites/g.test(currentUrl) ? 'favorited' : 'author']: username
 			});
 
 			setArticles(articles);
 			setArticlesCount(articlesCount);
 		})();
-	}, [getCurrentUrl(), username]);
+	}, [currentUrl, page, username]);
 
 	return (
 		<div class="profile-page">
@@ -91,11 +92,7 @@ export default function Profile(props: ProfileProps) {
 									</Link>
 								</li>
 								<li class="nav-item">
-									<Link
-										class="nav-link"
-										activeClassName="active"
-										href={`/@${user.username}/favorites`}
-									>
+									<Link class="nav-link" activeClassName="active" href={`/@${user.username}/favorites`}>
 										Favorited Articles
 									</Link>
 								</li>

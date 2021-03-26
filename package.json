@@ -49,7 +49,9 @@
 		"webpack-dev-server": "^3.9.0"
 	},
 	"lint-staged": {
-		"**/*.{js,jsx,ts,tsx,json}": ["prettier --write"]
+		"**/*.{js,jsx,ts,tsx,json}": [
+			"prettier --write"
+		]
 	},
 	"husky": {
 		"hooks": {
@@ -58,7 +60,10 @@
 	},
 	"eslintConfig": {
 		"parser": "@typescript-eslint/parser",
-		"extends": ["preact", "plugin:@typescript-eslint/recommended"],
+		"extends": [
+			"preact",
+			"plugin:@typescript-eslint/recommended"
+		],
 		"rules": {
 			"@typescript-eslint/explicit-module-boundary-types": "off",
 			"@typescript-eslint/no-explicit-any": "off"
@@ -74,9 +79,18 @@
 	"jest": {
 		"preset": "ts-jest",
 		"testEnvironment": "node",
-		"testPathIgnorePatterns": ["<rootDir>/{dist,src}"],
-		"setupFilesAfterEnv": ["<rootDir>/test/setup-test.ts"],
-		"collectCoverageFrom": ["<rootDir>/src/**/*.{ts,tsx}", "!<rootDir>/src/types/**/*"],
-		"snapshotSerializers": ["jest-serializer-html-string"]
+		"testPathIgnorePatterns": [
+			"<rootDir>/{dist,src}"
+		],
+		"setupFilesAfterEnv": [
+			"<rootDir>/test/setup-test.ts"
+		],
+		"collectCoverageFrom": [
+			"<rootDir>/src/**/*.{ts,tsx}",
+			"!<rootDir>/src/types/**/*"
+		],
+		"snapshotSerializers": [
+			"jest-serializer-html-string"
+		]
 	}
 }

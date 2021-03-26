@@ -26,7 +26,7 @@ export default function Register() {
 
 	useEffect(() => {
 		resetErrors();
-	}, []);
+	}, [resetErrors]);
 
 	return (
 		<div class="auth-page">

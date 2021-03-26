@@ -28,9 +28,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 	};
 
 	const onFavorite = async () => {
-		setArticle(
-			article.favorited ? await apiUnfavoriteArticle(article.slug) : await apiFavoriteArticle(article.slug)
-		);
+		setArticle(article.favorited ? await apiUnfavoriteArticle(article.slug) : await apiFavoriteArticle(article.slug));
 	};
 
 	return (
@@ -61,8 +59,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 						class={`btn btn-sm ${article.author.following ? 'btn-secondary' : 'btn-outline-secondary'}`}
 						onClick={onFollow}
 					>
-						<i class="ion-plus-round" /> {article.author.following ? 'Unfollow' : 'Follow'}{' '}
-						{article.author.username}
+						<i class="ion-plus-round" /> {article.author.following ? 'Unfollow' : 'Follow'} {article.author.username}
 					</button>
 					&nbsp;&nbsp;
 					<button

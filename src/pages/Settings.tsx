@@ -33,7 +33,7 @@ export default function Settings() {
 			username: user.username,
 			email: user.email,
 			bio: user.bio,
-			image: user.image,
+			image: user.image
 		});
 	}, [user]);
 
@@ -98,10 +98,7 @@ export default function Settings() {
 										onInput={e => setForm(prev => ({ ...prev, password: e.currentTarget.value }))}
 									/>
 								</fieldset>
-								<button
-									class="btn btn-lg btn-primary pull-xs-right"
-									disabled={buttonDisabled}
-								>
+								<button class="btn btn-lg btn-primary pull-xs-right" disabled={buttonDisabled}>
 									Update Settings
 								</button>
 							</fieldset>

@@ -25,7 +25,7 @@ export default function Register() {
 
 	useEffect(() => {
 		resetErrors();
-	}, []);
+	}, [resetErrors]);
 
 	return (
 		<div class="auth-page">
@@ -70,10 +70,7 @@ export default function Register() {
 									}}
 								/>
 							</fieldset>
-							<button
-								class="btn btn-lg btn-primary pull-xs-right"
-								disabled={!form.email || !form.password}
-							>
+							<button class="btn btn-lg btn-primary pull-xs-right" disabled={!form.email || !form.password}>
 								Sign in
 							</button>
 						</form>

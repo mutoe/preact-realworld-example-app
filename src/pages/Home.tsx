@@ -41,10 +41,7 @@ export default function Home() {
 					({ articles, articlesCount } = await apiGetFeed(page));
 					break;
 				default:
-					({ articles, articlesCount } = await apiGetArticles(
-						page,
-						currentActiveTab === 'tag' ? { tag } : undefined
-					));
+					({ articles, articlesCount } = await apiGetArticles(page, currentActiveTab === 'tag' ? { tag } : undefined));
 					break;
 			}
 			setArticles(articles);

@@ -15,12 +15,12 @@ interface User {
 }
 
 interface LoginUser {
-    email: string;
-    password: string;
+	email: string;
+	password: string;
 }
 
 interface RegistrationUser {
-    username: string;
-    email: string;
-    password: string;
+	username: string;
+	email: string;
+	password: string;
 }
