@@ -23,6 +23,6 @@ export async function apiUnfollowProfile(username: string): Promise<Profile> {
 		const { data } = await apiService.delete(`profiles/${username}/follow`);
 		return data.profile;
 	} catch (error) {
-		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while following profile';
+		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while unfollowing profile';
 	}
 }

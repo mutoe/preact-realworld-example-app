@@ -4,8 +4,8 @@ import snarkdown from 'snarkdown';
 
 import ArticleMeta from '../components/ArticleMeta';
 import ArticleCommentCard from '../components/ArticleCommentCard';
-import { deleteComment, getCommentsByArticle, postComment } from '../services';
 import { apiGetArticle } from '../services/api/article';
+import { apiCreateComment, apiDeleteComment, apiGetComments } from '../services/api/comments';
 import useStore from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
@@ -20,12 +20,12 @@ export default function ArticlePage(props: ArticlePageProps) {
 	const user = useStore(state => state.user);
 
 	const onDeleteComment = async (commentId: number) => {
-		await deleteComment(props.slug, commentId);
+		await apiDeleteComment(props.slug, commentId);
 		setComments(prevState => prevState.filter(c => c.id !== commentId));
 	};
 
 	const onPostComment = async () => {
-		const comment = await postComment(props.slug, commentBody);
+		const comment: ArticleComment = await apiCreateComment(props.slug, commentBody);
 		setCommentBody('');
 		setComments(prevComments => [comment, ...prevComments]);
 	};
@@ -33,7 +33,7 @@ export default function ArticlePage(props: ArticlePageProps) {
 	useEffect(() => {
 		(async function () {
 			setArticle(await apiGetArticle(props.slug));
-			setComments(await getCommentsByArticle(props.slug));
+			setComments(await apiGetComments(props.slug));
 		})();
 	}, [props.slug]);
 

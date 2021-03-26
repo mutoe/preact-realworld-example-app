@@ -1,6 +1,6 @@
 import { apiService } from './index';
 
-const articleLimit = 10;
+export const articlePageLimit = 10;
 
 export async function apiGetArticle(slug: string): Promise<Article> {
 	try {
@@ -13,7 +13,7 @@ export async function apiGetArticle(slug: string): Promise<Article> {
 
 export async function apiGetFeed(page = 1): Promise<ArticlesResponse> {
 	try {
-		const params = { limit: articleLimit, offset: (page - 1) * articleLimit };
+		const params = { limit: articlePageLimit, offset: (page - 1) * articlePageLimit };
 		const { data } = await apiService.get('articles/feed', params);
 		return data;
 	} catch (error) {
@@ -26,7 +26,7 @@ export async function apiGetArticles(
 	searchParam?: Partial<Record<'author' | 'favorited' | 'tag', string>>
 ): Promise<ArticlesResponse> {
 	try {
-		let params = { limit: articleLimit, offset: (page - 1) * articleLimit };
+		let params = { limit: articlePageLimit, offset: (page - 1) * articlePageLimit };
 		if (searchParam) params = { ...params, ...searchParam };
 		const { data } = await apiService.get('articles', params);
 		return data;
