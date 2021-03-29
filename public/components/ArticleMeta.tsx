@@ -1,6 +1,5 @@
-import { Fragment, h } from 'preact';
 import { useState } from 'preact/hooks';
-import { route } from 'preact-router';
+import { useLocation } from 'preact-iso/router';
 
 import { apiDeleteArticle, apiFavoriteArticle, apiUnfavoriteArticle } from '../services/api/article';
 import { apiFollowProfile, apiUnfollowProfile } from '../services/api/profile';
@@ -15,10 +14,11 @@ interface ArticleMetaProps {
 export default function ArticleMeta(props: ArticleMetaProps) {
 	const [article, setArticle] = useState(props.article);
 	const user = useStore(state => state.user);
+	const location = useLocation();
 
 	const onDelete = async () => {
 		await apiDeleteArticle(article.slug);
-		route('/');
+		location.route('/');
 	};
 
 	const onFollow = async () => {
@@ -43,7 +43,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 				<span class="date">{dateFormatter(article.createdAt)}</span>
 			</div>
 			{user?.username === article.author.username ? (
-				<Fragment>
+				<>
 					<a class="btn btn-sm btn-outline-secondary" href={`/editor/${article.slug}`}>
 						<i class="ion-edit" /> Edit Article
 					</a>
@@ -51,9 +51,9 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 					<button class="btn btn-sm btn-outline-danger" onClick={onDelete}>
 						<i class="ion-trash-a" /> Delete Article
 					</button>
-				</Fragment>
+				</>
 			) : (
-				<Fragment>
+				<>
 					<button
 						class={`btn btn-sm ${article.author.following ? 'btn-secondary' : 'btn-outline-secondary'}`}
 						onClick={onFollow}
@@ -68,7 +68,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 						<i class="ion-heart" />
 						&nbsp; Favorite Article <span class="counter">({article.favoritesCount})</span>
 					</button>
-				</Fragment>
+				</>
 			)}
 		</div>
 	);

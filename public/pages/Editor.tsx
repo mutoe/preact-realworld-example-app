@@ -1,6 +1,5 @@
-import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { route } from 'preact-router';
+import { useLocation } from 'preact-iso';
 
 import LoadingIndicator from '../components/LoadingIndicator';
 import { apiCreateArticle, apiGetArticle, apiUpdateArticle } from '../services/api/article';
@@ -17,6 +16,7 @@ interface FormState {
 }
 
 export default function Editor(props: EditorProps) {
+	const location = useLocation();
 	const [form, setForm] = useState<FormState>({
 		title: '',
 		description: '',
@@ -30,7 +30,7 @@ export default function Editor(props: EditorProps) {
 
 		setInProgress(true);
 		const article = props.slug ? await apiUpdateArticle(props.slug, form) : await apiCreateArticle(form);
-		route(`/article/${article.slug}`);
+		location.route(`/article/${article.slug}`);
 	}
 
 	useEffect(() => {

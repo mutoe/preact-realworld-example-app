@@ -1,9 +1,8 @@
-import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { getCurrentUrl } from 'preact-router';
-import { Link } from 'preact-router/match';
+import { useLocation } from 'preact-iso/router';
 
 import ArticlePreview from '../components/ArticlePreview';
+import Link from '../components/Link';
 import LoadingIndicator from '../components/LoadingIndicator';
 import Pagination from '../components/Pagination';
 import { apiGetArticles } from '../services/api/article';
@@ -17,7 +16,7 @@ interface ProfileProps {
 
 export default function Profile(props: ProfileProps) {
 	const username = props.username?.replace(/^@/, '') || '';
-	const currentUrl = getCurrentUrl();
+	const { url } = useLocation();
 	const [user, setUser] = useState({} as Profile);
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
@@ -44,14 +43,14 @@ export default function Profile(props: ProfileProps) {
 		(async function fetchArticles() {
 			setIsLoading(true);
 			const { articles, articlesCount } = await apiGetArticles(page, {
-				[/.*\/favorites/g.test(currentUrl) ? 'favorited' : 'author']: username
+				[/.*\/favorites/g.test(url) ? 'favorited' : 'author']: username
 			});
 
 			setArticles(articles);
 			setArticlesCount(articlesCount);
 			setIsLoading(false);
 		})();
-	}, [currentUrl, page, username]);
+	}, [url, page, username]);
 
 	return (
 		<div class="profile-page">
@@ -85,12 +84,12 @@ export default function Profile(props: ProfileProps) {
 						<div class="articles-toggle">
 							<ul class="nav nav-pills outline-active">
 								<li class="nav-item">
-									<Link class="nav-link" activeClassName="active" href={`/@${user.username}`}>
+									<Link href={`/@${user.username}`}>
 										My Articles
 									</Link>
 								</li>
 								<li class="nav-item">
-									<Link class="nav-link" activeClassName="active" href={`/@${user.username}/favorites`}>
+									<Link href={`/@${user.username}/favorites`}>
 										Favorited Articles
 									</Link>
 								</li>

@@ -1,7 +1,6 @@
 import create from 'zustand';
-import { persist } from 'zustand/middleware';
+import persist from 'zustand/middleware.js';
 import { authStorageService } from 'ts-api-toolkit';
-import { route } from 'preact-router';
 
 import { apiRegister, apiLogin, apiUpdateProfile } from '../services/api/auth';
 
@@ -17,7 +16,7 @@ type State = {
 };
 
 const useStore = create<State>(
-	persist(
+	persist.persist(
 		set => ({
 			isAuthenticated: false,
 			error: {},
@@ -27,7 +26,6 @@ const useStore = create<State>(
 					const userData = await apiLogin(user);
 					authStorageService.saveToken(userData.token);
 					set({ isAuthenticated: true, user: userData });
-					route('/');
 				} catch (error) {
 					set({ error });
 				}
@@ -36,7 +34,6 @@ const useStore = create<State>(
 				set({ error: {} });
 				authStorageService.destroyToken();
 				set({ isAuthenticated: false, user: undefined });
-				route('/');
 			},
 			register: async user => {
 				set({ error: {} });
@@ -44,7 +41,6 @@ const useStore = create<State>(
 					const userData = await apiRegister(user);
 					authStorageService.saveToken(userData.token);
 					set({ isAuthenticated: true, user: userData });
-					route('/');
 				} catch (error) {
 					set({ error });
 				}
@@ -56,7 +52,6 @@ const useStore = create<State>(
 					const userData = await apiUpdateProfile(updatedUser);
 					authStorageService.saveToken(userData.token);
 					set({ user: userData });
-					route(`/@${userData.username}`);
 				} catch (error) {
 					set({ error });
 				}

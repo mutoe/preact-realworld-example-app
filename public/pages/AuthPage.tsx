@@ -1,6 +1,6 @@
-import { h } from 'preact';
 import { useEffect, useReducer, useRef, useState } from 'preact/hooks';
-import { Link } from 'preact-router';
+
+import Link from '../components/Link';
 
 import AuthErrorHandler from '../components/AuthErrorHandler';
 import LoadingIndicator from '../components/LoadingIndicator';

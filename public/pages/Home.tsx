@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
 
 import ArticlePreview from '../components/ArticlePreview';

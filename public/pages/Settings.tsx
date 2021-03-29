@@ -1,11 +1,12 @@
-import { h } from 'preact';
 import { useEffect, useState, useRef } from 'preact/hooks';
+import { useLocation } from 'preact-iso/router';
 
 import AuthErrorHandler from '../components/AuthErrorHandler';
 import LoadingIndicator from '../components/LoadingIndicator';
 import useStore from '../store';
 
 export default function Settings() {
+	const location = useLocation();
 	const { logout, resetErrors, user, updateUserDetails } = useStore(state => ({
 		logout: state.logout,
 		resetErrors: state.resetErrors,
@@ -31,8 +32,9 @@ export default function Settings() {
 		// filter empty fields from form
 		const filteredForm = Object.entries(form).reduce((a, [k, v]) => (v == null ? a : { ...a, [k]: v }), {});
 		setInProgress(true);
-		updateUserDetails(filteredForm);
-	};
+		await updateUserDetails(filteredForm);
+		location.route(`/@${form.username}`);
+	}
 
 	useEffect(() => {
 		setForm({
@@ -141,7 +143,13 @@ export default function Settings() {
 
 						<hr />
 
-						<button class="btn btn-outline-danger" onClick={logout}>
+						<button
+							class="btn btn-outline-danger"
+							onClick={() => {
+								logout();
+								location.route('/');
+							}}
+						>
 							Or click here to logout.
 						</button>
 					</div>

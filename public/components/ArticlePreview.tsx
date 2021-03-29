@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { apiFavoriteArticle, apiUnfavoriteArticle } from '../services/api/article';

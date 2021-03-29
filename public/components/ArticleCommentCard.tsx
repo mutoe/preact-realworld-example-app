@@ -1,5 +1,3 @@
-import { h } from 'preact';
-
 import { apiDeleteComment } from '../services/api/comments';
 import useStore from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';

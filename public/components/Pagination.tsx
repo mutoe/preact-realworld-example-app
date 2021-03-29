@@ -1,5 +1,3 @@
-import { h } from 'preact';
-
 import { articlePageLimit } from '../services/api/article';
 
 interface PaginationProps {

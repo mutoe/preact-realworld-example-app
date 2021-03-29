@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { apiGetAllTags } from '../services/api/tags';
