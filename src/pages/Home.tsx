@@ -13,7 +13,7 @@ export default function Home() {
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
 	const [page, setPage] = useState(1);
-	const [currentActiveTab, setCurrentActiveTab] = useState('personal');
+	const [currentActiveTab, setCurrentActiveTab] = useState('');
 	const [tag, setTag] = useState('');
 
 	const setArticle = (articleIndex: number, article: Article) => {
