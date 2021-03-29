@@ -5,6 +5,7 @@ import ArticleMeta from '../components/ArticleMeta';
 import ArticleCommentCard from '../components/ArticleCommentCard';
 import { useRootState } from '../store';
 import { DEFAULT_AVATAR } from '../store/constants';
+import snarkdown from 'snarkdown';
 
 interface ArticlePageProps {
 	slug: string;
@@ -60,7 +61,9 @@ export default function ArticlePage(props: ArticlePageProps) {
 
 			<div class="container page">
 				<div class="row article-content">
-					<div class="col-xs-12">{article.body}</div>
+					{article.body && (
+						<div class="col-xs-12" dangerouslySetInnerHTML={{ __html: snarkdown(article.body) }} />
+					)}
 				</div>
 
 				<hr />
