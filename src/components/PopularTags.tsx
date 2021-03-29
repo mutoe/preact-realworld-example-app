@@ -1,20 +1,29 @@
 import { h } from 'preact';
-import { Link } from 'preact-router';
+import { useEffect, useState } from 'preact/hooks';
 
-import useAllTags from '../hooks/useAllTags';
+import { apiGetAllTags } from '../services/api/tags';
 
-export default function PopularTags() {
-	const { tags } = useAllTags();
+interface PopularTagsProps {
+	onClick: (tag: string) => void;
+}
+
+export default function PopularTags(props: PopularTagsProps) {
+	const [tags, setTags] = useState<string[]>([]);
+
+	useEffect(() => {
+		(async function getAllTags() {
+			setTags(await apiGetAllTags());
+		})();
+	}, []);
 
 	return (
 		<div class="sidebar">
 			<p>Popular Tags</p>
-
 			<div class="tag-list">
 				{tags.map(tag => (
-					<Link key={tag} href={`/tag/${tag}`} class="tag-pill tag-default">
+					<a key={tag} href="#" class="tag-pill tag-default" onClick={() => props.onClick(tag)}>
 						{tag}
-					</Link>
+					</a>
 				))}
 			</div>
 		</div>

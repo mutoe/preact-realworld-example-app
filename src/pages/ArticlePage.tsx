@@ -1,50 +1,41 @@
 import { h } from 'preact';
-import { deleteComment, getArticle, getCommentsByArticle, postComment } from '../services';
 import { useEffect, useState } from 'preact/hooks';
+import snarkdown from 'snarkdown';
+
 import ArticleMeta from '../components/ArticleMeta';
 import ArticleCommentCard from '../components/ArticleCommentCard';
-import { useRootState } from '../store';
-import { DEFAULT_AVATAR } from '../store/constants';
-import snarkdown from 'snarkdown';
+import { apiGetArticle } from '../services/api/article';
+import { apiCreateComment, apiDeleteComment, apiGetComments } from '../services/api/comments';
+import useStore from '../store';
+import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticlePageProps {
 	slug: string;
 }
 
 export default function ArticlePage(props: ArticlePageProps) {
-	const { slug } = props;
 	const [article, setArticle] = useState({ author: {} } as Article);
 	const [comments, setComments] = useState<ArticleComment[]>([]);
 	const [commentBody, setCommentBody] = useState('');
-	const [{ user }] = useRootState();
-
-	const fetchArticle = async () => {
-		const article = await getArticle(slug);
-		setArticle(article);
-	};
-
-	const fetchComments = async () => {
-		const comments = await getCommentsByArticle(slug);
-		setComments(comments);
-	};
+	const user = useStore(state => state.user);
 
 	const onDeleteComment = async (commentId: number) => {
-		await deleteComment(slug, commentId);
+		await apiDeleteComment(props.slug, commentId);
 		setComments(prevState => prevState.filter(c => c.id !== commentId));
 	};
 
 	const onPostComment = async () => {
-		const comment = await postComment(slug, commentBody);
+		const comment: ArticleComment = await apiCreateComment(props.slug, commentBody);
 		setCommentBody('');
 		setComments(prevComments => [comment, ...prevComments]);
 	};
 
 	useEffect(() => {
 		(async function () {
-			await fetchArticle();
-			await fetchComments();
+			setArticle(await apiGetArticle(props.slug));
+			setComments(await apiGetComments(props.slug));
 		})();
-	}, [slug]);
+	}, [props.slug]);
 
 	return (
 		<div class="article-page">

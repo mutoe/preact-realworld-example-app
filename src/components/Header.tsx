@@ -2,10 +2,13 @@ import { Fragment, h } from 'preact';
 import { getCurrentUrl } from 'preact-router';
 import { Link } from 'preact-router/match';
 
-import { useRootState } from '../store';
+import useStore from '../store';
 
 export default function Header() {
-	const [{ user }] = useRootState();
+	const { isAuthenticated, user } = useStore(state => ({
+		isAuthenticated: state.isAuthenticated,
+		user: state.user
+	}));
 
 	return (
 		<nav class="navbar navbar-light">
@@ -19,7 +22,7 @@ export default function Header() {
 							Home
 						</Link>
 					</li>
-					{user ? (
+					{isAuthenticated ? (
 						<Fragment>
 							<li class="nav-item">
 								<Link class="nav-link" href="/editor">

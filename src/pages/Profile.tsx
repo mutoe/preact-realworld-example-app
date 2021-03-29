@@ -1,35 +1,26 @@
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import { getCurrentUrl } from 'preact-router';
 import { Link } from 'preact-router/match';
 
 import ArticlePreview from '../components/ArticlePreview';
 import Pagination from '../components/Pagination';
-import { deleteFollowProfile, getProfile, getProfileArticles, postFollowProfile } from '../services';
-import { useRootState } from '../store';
+import { apiGetArticles } from '../services/api/article';
+import { apiFollowProfile, apiUnfollowProfile, apiGetProfile } from '../services/api/profile';
+import useStore from '../store';
+import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ProfileProps {
-	username?: string;
-	favorites?: boolean;
+	username: string;
 }
 
 export default function Profile(props: ProfileProps) {
 	const username = props.username?.replace(/^@/, '') || '';
+	const currentUrl = getCurrentUrl();
 	const [user, setUser] = useState({} as Profile);
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
 	const [page, setPage] = useState(1);
-	const [{ user: loggedUser }] = useRootState();
-
-	const fetchProfile = async () => {
-		const user = await getProfile(username);
-		setUser(user);
-	};
-
-	const fetchArticles = async () => {
-		const { articles, articlesCount } = await getProfileArticles(username, page);
-		setArticles(articles);
-		setArticlesCount(articlesCount);
-	};
 
 	const setArticle = (articleIndex: number, article: Article) => {
 		const articlesCopy = [...articles];
@@ -40,17 +31,29 @@ export default function Profile(props: ProfileProps) {
 	const onFollowUser = async () => {
 		if (user.following) {
 			setUser(prev => ({ ...prev, following: false }));
-			await deleteFollowProfile(username);
+			await apiUnfollowProfile(username);
 		} else {
 			setUser(prev => ({ ...prev, following: true }));
-			await postFollowProfile(username);
+			await apiFollowProfile(username);
 		}
 	};
 
 	useEffect(() => {
-		fetchProfile();
-		fetchArticles();
+		(async function fetchProfile() {
+			setUser(await apiGetProfile(username));
+		})();
 	}, [username]);
+
+	useEffect(() => {
+		(async function fetchArticles() {
+			const { articles, articlesCount } = await apiGetArticles(page, {
+				[/.*\/favorites/g.test(currentUrl) ? 'favorited' : 'author']: username
+			});
+
+			setArticles(articles);
+			setArticlesCount(articlesCount);
+		})();
+	}, [currentUrl, page, username]);
 
 	return (
 		<div class="profile-page">
@@ -58,10 +61,10 @@ export default function Profile(props: ProfileProps) {
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 col-md-10 offset-md-1">
-							<img src={user.image} class="user-img" />
+							<img src={user.image || DEFAULT_AVATAR} class="user-img" />
 							<h4>{username}</h4>
 							<p>{user.bio}</p>
-							{loggedUser ? (
+							{username == useStore(state => state.user?.username) ? (
 								<Link href="/settings" class="btn btn-sm btn-outline-secondary action-btn">
 									<i class="ion-gear-a" />
 									&nbsp; Edit Profile Settings

@@ -16,7 +16,12 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist')
 	},
 	resolve: {
-		extensions: ['.ts', '.tsx', '.js']
+		extensions: ['.ts', '.tsx', '.js'],
+		alias: {
+			react: 'preact/compat',
+			'react-dom/test-utils': 'preact/test-utils',
+			'react-dom': 'preact/compat'
+		}
 	},
 	module: {
 		rules: [
@@ -32,12 +37,5 @@ module.exports = {
 			favicon: 'public/favicon.ico'
 		}),
 		new DotEnv()
-	],
-	devServer: {
-		proxy: {
-			'/api': {
-				target: 'https://conduit.productionready.io'
-			}
-		}
-	}
+	]
 };

@@ -13,7 +13,9 @@
 		"history": "^4.10.1",
 		"preact": "^10.1.0",
 		"preact-router": "^3.1.0",
-		"snarkdown": "^2.0.0"
+		"snarkdown": "^2.0.0",
+		"ts-api-toolkit": "^2.0.15",
+		"zustand": "^3.3.3"
 	},
 	"devDependencies": {
 		"@types/enzyme": "^3.10.3",

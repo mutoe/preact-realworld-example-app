@@ -1,7 +1,8 @@
 import { h } from 'preact';
-import { deleteFavoriteArticle, postFavoriteArticle } from '../services';
 import { useEffect, useState } from 'preact/hooks';
-import { DEFAULT_AVATAR } from '../store/constants';
+
+import { apiFavoriteArticle, apiUnfavoriteArticle } from '../services/api/article';
+import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticlePreviewProps {
 	article: Article;
@@ -14,10 +15,10 @@ export default function ArticlePreview(props: ArticlePreviewProps) {
 
 	async function onFavorite() {
 		if (article.favorited) {
-			const newArticle = await deleteFavoriteArticle(article.slug);
+			const newArticle = await apiUnfavoriteArticle(article.slug);
 			setArticle(newArticle);
 		} else {
-			const newArticle = await postFavoriteArticle(article.slug);
+			const newArticle = await apiFavoriteArticle(article.slug);
 			setArticle(newArticle);
 		}
 	}

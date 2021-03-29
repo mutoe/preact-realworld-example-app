@@ -1,7 +1,8 @@
 import { h } from 'preact';
+
 import { dateFilter } from '../utils/filters';
-import { useRootState } from '../store';
-import { DEFAULT_AVATAR } from '../store/constants';
+import useStore from '../store';
+import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticleCommentCardProps {
 	comment: ArticleComment;
@@ -10,9 +11,9 @@ interface ArticleCommentCardProps {
 
 export default function ArticleCommentCard(props: ArticleCommentCardProps) {
 	const { comment, onDelete } = props;
-	const [{ user }] = useRootState();
+	const user = useStore(state => state.user);
 
-	const isMineComment = user?.username === comment.author.username;
+	const isOwnComment = user?.username === comment.author.username;
 
 	if (!comment.author) return null;
 
@@ -32,7 +33,7 @@ export default function ArticleCommentCard(props: ArticleCommentCardProps) {
 				<span class="date-posted">{dateFilter(comment.createdAt)}</span>
 				<span class="mod-options">
 					{/* <i class="ion-edit" /> */}
-					{isMineComment && <i class="ion-trash-a" onClick={() => onDelete?.(comment.id)} />}
+					{isOwnComment && <i class="ion-trash-a" onClick={() => onDelete?.(comment.id)} />}
 				</span>
 			</div>
 		</div>

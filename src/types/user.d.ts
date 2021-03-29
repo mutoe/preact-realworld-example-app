@@ -9,7 +9,18 @@ interface User {
 	id: number;
 	email: string;
 	username: string;
-	bio: string | null;
-	image: string | null;
+	bio?: string;
+	image?: string;
 	token: string;
+}
+
+interface LoginUser {
+	email: string;
+	password: string;
+}
+
+interface RegistrationUser {
+	username: string;
+	email: string;
+	password: string;
 }

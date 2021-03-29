@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { route } from 'preact-router';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import { postRegister } from '../../src/services';
 import Register from '../../src/pages/Register';

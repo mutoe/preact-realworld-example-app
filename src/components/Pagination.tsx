@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-import { limit } from '../services';
+import { articlePageLimit } from '../services/api/article';
 
 interface PaginationProps {
 	/** total items count */
@@ -10,7 +10,7 @@ interface PaginationProps {
 }
 
 export default function Pagination(props: PaginationProps) {
-	const pagesCount = Math.ceil(props.count / limit);
+	const pagesCount = Math.ceil(props.count / articlePageLimit);
 	const countArray = new Array(pagesCount).fill('');
 	const isActive = (index: number) => (props.page === index + 1 ? 'active' : '');
 

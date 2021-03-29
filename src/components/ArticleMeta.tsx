@@ -1,7 +1,10 @@
 import { Fragment, h } from 'preact';
+import { route } from 'preact-router';
+
+import { apiDeleteArticle, apiFavoriteArticle, apiUnfavoriteArticle } from '../services/api/article';
+import { apiFollowProfile, apiUnfollowProfile } from '../services/api/profile';
 import { dateFilter } from '../utils/filters';
-import { DEFAULT_AVATAR } from '../store/constants';
-import { deleteFavoriteArticle, deleteFollowProfile, postFavoriteArticle, postFollowProfile } from '../services';
+import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticleMetaProps {
 	article: Article;
@@ -12,17 +15,20 @@ interface ArticleMetaProps {
 export default function ArticleMeta(props: ArticleMetaProps) {
 	const { article, setArticle } = props;
 
+	const onDelete = async () => {
+		await apiDeleteArticle(article.slug);
+		route('/');
+	};
+
 	const onFollow = async () => {
 		const profile = article.author.following
-			? await deleteFollowProfile(article.author.username)
-			: await postFollowProfile(article.author.username);
+			? await apiFollowProfile(article.author.username)
+			: await apiUnfollowProfile(article.author.username);
 		setArticle({ ...article, author: profile });
 	};
 
 	const onFavorite = async () => {
-		setArticle(
-			article.favorited ? await deleteFavoriteArticle(article.slug) : await postFavoriteArticle(article.slug)
-		);
+		setArticle(article.favorited ? await apiUnfavoriteArticle(article.slug) : await apiFavoriteArticle(article.slug));
 	};
 
 	return (
@@ -43,7 +49,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 					</a>
 					&nbsp;&nbsp;
 					{/* TODO: Implement delete */}
-					<button class="btn btn-sm btn-outline-danger" onClick={onFavorite}>
+					<button class="btn btn-sm btn-outline-danger" onClick={onDelete}>
 						<i class="ion-trash-a" /> Delete Article
 					</button>
 				</Fragment>
@@ -53,8 +59,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 						class={`btn btn-sm ${article.author.following ? 'btn-secondary' : 'btn-outline-secondary'}`}
 						onClick={onFollow}
 					>
-						<i class="ion-plus-round" /> {article.author.following ? 'Unfollow' : 'Follow'}{' '}
-						{article.author.username}
+						<i class="ion-plus-round" /> {article.author.following ? 'Unfollow' : 'Follow'} {article.author.username}
 					</button>
 					&nbsp;&nbsp;
 					<button
