@@ -5,7 +5,7 @@
 	"scripts": {
 		"start": "webpack-dev-server",
 		"build": "cross-env NODE_ENV=production webpack",
-		"lint": "eslint '{src,test}/**/*.{ts,tsx}' --fix && prettier '{src,test}/**/*{ts,tsx}' '*.{json,js}' --write",
+		"lint": "eslint '{src,test}/**/*.{ts,tsx}' --fix && prettier '{src,test}/**/*{ts,tsx}' --write",
 		"test": "cross-env TZ=America/New_York jest",
 		"analyzer": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json dist -s gzip"
 	},
@@ -18,29 +18,24 @@
 		"zustand": "3.3.3"
 	},
 	"devDependencies": {
-		"@types/enzyme": "^3.10.3",
+		"@testing-library/jest-dom": "^5.11.10",
+		"@testing-library/preact": "^2.0.1",
 		"@types/history": "^4.7.3",
-		"@types/jest": "^25.1.4",
-		"@types/jsdom": "^16.1.0",
-		"@types/mockjs": "^1.0.2",
+		"@types/jest": "^26.0.22",
 		"@typescript-eslint/eslint-plugin": "^4.18.0",
 		"@typescript-eslint/parser": "^4.18.0",
 		"cross-env": "^7.0.2",
 		"dotenv-webpack": "^1.7.0",
-		"enzyme": "^3.10.0",
-		"enzyme-adapter-preact-pure": "^3.0.0",
 		"eslint": "^7.22.0",
 		"eslint-config-preact": "^1.1.3",
 		"html-webpack-plugin": "^3.2.0",
 		"husky": "^5.2.0",
-		"jest": "^25.1.0",
-		"jest-serializer-html-string": "^1.0.1",
-		"jsdom": "^16.2.0",
+		"jest": "^26.6.3",
 		"lint-staged": "^10.5.4",
-		"mockjs": "^1.1.0",
+		"msw": "^0.28.0",
 		"preact-render-to-string": "^5.1.1",
 		"prettier": "^2.2.1",
-		"ts-jest": "^25.2.1",
+		"ts-jest": "^26.5.4",
 		"ts-loader": "^6.2.1",
 		"typescript": "^3.7.2",
 		"webpack": "^4.41.2",
@@ -68,15 +63,20 @@
 		"singleQuote": true,
 		"trailingComma": "none",
 		"useTabs": true,
-		"printWidth": 120,
 		"arrowParens": "avoid"
 	},
 	"jest": {
 		"preset": "ts-jest",
-		"testEnvironment": "node",
 		"testPathIgnorePatterns": ["<rootDir>/{dist,src}"],
-		"setupFilesAfterEnv": ["<rootDir>/test/setup-test.ts"],
-		"collectCoverageFrom": ["<rootDir>/src/**/*.{ts,tsx}", "!<rootDir>/src/types/**/*"],
-		"snapshotSerializers": ["jest-serializer-html-string"]
+		"setupFilesAfterEnv": ["<rootDir>/test/setup-tests.ts"],
+		"collectCoverageFrom": [
+			"<rootDir>/src/**/*.{ts,tsx}",
+			"!<rootDir>/src/types/**/*"
+		],
+		"moduleNameMapper": {
+			"^react$": "preact/compat",
+			"^react-dom/test-utils$": "preact/test-utils",
+			"^react-dom$": "preact/compat"
+		}
 	}
 }
