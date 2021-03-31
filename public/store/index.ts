@@ -1,5 +1,5 @@
 import create from 'zustand';
-import persist from 'zustand/middleware.js';
+import { persist } from 'zustand/middleware';
 import { authStorageService } from 'ts-api-toolkit';
 
 import { apiRegister, apiLogin, apiUpdateProfile } from '../services/api/auth';
@@ -16,7 +16,7 @@ type State = {
 };
 
 const useStore = create<State>(
-	persist.persist(
+	persist(
 		set => ({
 			isAuthenticated: false,
 			error: {},

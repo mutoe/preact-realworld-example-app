@@ -4,8 +4,8 @@
 	"private": true,
 	"scripts": {
 		"start": "wmr",
-		"build": "wmr bulid --prerender",
-		"build:analyze": "cross-env analyze=true wmr build --prerender",
+		"build": "wmr build --prerender",
+		"build:visualize": "wmr build --prerender --visualize",
 		"serve": "wmr serve",
 		"lint": "eslint '{src,test}/**/*.{ts,tsx}' --fix && prettier '{src,test}/**/*{ts,tsx}' --write",
 		"test": "cross-env TZ=America/New_York jest --maxWorkers=50%",
@@ -42,7 +42,7 @@
 		"prettier": "^2.2.1",
 		"ts-jest": "^26.5.4",
 		"typescript": "^4.2.3",
-		"wmr": "^1.4.1"
+		"wmr": "^1.5.1"
 	},
 	"lint-staged": {
 		"**/*.{js,jsx,ts,tsx,json}": [
