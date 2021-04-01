@@ -40,7 +40,11 @@ export default function Register() {
 
 						{error && (
 							<ul class="error-messages">
-								<li>{error.charAt(0).toUpperCase() + error.slice(1)}</li>
+								{Object.keys(error).map(key =>
+									<li key={key}>
+										{key} {error[key]}
+									</li>
+								)}
 							</ul>
 						)}
 
