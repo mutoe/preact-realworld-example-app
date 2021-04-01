@@ -5,7 +5,7 @@ export async function apiLogin(credentials: LoginUser): Promise<User> {
 		const { data } = await apiService.post('users/login', { user: credentials });
 		return data.user;
 	} catch (error) {
-		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while logging in';
+		throw error?.data?.errors ? error.data.errors : { unknown: ['error while logging in'] };
 	}
 }
 
@@ -14,7 +14,7 @@ export async function apiRegister(credentials: RegistrationUser): Promise<User> 
 		const { data } = await apiService.post('users', { user: credentials });
 		return data.user;
 	} catch (error) {
-		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while registering';
+		throw error?.data?.errors ? error.data.errors : { unknown: ['error while registering'] };
 	}
 }
 

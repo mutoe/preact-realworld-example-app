@@ -8,7 +8,7 @@ import { apiRegister, apiLogin, apiUpdateProfile } from '../services/api/auth';
 type State = {
 	isAuthenticated: boolean;
 	user?: User;
-	error: string;
+	error: { [key: string]: string[] };
 	login: (user: LoginUser) => Promise<void>;
 	logout: () => void;
 	register: (user: RegistrationUser) => Promise<void>;
@@ -20,9 +20,9 @@ const useStore = create<State>(
 	persist(
 		set => ({
 			isAuthenticated: false,
-			error: '',
+			error: {},
 			login: async user => {
-				set({ error: '' });
+				set({ error: {} });
 				try {
 					const userData = await apiLogin(user);
 					authStorageService.saveToken(userData.token);
@@ -33,13 +33,13 @@ const useStore = create<State>(
 				}
 			},
 			logout: () => {
-				set({ error: '' });
+				set({ error: {} });
 				authStorageService.destroyToken();
 				set({ isAuthenticated: false, user: undefined });
 				route('/');
 			},
 			register: async user => {
-				set({ error: '' });
+				set({ error: {} });
 				try {
 					const userData = await apiRegister(user);
 					authStorageService.saveToken(userData.token);
@@ -49,7 +49,7 @@ const useStore = create<State>(
 					set({ error });
 				}
 			},
-			resetErrors: () => set({ error: '' }),
+			resetErrors: () => set({ error: {} }),
 			updateUserDetails: async updatedUser => {
 				const userData = await apiUpdateProfile(updatedUser);
 				authStorageService.saveToken(userData.token);
