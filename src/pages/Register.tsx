@@ -76,7 +76,7 @@ export default function Register() {
 									placeholder="Password"
 									aria-label="Password"
 									required
-									minLength={8}
+									pattern=".{8,}"
 									value={form.password}
 									onInput={e => {
 										resetErrors();
