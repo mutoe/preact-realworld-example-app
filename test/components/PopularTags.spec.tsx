@@ -1,31 +1,42 @@
 import { h } from 'preact';
-import { shallow } from 'enzyme';
+import { render, screen, waitFor } from '@testing-library/preact';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
 import PopularTags from '../../src/components/PopularTags';
-import { getAllTags } from '../../src/services';
 
-jest.mock('../../src/services');
+const server = setupServer(
+	rest.get(
+		'https://conduit.productionready.io/api/tags',
+		(_req, res, ctx) => {
+			return res(
+				ctx.status(200),
+				ctx.json({
+					tags: [
+						'foo',
+						'bar',
+						'baz'
+					]
+				})
+			);
+		}
+	)
+);
 
-const getAllTagsMock = getAllTags as jest.Mock<Promise<string[]>>;
-
-beforeEach(() => {
-	getAllTagsMock.mockResolvedValue([]);
+test('renders the PopularTags component', () => {
+	render(<PopularTags onClick={(_stringParam) => void 0} />);
+	expect(
+		screen.getByText('Popular Tags')
+	).toBeInTheDocument();
 });
 
-afterEach(() => {
-	jest.clearAllMocks();
-});
+test('matches snapshot', async () => {
+	server.listen();
 
-describe('# Popular Tags Component', () => {
-	it('should display title', () => {
-		const wrapper = shallow(<PopularTags />);
+	const { asFragment } = render(<PopularTags onClick={(_stringParam) => void 0} />);
+	await waitFor(() => screen.getByText('foo'));
 
-		expect(wrapper.text()).toContain('Popular Tags');
-	});
+	expect(asFragment()).toMatchSnapshot();
 
-	it('should request all tags when component did mounted', () => {
-		shallow(<PopularTags />);
-
-		expect(getAllTags).toBeCalledTimes(1);
-	});
+	server.close();
 });
