@@ -19,7 +19,7 @@ describe('Register Page Renders', () => {
 			screen.getByRole('textbox', { name: 'Username' })
 		).toBeInTheDocument();
 		expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
-		// input[type="password"] doesn't actually have an implicity role,
+		// input[type="password"] doesn't actually have an implicit role,
 		// so the test has to be a bit different. See:
 		// https://github.com/testing-library/dom-testing-library/issues/567
 		expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
@@ -93,7 +93,7 @@ describe('Register Form Submission', () => {
 	const server = setupServer(
 		rest.post(
 			'https://conduit.productionready.io/api/users',
-			(req, res, ctx) => {
+			(_req, res, ctx) => {
 				return res(
 					ctx.status(422),
 					ctx.json({
@@ -108,10 +108,9 @@ describe('Register Form Submission', () => {
 		)
 	);
 
-	beforeAll(() => server.listen());
-	afterAll(() => server.close());
-
 	it('displays validation errors from api', async () => {
+		server.listen();
+
 		render(<Register />);
 
 		fireEvent.input(screen.getByRole('textbox', { name: 'Username' }), {
@@ -138,5 +137,7 @@ describe('Register Form Submission', () => {
 		expect(
 			screen.getByRole('listitem', { name: 'password error' })
 		).toHaveTextContent('password is too short (minimum 8 characters)');
+
+		server.close();
 	});
 });
