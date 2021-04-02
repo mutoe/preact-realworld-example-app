@@ -65,6 +65,7 @@
 		"singleQuote": true,
 		"trailingComma": "none",
 		"useTabs": true,
+		"printWidth": 120,
 		"arrowParens": "avoid"
 	},
 	"jest": {
