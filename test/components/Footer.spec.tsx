@@ -19,4 +19,3 @@ describe('Footer Renders', () => {
 		expect(asFragment()).toMatchSnapshot();
 	});
 });
-
