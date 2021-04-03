@@ -22,12 +22,6 @@ export default function Profile(props: ProfileProps) {
 	const [articlesCount, setArticlesCount] = useState(0);
 	const [page, setPage] = useState(1);
 
-	const setArticle = (articleIndex: number, article: Article) => {
-		const articlesCopy = [...articles];
-		articlesCopy[articleIndex] = article;
-		setArticles(articlesCopy);
-	};
-
 	const onFollowUser = async () => {
 		if (user.following) {
 			setUser(prev => ({ ...prev, following: false }));
@@ -100,11 +94,10 @@ export default function Profile(props: ProfileProps) {
 						</div>
 
 						{articles.length > 0 ? (
-							articles.map((article, index) => (
+							articles.map((article) => (
 								<ArticlePreview
 									key={article.slug}
 									article={article}
-									setArticle={article => setArticle(index, article)}
 								/>
 							))
 						) : (

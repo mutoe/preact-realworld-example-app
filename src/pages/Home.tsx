@@ -16,12 +16,6 @@ export default function Home() {
 	const [currentActiveTab, setCurrentActiveTab] = useState('');
 	const [tag, setTag] = useState('');
 
-	const setArticle = (articleIndex: number, article: Article) => {
-		const articlesCopy = [...articles];
-		articlesCopy[articleIndex] = article;
-		setArticles(articlesCopy);
-	};
-
 	useLayoutEffect(() => {
 		setCurrentActiveTab(isAuthenticated ? 'personal' : 'global');
 	}, [isAuthenticated]);
@@ -96,11 +90,10 @@ export default function Home() {
 						</div>
 
 						{articles.length > 0 ? (
-							articles.map((article, index) => (
+							articles.map((article) => (
 								<ArticlePreview
 									key={article.slug}
 									article={article}
-									setArticle={article => setArticle(index, article)}
 								/>
 							))
 						) : (
