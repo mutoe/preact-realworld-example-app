@@ -6,21 +6,16 @@ import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticlePreviewProps {
 	article: Article;
-	setArticle: (article: Article) => void;
 }
 
 export default function ArticlePreview(props: ArticlePreviewProps) {
-	const { article, setArticle } = props;
+	const [article, setArticle] = useState(props.article);
 	const [isFavorited, setIsFavorited] = useState(false);
 
 	async function onFavorite() {
-		if (article.favorited) {
-			const newArticle = await apiUnfavoriteArticle(article.slug);
-			setArticle(newArticle);
-		} else {
-			const newArticle = await apiFavoriteArticle(article.slug);
-			setArticle(newArticle);
-		}
+		article.favorited
+			? setArticle(await apiUnfavoriteArticle(article.slug))
+			: setArticle(await apiFavoriteArticle(article.slug));
 	}
 
 	useEffect(() => {
