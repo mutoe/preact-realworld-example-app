@@ -23,7 +23,7 @@ test('should highlight current page that is passed in props', () => {
 	expect(screen.getAllByRole('listitem')[1]).toHaveClass('active');
 });
 
-test('should can set current page when item clicked', () => {
+test('should set current page when item clicked', () => {
 	render(<Pagination count={50} page={1} setPage={setPage} />);
 
 	fireEvent.click(screen.getByText('2'));

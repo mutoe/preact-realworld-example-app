@@ -1,9 +1,11 @@
 import { h } from 'preact';
-import { render, screen, waitFor } from '@testing-library/preact';
+import { fireEvent, render, screen } from '@testing-library/preact';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 import PopularTags from '../../src/components/PopularTags';
+
+const onTagClick = jest.fn();
 
 const server = setupServer(
 	rest.get(
@@ -24,17 +26,30 @@ const server = setupServer(
 );
 
 test('renders the PopularTags component', () => {
-	render(<PopularTags onClick={(_stringParam) => void 0} />);
+	render(<PopularTags onClick={onTagClick} />);
 	expect(
 		screen.getByText('Popular Tags')
 	).toBeInTheDocument();
 });
 
+test('should set tag when tag clicked', async () => {
+	server.listen();
+
+	render(<PopularTags onClick={onTagClick} />);
+	await screen.findByText('foo');
+
+	fireEvent.click(screen.getByText('foo'));
+
+	expect(onTagClick).toBeCalledWith('foo');
+
+	server.close();
+});
+
 test('matches snapshot', async () => {
 	server.listen();
 
-	const { asFragment } = render(<PopularTags onClick={(_stringParam) => void 0} />);
-	await waitFor(() => screen.getByText('foo'));
+	const { asFragment } = render(<PopularTags onClick={onTagClick} />);
+	await screen.findByText('foo');
 
 	expect(asFragment()).toMatchSnapshot();
 
