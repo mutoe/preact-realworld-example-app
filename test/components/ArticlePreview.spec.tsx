@@ -1,104 +1,116 @@
 import { h } from 'preact';
-import { shallow } from 'enzyme';
+import { cleanup, fireEvent, render, screen } from '@testing-library/preact';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
-import { generateArticles } from '../utils/test-utils';
 import ArticlePreview from '../../src/components/ArticlePreview';
-import { deleteFavoriteArticle, postFavoriteArticle } from '../../src/services';
 
-jest.mock('../../src/services');
+const article: Article = {
+	title: 'Foo',
+	description: 'Bar',
+	body: 'Baz',
+	tagList: ['foo', 'bar', 'baz'],
+	slug: 'foo-xxxxx',
+	createdAt: '2021-04-03T04:10:59.616Z',
+	updatedAt: '2021-04-03T04:10:59.616Z',
+	author: {
+		username: 'SmokeTest',
+		following: false
+	},
+	favorited: false,
+	favoritesCount: 23
+};
 
-const setArticle = jest.fn();
+test('should display article title and description correctly', () => {
+	render(<ArticlePreview article={article} />);
 
-afterEach(() => {
-	jest.clearAllMocks();
+	expect(screen.getByRole('heading', { name: article.title })).toBeInTheDocument();
+	expect(screen.getByText(article.description)).toBeInTheDocument();
 });
 
-describe('# Article Preview Component', () => {
-	it('should display article title and description correctly', () => {
-		const article = generateArticles();
-		const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />);
+test('should display meta info correctly', () => {
+	render(<ArticlePreview article={article} />);
 
-		expect(wrapper.text()).toContain(article.title);
-		expect(wrapper.text()).toContain(article.description);
-	});
-
-	it('can jump to article detail page when article info clicked', () => {
-		const article = generateArticles();
-		const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />);
-
-		expect(wrapper.find('.preview-link').prop('href')).toBe(`/article/${article.slug}`);
-	});
-
-	it('should display article meta info correctly', () => {
-		const article = generateArticles();
-		const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />);
-		const userWrapper = wrapper.find('.article-meta');
-
-		expect(userWrapper.find('img').prop('src')).toBe(article.author.image);
-		expect(userWrapper.find('.author').text()).toBe(article.author.username);
-		expect(userWrapper.find('.date').text()).toBe(new Date(article.createdAt).toDateString());
-	});
-
-	it('should jump to user detail page when user clicked', () => {
-		const article = generateArticles();
-		const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />);
-		const userImage = wrapper.find('.article-meta > a');
-		const userName = wrapper.find('.article-meta .author');
-
-		expect(userImage.prop('href')).toBe(`/@${article.author.username}`);
-		expect(userName.prop('href')).toBe(`/@${article.author.username}`);
-	});
+	expect(screen.getByRole('img')).toHaveAttribute('src', 'https://static.productionready.io/images/smiley-cyrus.jpg');
+	expect(screen.getByRole('link', { name: article.author.username })).toBeInTheDocument();
+	expect(screen.getByText(new Date(article.createdAt).toDateString())).toBeInTheDocument();
 });
 
-describe('# Favorite article', () => {
-	it('should display favorites count correctly', () => {
-		const article = generateArticles();
-		const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />);
-		expect(wrapper.find('.article-meta button').text()).toContain(article.favoritesCount);
+test('should link to the correct locations', () => {
+	render(<ArticlePreview article={article} />);
+
+	expect(screen.getByRole('link', { name: 'Read more...' })).toHaveAttribute('href', `/article/${article.slug}`);
+	expect(screen.getByRole('link', { name: "User's profile picture" })).toHaveAttribute(
+		'href',
+		`/@${article.author.username}`
+	);
+	expect(screen.getByRole('link', { name: 'SmokeTest' })).toHaveAttribute('href', `/@${article.author.username}`);
+});
+
+test('should display favorites count correctly', () => {
+	render(<ArticlePreview article={article} />);
+	expect(screen.getByRole('button', { name: 'Favorite article' })).toHaveTextContent(article.favoritesCount.toString());
+});
+
+test('should highlight favorite button correctly', () => {
+	render(<ArticlePreview article={article} />);
+
+	expect(screen.getByRole('button', { name: 'Favorite article' })).not.toHaveClass('btn-primary');
+
+	// Without this cleanup, the component will only rerender, not reinitialize, and
+	// we want reinitialization as the value we're testing come from state init'd via
+	// props - aka, new props won't change this.
+	cleanup();
+
+	render(<ArticlePreview article={{ ...article, favorited: true }} />);
+	expect(screen.getByRole('button', { name: 'Favorite article' })).toHaveClass('btn-primary');
+});
+
+describe('Article Favorite / Unfavorite', () => {
+	const server = setupServer(
+		rest.post(`https://conduit.productionready.io/api/articles/${article.slug}/favorite`, (_req, res, ctx) => {
+			return res(
+				ctx.status(200),
+				ctx.json({
+					article: { ...article, favorited: true, favoritesCount: article.favoritesCount + 1 }
+				})
+			);
+		}),
+		rest.delete(`https://conduit.productionready.io/api/articles/${article.slug}/favorite`, (_req, res, ctx) => {
+			return res(
+				ctx.status(200),
+				ctx.json({
+					article: { ...article, favorited: false, favoritesCount: article.favoritesCount - 1 }
+				})
+			);
+		})
+	);
+
+	beforeAll(() => server.listen());
+	beforeEach(() => server.resetHandlers());
+	afterAll(() => server.close());
+
+	test('should update article details when favorited', async () => {
+		render(<ArticlePreview article={article} />);
+		fireEvent.click(screen.getByRole('button', { name: 'Favorite article' }));
+
+		await screen.findByText('24'); // Wait for favorite count to update
+
+		expect(screen.getByRole('button', { name: 'Favorite article' })).toHaveClass('btn-primary');
+		expect(screen.getByRole('button', { name: 'Favorite article' })).toHaveTextContent(
+			(article.favoritesCount + 1).toString()
+		);
 	});
 
-	it('should request favorite article when favorite unfavorited article', async () => {
-		(postFavoriteArticle as jest.Mock).mockResolvedValue({});
-		const article = { ...generateArticles(), favorited: false };
-		const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />);
-		wrapper.find('.article-meta button').simulate('click');
+	test('should update article details when unfavorited', async () => {
+		render(<ArticlePreview article={{ ...article, favorited: true }} />);
+		fireEvent.click(screen.getByRole('button', { name: 'Favorite article' }));
 
-		expect(postFavoriteArticle).toBeCalledWith(article.slug);
-	});
+		await screen.findByText('22'); // Wait for favorite count to update
 
-	it('should request unfavorite article when unfavorite article', async () => {
-		(deleteFavoriteArticle as jest.Mock).mockResolvedValue({});
-		const article = { ...generateArticles(), favorited: true };
-		const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />);
-		wrapper.find('.article-meta button').simulate('click');
-
-		expect(deleteFavoriteArticle).toBeCalledWith(article.slug);
-	});
-
-	it('should highlight favorite button when article was favorited', () => {
-		const article = { ...generateArticles(), favorited: true };
-		const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />);
-
-		expect(wrapper.find('.article-meta button').hasClass('btn-primary')).toBe(true);
-	});
-
-	it('should not highlight favorite button when article was not favorited', () => {
-		const article = { ...generateArticles(), favorited: false };
-		const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />);
-
-		expect(wrapper.find('.article-meta button').hasClass('btn-outline-primary')).toBe(true);
-	});
-
-	it('should update article info when favorite / unfavorite article', async () => {
-		(postFavoriteArticle as jest.Mock).mockResolvedValue({ favorited: true, favoritesCount: 1 });
-		const article = { ...generateArticles(), favorited: false, favoritesCount: 0 };
-		const wrapper = shallow(<ArticlePreview article={article} setArticle={setArticle} />);
-		expect(wrapper.find('.article-meta button').hasClass('btn-outline-primary')).toBe(true);
-
-		wrapper.find('.article-meta button').simulate('click');
-		await new Promise(r => setImmediate(r));
-
-		expect(setArticle).toBeCalledTimes(1);
-		expect(setArticle).toBeCalledWith({ favorited: true, favoritesCount: 1 });
+		expect(screen.getByRole('button', { name: 'Favorite article' })).toHaveClass('btn-outline-primary');
+		expect(screen.getByRole('button', { name: 'Favorite article' })).toHaveTextContent(
+			(article.favoritesCount - 1).toString()
+		);
 	});
 });
