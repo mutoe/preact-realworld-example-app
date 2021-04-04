@@ -1,8 +1,8 @@
 import { h } from 'preact';
 
-import { dateFilter } from '../utils/filters';
 import useStore from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
+import { dateFormatter } from '../utils/dateFormatter';
 
 interface ArticleCommentCardProps {
 	comment: ArticleComment;
@@ -30,7 +30,7 @@ export default function ArticleCommentCard(props: ArticleCommentCardProps) {
 				<a href={`/@${comment.author.username}`} class="comment-author">
 					{comment.author.username}
 				</a>
-				<span class="date-posted">{dateFilter(comment.createdAt)}</span>
+				<span class="date-posted">{dateFormatter(comment.createdAt)}</span>
 				<span class="mod-options">
 					{/* <i class="ion-edit" /> */}
 					{isOwnComment && <i class="ion-trash-a" onClick={() => onDelete?.(comment.id)} />}
