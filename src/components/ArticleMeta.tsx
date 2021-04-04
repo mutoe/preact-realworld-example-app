@@ -3,7 +3,7 @@ import { route } from 'preact-router';
 
 import { apiDeleteArticle, apiFavoriteArticle, apiUnfavoriteArticle } from '../services/api/article';
 import { apiFollowProfile, apiUnfollowProfile } from '../services/api/profile';
-import { dateFilter } from '../utils/filters';
+import { dateFormatter } from '../utils/dateFormatter';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticleMetaProps {
@@ -40,7 +40,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 				<a href={`/@${article.author.username}`} class="author">
 					{article.author.username}
 				</a>
-				<span class="date">{dateFilter(article.createdAt)}</span>
+				<span class="date">{dateFormatter(article.createdAt)}</span>
 			</div>
 			{props.isAuthor ? (
 				<Fragment>
