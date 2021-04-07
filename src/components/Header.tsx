@@ -47,13 +47,13 @@ export default function Header() {
 					) : (
 						<Fragment>
 							<li class="nav-item">
-								<Link class="nav-link" activeClassName="active" href="/register">
-									Sign up
+								<Link class="nav-link" activeClassName="active" href="/login">
+									Sign in
 								</Link>
 							</li>
 							<li class="nav-item">
-								<Link class="nav-link" activeClassName="active" href="/login">
-									Sign in
+								<Link class="nav-link" activeClassName="active" href="/register">
+									Sign up
 								</Link>
 							</li>
 						</Fragment>
