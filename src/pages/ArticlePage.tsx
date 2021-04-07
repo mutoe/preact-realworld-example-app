@@ -5,7 +5,7 @@ import snarkdown from 'snarkdown';
 import ArticleMeta from '../components/ArticleMeta';
 import ArticleCommentCard from '../components/ArticleCommentCard';
 import { apiGetArticle } from '../services/api/article';
-import { apiCreateComment, apiDeleteComment, apiGetComments } from '../services/api/comments';
+import { apiCreateComment, apiGetComments } from '../services/api/comments';
 import useStore from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
@@ -18,11 +18,6 @@ export default function ArticlePage(props: ArticlePageProps) {
 	const [comments, setComments] = useState<ArticleComment[]>([]);
 	const [commentBody, setCommentBody] = useState('');
 	const user = useStore(state => state.user);
-
-	const onDeleteComment = async (commentId: number) => {
-		await apiDeleteComment(props.slug, commentId);
-		setComments(prevState => prevState.filter(c => c.id !== commentId));
-	};
 
 	const onPostComment = async () => {
 		const comment: ArticleComment = await apiCreateComment(props.slug, commentBody);
@@ -78,7 +73,12 @@ export default function ArticlePage(props: ArticlePageProps) {
 						</form>
 
 						{comments.map(comment => (
-							<ArticleCommentCard key={comment.id} comment={comment} onDelete={onDeleteComment} />
+							<ArticleCommentCard
+								key={comment.id}
+								articleSlug={props.slug}
+								comment={comment}
+								onDelete={() => setComments(prevState => prevState.filter(c => c.id !== comment.id))}
+							/>
 						))}
 					</div>
 				</div>
