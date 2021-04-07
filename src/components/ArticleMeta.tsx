@@ -21,10 +21,10 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 	};
 
 	const onFollow = async () => {
-		const profile = article.author.following
-			? await apiFollowProfile(article.author.username)
-			: await apiUnfollowProfile(article.author.username);
-		setArticle({ ...article, author: profile });
+		const author = article.author.following
+			? await apiUnfollowProfile(article.author.username)
+			: await apiFollowProfile(article.author.username);
+		setArticle({ ...article, author });
 	};
 
 	const onFavorite = async () => {
