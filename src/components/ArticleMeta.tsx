@@ -34,7 +34,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 	return (
 		<div class="article-meta">
 			<a href={`/@${article.author.username}`}>
-				<img src={article.author.image || DEFAULT_AVATAR} />
+				<img src={article.author.image || DEFAULT_AVATAR} alt="User's profile picture" />
 			</a>
 			<div class="info">
 				<a href={`/@${article.author.username}`} class="author">
@@ -66,7 +66,7 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 						onClick={onFavorite}
 					>
 						<i class="ion-heart" />
-						&nbsp; Favorite Post <span class="counter">({article.favoritesCount})</span>
+						&nbsp; Favorite Article <span class="counter">({article.favoritesCount})</span>
 					</button>
 				</Fragment>
 			)}
