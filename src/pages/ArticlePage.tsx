@@ -14,7 +14,7 @@ interface ArticlePageProps {
 }
 
 export default function ArticlePage(props: ArticlePageProps) {
-	const [article, setArticle] = useState({ author: {} } as Article);
+	const [article, setArticle] = useState<Article | undefined>(undefined);
 	const [comments, setComments] = useState<ArticleComment[]>([]);
 	const [commentBody, setCommentBody] = useState('');
 	const user = useStore(state => state.user);
@@ -37,34 +37,24 @@ export default function ArticlePage(props: ArticlePageProps) {
 		})();
 	}, [props.slug]);
 
-	return (
+	return !article ? null : (
 		<div class="article-page">
 			<div class="banner">
 				<div class="container">
 					<h1>{article.title}</h1>
-					<ArticleMeta
-						article={article}
-						setArticle={setArticle}
-						isAuthor={user?.username === article.author.username}
-					/>
+					<ArticleMeta article={article} />
 				</div>
 			</div>
 
 			<div class="container page">
 				<div class="row article-content">
-					{article.body && (
-						<div class="col-xs-12" dangerouslySetInnerHTML={{ __html: snarkdown(article.body) }} />
-					)}
+					<div class="col-xs-12" dangerouslySetInnerHTML={{ __html: snarkdown(article.body) }} />
 				</div>
 
 				<hr />
 
 				<div class="article-actions">
-					<ArticleMeta
-						article={article}
-						setArticle={setArticle}
-						isAuthor={user?.username === article.author.username}
-					/>
+					<ArticleMeta article={article} />
 				</div>
 
 				<div class="row">

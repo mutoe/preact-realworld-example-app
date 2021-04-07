@@ -1,19 +1,20 @@
 import { Fragment, h } from 'preact';
+import { useState } from 'preact/hooks';
 import { route } from 'preact-router';
 
 import { apiDeleteArticle, apiFavoriteArticle, apiUnfavoriteArticle } from '../services/api/article';
 import { apiFollowProfile, apiUnfollowProfile } from '../services/api/profile';
+import useStore from '../store';
 import { dateFormatter } from '../utils/dateFormatter';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticleMetaProps {
 	article: Article;
-	setArticle: (article: Article) => void;
-	isAuthor: boolean;
 }
 
 export default function ArticleMeta(props: ArticleMetaProps) {
-	const { article, setArticle } = props;
+	const [article, setArticle] = useState(props.article);
+	const user = useStore(state => state.user);
 
 	const onDelete = async () => {
 		await apiDeleteArticle(article.slug);
@@ -27,9 +28,8 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 		setArticle({ ...article, author });
 	};
 
-	const onFavorite = async () => {
+	const onFavorite = async () =>
 		setArticle(article.favorited ? await apiUnfavoriteArticle(article.slug) : await apiFavoriteArticle(article.slug));
-	};
 
 	return (
 		<div class="article-meta">
@@ -42,13 +42,12 @@ export default function ArticleMeta(props: ArticleMetaProps) {
 				</a>
 				<span class="date">{dateFormatter(article.createdAt)}</span>
 			</div>
-			{props.isAuthor ? (
+			{user?.username === article.author.username ? (
 				<Fragment>
 					<a class="btn btn-sm btn-outline-secondary" href={`/editor/${article.slug}`}>
 						<i class="ion-edit" /> Edit Article
 					</a>
 					&nbsp;&nbsp;
-					{/* TODO: Implement delete */}
 					<button class="btn btn-sm btn-outline-danger" onClick={onDelete}>
 						<i class="ion-trash-a" /> Delete Article
 					</button>
