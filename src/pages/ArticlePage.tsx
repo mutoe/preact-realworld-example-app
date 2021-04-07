@@ -77,7 +77,7 @@ export default function ArticlePage(props: ArticlePageProps) {
 								key={comment.id}
 								articleSlug={props.slug}
 								comment={comment}
-								onDelete={commentId => setComments(prevState => prevState.filter(c => c.id !== commentId))}
+								onDelete={() => setComments(prevState => prevState.filter(c => c.id !== comment.id))}
 							/>
 						))}
 					</div>

@@ -8,7 +8,7 @@ import { dateFormatter } from '../utils/dateFormatter';
 interface ArticleCommentCardProps {
 	articleSlug: string;
 	comment: ArticleComment;
-	onDelete: (commentId: number) => void;
+	onDelete: () => void;
 }
 
 export default function ArticleCommentCard(props: ArticleCommentCardProps) {
@@ -17,7 +17,7 @@ export default function ArticleCommentCard(props: ArticleCommentCardProps) {
 
 	const onDelete = async () => {
 		await apiDeleteComment(props.articleSlug, comment.id);
-		props.onDelete(comment.id);
+		props.onDelete();
 	};
 
 	return (
