@@ -2,23 +2,17 @@ import { h } from 'preact';
 import { fireEvent, render, screen } from '@testing-library/preact';
 
 import Settings from '../../src/pages/Settings';
-import { apiUpdateProfile } from '../../src/services/api/auth';
 
 jest.mock('../../src/store', () =>
 	jest.fn().mockReturnValue({
 		error: {},
+		resetErrors: () => void 0,
 		user: {
 			username: 'SmokeTest',
 			email: 'smoketest@example.com',
 			bio: 'Foo Bar Baz',
 			image: 'https://static.productionready.io/images/smiley-cyrus.jpg'
 		},
-		resetErrors: () => void 0,
-		updateUserDetails: async (filteredForm: Partial<Profile>) => {
-			try {
-				await apiUpdateProfile(filteredForm);
-			} catch (error) {}
-		}
 	})
 );
 
