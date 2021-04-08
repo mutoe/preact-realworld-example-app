@@ -1,104 +1,161 @@
 import { h } from 'preact';
-import { route } from 'preact-router';
-import { mount, shallow } from 'enzyme';
+import { fireEvent, render, screen } from '@testing-library/preact';
 
 import Settings from '../../src/pages/Settings';
-import { useRootState } from '../../src/store';
-import { getInputValue, setInputValue } from '../utils/test-utils';
-import { putProfile } from '../../src/services';
-import { UPDATE_USER } from '../../src/store/constants';
+import { apiUpdateProfile } from '../../src/services/api/auth';
 
-jest.mock('../../src/store');
-jest.mock('preact-router');
-jest.mock('../../src/services');
+jest.mock('../../src/store', () =>
+	jest.fn().mockReturnValue({
+		error: {},
+		user: {
+			username: 'SmokeTest',
+			email: 'smoketest@example.com',
+			bio: 'Foo Bar Baz',
+			image: 'https://static.productionready.io/images/smiley-cyrus.jpg'
+		},
+		resetErrors: () => void 0,
+		updateUserDetails: async (filteredForm: Partial<Profile>) => {
+			try {
+				await apiUpdateProfile(filteredForm);
+			} catch (error) {}
+		}
+	})
+);
 
-const useRootStateMock = useRootState as jest.Mock;
-const putProfileMock = putProfile as jest.Mock;
-
-const imageInputSelector = '[placeholder$="profile picture"]';
-const nameInputSelector = '[placeholder="Your Name"]';
-const bioInputSelector = '[placeholder="Short bio about you"]';
-const emailInputSelector = '[placeholder="Email"]';
-const passwordInputSelector = '[placeholder="Password"]';
-
-beforeEach(() => {
-	useRootStateMock.mockReturnValue([{ user: {} }, jest.fn()]);
-});
-
-afterEach(() => {
-	jest.clearAllMocks();
-});
-
-describe('# Settings page', () => {
-	it('should dispatch LOGOUT action when logout button clicked', () => {
-		const dispatch = jest.fn();
-		useRootStateMock.mockReturnValue([{ user: {} }, dispatch]);
-		const wrapper = shallow(<Settings />);
-
-		wrapper.find('button.btn-outline-danger').simulate('click');
-
-		expect(dispatch).toBeCalledWith({ type: UPDATE_USER });
+describe('Settings Page Renders', () => {
+	it('renders the Settings page', () => {
+		render(<Settings />);
+		expect(screen.getByRole('heading', { name: 'Your Settings' })).toBeInTheDocument();
 	});
 
-	it('should jump to login page after logout or unauthorized', () => {
-		useRootStateMock.mockReturnValue([{ user: null }, jest.fn()]);
-		shallow(<Settings />);
-
-		expect(route).toBeCalledTimes(1);
-		expect(route).toBeCalledWith('/login');
+	it('renders input fields', () => {
+		render(<Settings />);
+		expect(screen.getByRole('textbox', { name: 'URL of profile picture' })).toBeInTheDocument();
+		expect(screen.getByRole('textbox', { name: 'Username' })).toBeInTheDocument();
+		expect(screen.getByRole('textbox', { name: 'Short bio about you' })).toBeInTheDocument();
+		expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
+		// input[type="password"] doesn't actually have an implicit role,
+		// so the test has to be a bit different. See:
+		// https://github.com/testing-library/dom-testing-library/issues/567
+		expect(screen.getByPlaceholderText('New Password')).toBeInTheDocument();
 	});
 
-	it('should fill profile when page loaded', () => {
-		const user: User = {
-			username: 'username',
-			bio: 'bio',
-			email: 'test@example.com',
-			id: 2,
-			image: 'image',
-			token: 'token'
-		};
-		useRootStateMock.mockReturnValue([{ user }, jest.fn()]);
-		const wrapper = mount(<Settings />);
-
-		expect(getInputValue(wrapper, imageInputSelector)).toBe(user.image);
-		expect(getInputValue(wrapper, nameInputSelector)).toBe(user.username);
-		expect(getInputValue(wrapper, bioInputSelector)).toBe(user.bio);
-		expect(getInputValue(wrapper, emailInputSelector)).toBe(user.email);
-		expect(getInputValue(wrapper, passwordInputSelector)).toBe('');
+	it('renders a (disabled) submit button', () => {
+		render(<Settings />);
+		const submitButton = screen.getByRole('button', { name: 'Update Settings' });
+		expect(submitButton).toBeInTheDocument();
+		expect(submitButton).toBeDisabled();
 	});
 
-	it('should call put profile service when update button clicked', () => {
-		const wrapper = mount(<Settings />);
-		setInputValue(wrapper, bioInputSelector, 'foo');
+	it('preloads inputs with current user data', () => {
+		render(<Settings />);
 
-		wrapper.find('form button').simulate('click');
-
-		expect(putProfile).toBeCalledWith({ bio: 'foo' });
-	});
-
-	it('should set update button disabled when form fields is empty', () => {
-		const wrapper = shallow(<Settings />);
-
-		expect(wrapper.find('form button').props().disabled).toBeTruthy();
-	});
-
-	it('should set update button enabled when form has a field', () => {
-		const wrapper = mount(<Settings />);
-		setInputValue(wrapper, emailInputSelector, 'foo');
-
-		expect(wrapper.find('form button').props().disabled).toBeFalsy();
-	});
-
-	it('should update user state after submit', async () => {
-		const dispatch = jest.fn();
-		useRootStateMock.mockReturnValue([{ user: {} }, dispatch]);
-		putProfileMock.mockResolvedValue({ email: 'foo' });
-		const wrapper = mount(<Settings />);
-		setInputValue(wrapper, emailInputSelector, 'foo');
-		wrapper.find('form button').simulate('click');
-		await new Promise(r => setImmediate(r));
-
-		expect(dispatch).toBeCalledTimes(1);
-		expect(dispatch).toBeCalledWith({ type: UPDATE_USER, user: { email: 'foo' } });
+		expect(screen.getByRole('textbox', { name: 'URL of profile picture' })).toHaveValue(
+			'https://static.productionready.io/images/smiley-cyrus.jpg'
+		);
+		expect(screen.getByRole('textbox', { name: 'Username' })).toHaveValue('SmokeTest');
+		expect(screen.getByRole('textbox', { name: 'Short bio about you' })).toHaveValue('Foo Bar Baz');
+		expect(screen.getByRole('textbox', { name: 'Email' })).toHaveValue('smoketest@example.com');
 	});
 });
+
+describe('Settings Form Behavior', () => {
+	it('validates email input', () => {
+		render(<Settings />);
+		const email = screen.getByRole('textbox', { name: 'Email' });
+
+		fireEvent.input(email, { target: { value: 'smoketest' } });
+		expect(email).toBeInvalid();
+
+		fireEvent.input(email, { target: { value: 'smoketest@example.com' } });
+		expect(email).toBeValid();
+	});
+
+	it('validates password input', () => {
+		render(<Settings />);
+		const password = screen.getByPlaceholderText('New Password');
+
+		fireEvent.input(password, { target: { value: 'foobar' } });
+		expect(password).toBeInvalid();
+
+		fireEvent.input(password, { target: { value: 'foobarbaz' } });
+		expect(password).toBeValid();
+	});
+
+	it('ensures changed field is required to enable submit button', () => {
+		render(<Settings />);
+
+		fireEvent.input(screen.getByRole('textbox', { name: 'Email' }), {
+			target: { value: 'smoketest@example.com' }
+		});
+		expect(screen.getByRole('button', { name: 'Update Settings' })).toBeDisabled();
+	});
+
+	it('ensures all fields are required to submit', () => {
+		render(<Settings />);
+		const submitButton = screen.getByRole('button', { name: 'Update Settings' });
+		expect(submitButton).toBeDisabled();
+
+		fireEvent.input(screen.getByRole('textbox', { name: 'Email' }), {
+			target: { value: 'smoketest@example.com' }
+		});
+		expect(submitButton).toBeDisabled();
+
+		fireEvent.input(screen.getByPlaceholderText('New Password'), {
+			target: { value: 'foobarbaz' }
+		});
+		expect(submitButton).toBeEnabled();
+	});
+});
+
+// eslint-disable-next-line jest/no-commented-out-tests
+//describe('Settings Form Submission', () => {
+//	const server = setupServer(
+//		rest.put(
+//			'https://conduit.productionready.io/api/user',
+//			(_req, res, ctx) => {
+//				return res(
+//					ctx.status(422),
+//					ctx.json({
+//						errors: {
+//							username: ['has already been taken'],
+//							email: ['has already been taken'],
+//							password: ['is too short (minimum 8 characters)']
+//						}
+//					})
+//				);
+//			}
+//		)
+//	);
+//
+//  eslint-disable-next-line jest/no-commented-out-tests
+//	it('displays validation errors from api', async () => {
+//		server.listen();
+//
+//		render(<Settings />);
+//
+//		fireEvent.input(screen.getByPlaceholderText('Username'), {
+//			target: { value: 'SmokeTest2' }
+//		});
+//		fireEvent.input(screen.getByPlaceholderText('New Password'), {
+//			target: { value: 'foobarbaz' }
+//		});
+//
+//		fireEvent.click(screen.getByRole('button', { name: 'Update Settings' }));
+//		await waitFor(() =>
+//			screen.getByRole('listitem', { name: 'password error' })
+//		);
+//
+//		expect(
+//			screen.getByRole('listitem', { name: 'username error' })
+//		).toHaveTextContent('username has already been taken');
+//		expect(
+//			screen.getByRole('listitem', { name: 'email error' })
+//		).toHaveTextContent('email has already been taken');
+//		expect(
+//			screen.getByRole('listitem', { name: 'password error' })
+//		).toHaveTextContent('password is too short (minimum 8 characters)');
+//
+//		server.close();
+//	});
+//});
