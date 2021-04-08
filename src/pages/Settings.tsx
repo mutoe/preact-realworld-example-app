@@ -1,11 +1,11 @@
 import { h } from 'preact';
 import { useEffect, useState, useRef } from 'preact/hooks';
 
+import AuthErrorHandler from '../components/AuthErrorHandler'
 import useStore from '../store';
 
 export default function Settings() {
-	const { error, logout, resetErrors, user, updateUserDetails } = useStore(state => ({
-		error: state.error,
+	const { logout, resetErrors, user, updateUserDetails } = useStore(state => ({
 		logout: state.logout,
 		resetErrors: state.resetErrors,
 		updateUserDetails: state.updateUserDetails,
@@ -59,15 +59,7 @@ export default function Settings() {
 					<div class="col-md-6 offset-md-3 col-xs-12">
 						<h1 class="text-xs-center">Your Settings</h1>
 
-						{error && (
-							<ul class="error-messages">
-								{Object.keys(error).map(key =>
-									<li key={key} aria-label={`${key} error`}>
-										{key} {error[key]}
-									</li>
-								)}
-							</ul>
-						)}
+						<AuthErrorHandler />
 
 						<form ref={formRef} onSubmit={onSubmit}>
 							<fieldset>
