@@ -25,7 +25,6 @@
 	"devDependencies": {
 		"@testing-library/jest-dom": "^5.11.10",
 		"@testing-library/preact": "^2.0.1",
-		"@types/history": "^4.7.3",
 		"@types/jest": "^26.0.22",
 		"@typescript-eslint/eslint-plugin": "^4.18.0",
 		"@typescript-eslint/parser": "^4.18.0",
