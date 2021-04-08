@@ -7,7 +7,7 @@ export default function AuthErrorHandler() {
 		error: state.error
 	}));
 
-	return !error ? null : (
+	return Object.keys(error).length === 0 ? null : (
 		<ul class="error-messages">
 			{Object.keys(error).map(key => (
 				<li key={key} aria-label={`${key} error`}>
