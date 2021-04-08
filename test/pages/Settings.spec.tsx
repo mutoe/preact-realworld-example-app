@@ -54,6 +54,17 @@ describe('Settings Page Renders', () => {
 });
 
 describe('Settings Form Behavior', () => {
+	it('validates profile picture input', () => {
+		render(<Settings />);
+		const profilePicture = screen.getByRole('textbox', { name: 'URL of profile picture' });
+
+		fireEvent.input(profilePicture, { target: { value: 'smoketest' } });
+		expect(profilePicture).toBeInvalid();
+
+		fireEvent.input(profilePicture, { target: { value: 'http://example.com/picture.jpg' } });
+		expect(profilePicture).toBeValid();
+	});
+
 	it('validates email input', () => {
 		render(<Settings />);
 		const email = screen.getByRole('textbox', { name: 'Email' });
