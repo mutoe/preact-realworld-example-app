@@ -2,11 +2,11 @@ import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { Link } from 'preact-router';
 
+import AuthErrorHandler from '../components/AuthErrorHandler';
 import useStore from '../store';
 
 export default function Register() {
-	const { error, register, resetErrors } = useStore(state => ({
-		error: state.error,
+	const { register, resetErrors } = useStore(state => ({
 		register: state.register,
 		resetErrors: state.resetErrors
 	}));
@@ -38,15 +38,7 @@ export default function Register() {
 							<Link href="/login">Have an account?</Link>
 						</p>
 
-						{error && (
-							<ul class="error-messages">
-								{Object.keys(error).map(key =>
-									<li key={key}>
-										{key} {error[key]}
-									</li>
-								)}
-							</ul>
-						)}
+						<AuthErrorHandler />
 
 						<form ref={formRef} onSubmit={onRegister}>
 							<fieldset class="form-group">
