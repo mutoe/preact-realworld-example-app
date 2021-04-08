@@ -51,10 +51,15 @@ const useStore = create<State>(
 			},
 			resetErrors: () => set({ error: {} }),
 			updateUserDetails: async updatedUser => {
-				const userData = await apiUpdateProfile(updatedUser);
-				authStorageService.saveToken(userData.token);
-				set({ user: userData });
-				route(`/@${userData.username}`);
+				set({ error: {} });
+				try {
+					const userData = await apiUpdateProfile(updatedUser);
+					authStorageService.saveToken(userData.token);
+					set({ user: userData });
+					route(`/@${userData.username}`);
+				} catch (error) {
+					set({ error });
+				}
 			}
 		}),
 		{

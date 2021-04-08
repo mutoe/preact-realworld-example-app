@@ -23,6 +23,6 @@ export async function apiUpdateProfile(profileDetails: Partial<Profile>): Promis
 		const { data } = await apiService.put('user', { user: profileDetails });
 		return data.user;
 	} catch (error) {
-		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while updating user details';
+		throw error?.data?.errors ? error.data.errors : { unknown: ['Unknown error while updating user details'] };
 	}
 }
