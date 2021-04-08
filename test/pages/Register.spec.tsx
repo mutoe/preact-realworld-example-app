@@ -1,7 +1,5 @@
 import { h } from 'preact';
-import { fireEvent, render, screen, waitFor } from '@testing-library/preact';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import { fireEvent, render, screen } from '@testing-library/preact';
 
 import Register from '../../src/pages/Register';
 
@@ -86,58 +84,5 @@ describe('Register Form Behavior', () => {
 			target: { value: 'foobarbaz' }
 		});
 		expect(submitButton).toBeEnabled();
-	});
-});
-
-describe('Register Form Submission', () => {
-	const server = setupServer(
-		rest.post(
-			'https://conduit.productionready.io/api/users',
-			(_req, res, ctx) => {
-				return res(
-					ctx.status(422),
-					ctx.json({
-						errors: {
-							username: ['has already been taken'],
-							email: ['has already been taken'],
-							password: ['is too short (minimum 8 characters)']
-						}
-					})
-				);
-			}
-		)
-	);
-
-	it('displays validation errors from api', async () => {
-		server.listen();
-
-		render(<Register />);
-
-		fireEvent.input(screen.getByRole('textbox', { name: 'Username' }), {
-			target: { value: 'SmokeTest' }
-		});
-		fireEvent.input(screen.getByRole('textbox', { name: 'Email' }), {
-			target: { value: 'smoketest@example.com' }
-		});
-		fireEvent.input(screen.getByPlaceholderText('Password'), {
-			target: { value: 'foobarbaz' }
-		});
-
-		fireEvent.click(screen.getByRole('button', { name: 'Sign up' }));
-		await waitFor(() =>
-			screen.getByRole('listitem', { name: 'password error' })
-		);
-
-		expect(
-			screen.getByRole('listitem', { name: 'username error' })
-		).toHaveTextContent('username has already been taken');
-		expect(
-			screen.getByRole('listitem', { name: 'email error' })
-		).toHaveTextContent('email has already been taken');
-		expect(
-			screen.getByRole('listitem', { name: 'password error' })
-		).toHaveTextContent('password is too short (minimum 8 characters)');
-
-		server.close();
 	});
 });
