@@ -38,7 +38,7 @@ test("should not display trash icon in other's comment", async () => {
 
 test('should delete comment when trash icon clicked', () => {
 	const server = setupServer(
-		rest.post(
+		rest.delete(
 			`https://conduit.productionready.io/api/articles/${articleSlug}/comments/${comment.id}`,
 			(_req, res, ctx) => {
 				return res(ctx.status(200));
