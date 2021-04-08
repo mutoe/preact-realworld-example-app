@@ -4,8 +4,10 @@ import { useEffect, useState, useRef } from 'preact/hooks';
 import useStore from '../store';
 
 export default function Settings() {
-	const { logout, user, updateUserDetails } = useStore(state => ({
+	const { error, logout, resetErrors, user, updateUserDetails } = useStore(state => ({
+		error: state.error,
 		logout: state.logout,
+		resetErrors: state.resetErrors,
 		updateUserDetails: state.updateUserDetails,
 		// We do the `as User` here as this route is protected by a route guard.
 		// There's no way `user` could be undefined
@@ -39,6 +41,10 @@ export default function Settings() {
 		});
 	}, [user]);
 
+	useEffect(() => {
+		resetErrors();
+	}, [resetErrors]);
+
 	const buttonDisabled =
 		form.image === user.image &&
 		form.username === user.username &&
@@ -52,6 +58,16 @@ export default function Settings() {
 				<div class="row">
 					<div class="col-md-6 offset-md-3 col-xs-12">
 						<h1 class="text-xs-center">Your Settings</h1>
+
+						{error && (
+							<ul class="error-messages">
+								{Object.keys(error).map(key =>
+									<li key={key} aria-label={`${key} error`}>
+										{key} {error[key]}
+									</li>
+								)}
+							</ul>
+						)}
 
 						<form ref={formRef} onSubmit={onSubmit}>
 							<fieldset>
