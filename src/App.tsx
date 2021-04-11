@@ -5,8 +5,7 @@ import { createHashHistory } from 'history';
 
 import Header from './components/Header';
 import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import AuthPage from './pages/AuthPage';
 import Settings from './pages/Settings';
 import ArticlePage from './pages/ArticlePage';
 import Editor from './pages/Editor';
@@ -20,8 +19,8 @@ export default function App() {
 			<Header />
 			<Router history={createHashHistory()}>
 				<Route path="/" component={Home} />
-				<Route path="/login" component={Login} />
-				<Route path="/register" component={Register} />
+				<Route path="/login" component={AuthPage} />
+				<Route path="/register" component={AuthPage} isRegister />
 				<AuthenticatedRoute path="/settings" component={Settings} />
 				<Route path="/editor/:slug?" component={Editor} />
 				<Route path="/article/:slug" component={ArticlePage} />
