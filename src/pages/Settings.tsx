@@ -66,7 +66,7 @@ export default function Settings() {
 								<fieldset class="form-group">
 									<input
 										class="form-control"
-										type="text"
+										type="url"
 										placeholder="URL of profile picture"
 										aria-label="URL of profile picture"
 										value={form.image}

@@ -1,104 +1,114 @@
 import { h } from 'preact';
-import { route } from 'preact-router';
-import { mount, shallow } from 'enzyme';
+import { fireEvent, render, screen } from '@testing-library/preact';
 
 import Settings from '../../src/pages/Settings';
-import { useRootState } from '../../src/store';
-import { getInputValue, setInputValue } from '../utils/test-utils';
-import { putProfile } from '../../src/services';
-import { UPDATE_USER } from '../../src/store/constants';
 
-jest.mock('../../src/store');
-jest.mock('preact-router');
-jest.mock('../../src/services');
+jest.mock('../../src/store', () =>
+	jest.fn().mockReturnValue({
+		error: {},
+		resetErrors: () => void 0,
+		user: {
+			username: 'SmokeTest',
+			email: 'smoketest@example.com',
+			bio: 'Foo Bar Baz',
+			image: 'https://static.productionready.io/images/smiley-cyrus.jpg'
+		},
+	})
+);
 
-const useRootStateMock = useRootState as jest.Mock;
-const putProfileMock = putProfile as jest.Mock;
+describe('Settings Page Renders', () => {
+	it('renders the Settings page', () => {
+		render(<Settings />);
+		expect(screen.getByRole('heading', { name: 'Your Settings' })).toBeInTheDocument();
+	});
 
-const imageInputSelector = '[placeholder$="profile picture"]';
-const nameInputSelector = '[placeholder="Your Name"]';
-const bioInputSelector = '[placeholder="Short bio about you"]';
-const emailInputSelector = '[placeholder="Email"]';
-const passwordInputSelector = '[placeholder="Password"]';
+	it('renders input fields', () => {
+		render(<Settings />);
+		expect(screen.getByRole('textbox', { name: 'URL of profile picture' })).toBeInTheDocument();
+		expect(screen.getByRole('textbox', { name: 'Username' })).toBeInTheDocument();
+		expect(screen.getByRole('textbox', { name: 'Short bio about you' })).toBeInTheDocument();
+		expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
+		// input[type="password"] doesn't actually have an implicit role,
+		// so the test has to be a bit different. See:
+		// https://github.com/testing-library/dom-testing-library/issues/567
+		expect(screen.getByPlaceholderText('New Password')).toBeInTheDocument();
+	});
 
-beforeEach(() => {
-	useRootStateMock.mockReturnValue([{ user: {} }, jest.fn()]);
+	it('renders a (disabled) submit button', () => {
+		render(<Settings />);
+		const submitButton = screen.getByRole('button', { name: 'Update Settings' });
+		expect(submitButton).toBeInTheDocument();
+		expect(submitButton).toBeDisabled();
+	});
+
+	it('preloads inputs with current user data', () => {
+		render(<Settings />);
+
+		expect(screen.getByRole('textbox', { name: 'URL of profile picture' })).toHaveValue(
+			'https://static.productionready.io/images/smiley-cyrus.jpg'
+		);
+		expect(screen.getByRole('textbox', { name: 'Username' })).toHaveValue('SmokeTest');
+		expect(screen.getByRole('textbox', { name: 'Short bio about you' })).toHaveValue('Foo Bar Baz');
+		expect(screen.getByRole('textbox', { name: 'Email' })).toHaveValue('smoketest@example.com');
+	});
 });
 
-afterEach(() => {
-	jest.clearAllMocks();
-});
+describe('Settings Form Behavior', () => {
+	it('validates profile picture input', () => {
+		render(<Settings />);
+		const profilePicture = screen.getByRole('textbox', { name: 'URL of profile picture' });
 
-describe('# Settings page', () => {
-	it('should dispatch LOGOUT action when logout button clicked', () => {
-		const dispatch = jest.fn();
-		useRootStateMock.mockReturnValue([{ user: {} }, dispatch]);
-		const wrapper = shallow(<Settings />);
+		fireEvent.input(profilePicture, { target: { value: 'smoketest' } });
+		expect(profilePicture).toBeInvalid();
 
-		wrapper.find('button.btn-outline-danger').simulate('click');
-
-		expect(dispatch).toBeCalledWith({ type: UPDATE_USER });
+		fireEvent.input(profilePicture, { target: { value: 'http://example.com/picture.jpg' } });
+		expect(profilePicture).toBeValid();
 	});
 
-	it('should jump to login page after logout or unauthorized', () => {
-		useRootStateMock.mockReturnValue([{ user: null }, jest.fn()]);
-		shallow(<Settings />);
+	it('validates email input', () => {
+		render(<Settings />);
+		const email = screen.getByRole('textbox', { name: 'Email' });
 
-		expect(route).toBeCalledTimes(1);
-		expect(route).toBeCalledWith('/login');
+		fireEvent.input(email, { target: { value: 'smoketest' } });
+		expect(email).toBeInvalid();
+
+		fireEvent.input(email, { target: { value: 'smoketest@example.com' } });
+		expect(email).toBeValid();
 	});
 
-	it('should fill profile when page loaded', () => {
-		const user: User = {
-			username: 'username',
-			bio: 'bio',
-			email: 'test@example.com',
-			id: 2,
-			image: 'image',
-			token: 'token'
-		};
-		useRootStateMock.mockReturnValue([{ user }, jest.fn()]);
-		const wrapper = mount(<Settings />);
+	it('validates password input', () => {
+		render(<Settings />);
+		const password = screen.getByPlaceholderText('New Password');
 
-		expect(getInputValue(wrapper, imageInputSelector)).toBe(user.image);
-		expect(getInputValue(wrapper, nameInputSelector)).toBe(user.username);
-		expect(getInputValue(wrapper, bioInputSelector)).toBe(user.bio);
-		expect(getInputValue(wrapper, emailInputSelector)).toBe(user.email);
-		expect(getInputValue(wrapper, passwordInputSelector)).toBe('');
+		fireEvent.input(password, { target: { value: 'foobar' } });
+		expect(password).toBeInvalid();
+
+		fireEvent.input(password, { target: { value: 'foobarbaz' } });
+		expect(password).toBeValid();
 	});
 
-	it('should call put profile service when update button clicked', () => {
-		const wrapper = mount(<Settings />);
-		setInputValue(wrapper, bioInputSelector, 'foo');
+	it('ensures changed field is required to enable submit button', () => {
+		render(<Settings />);
 
-		wrapper.find('form button').simulate('click');
-
-		expect(putProfile).toBeCalledWith({ bio: 'foo' });
+		fireEvent.input(screen.getByRole('textbox', { name: 'Email' }), {
+			target: { value: 'smoketest@example.com' }
+		});
+		expect(screen.getByRole('button', { name: 'Update Settings' })).toBeDisabled();
 	});
 
-	it('should set update button disabled when form fields is empty', () => {
-		const wrapper = shallow(<Settings />);
+	it('ensures all fields are required to submit', () => {
+		render(<Settings />);
+		const submitButton = screen.getByRole('button', { name: 'Update Settings' });
+		expect(submitButton).toBeDisabled();
 
-		expect(wrapper.find('form button').props().disabled).toBeTruthy();
-	});
+		fireEvent.input(screen.getByRole('textbox', { name: 'Email' }), {
+			target: { value: 'smoketest@example.com' }
+		});
+		expect(submitButton).toBeDisabled();
 
-	it('should set update button enabled when form has a field', () => {
-		const wrapper = mount(<Settings />);
-		setInputValue(wrapper, emailInputSelector, 'foo');
-
-		expect(wrapper.find('form button').props().disabled).toBeFalsy();
-	});
-
-	it('should update user state after submit', async () => {
-		const dispatch = jest.fn();
-		useRootStateMock.mockReturnValue([{ user: {} }, dispatch]);
-		putProfileMock.mockResolvedValue({ email: 'foo' });
-		const wrapper = mount(<Settings />);
-		setInputValue(wrapper, emailInputSelector, 'foo');
-		wrapper.find('form button').simulate('click');
-		await new Promise(r => setImmediate(r));
-
-		expect(dispatch).toBeCalledTimes(1);
-		expect(dispatch).toBeCalledWith({ type: UPDATE_USER, user: { email: 'foo' } });
+		fireEvent.input(screen.getByPlaceholderText('New Password'), {
+			target: { value: 'foobarbaz' }
+		});
+		expect(submitButton).toBeEnabled();
 	});
 });

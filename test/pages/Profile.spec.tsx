@@ -1,142 +1,155 @@
 import { h } from 'preact';
-import { shallow, mount } from 'enzyme';
+import { cleanup, render, screen } from '@testing-library/preact';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
-import { generateArticles, generateProfile } from '../utils/test-utils';
 import Profile from '../../src/pages/Profile';
-import {
-	deleteFollowProfile,
-	getArticles,
-	getProfile,
-	getProfileArticles,
-	postFollowProfile
-} from '../../src/services';
-import ArticlePreview from '../../src/components/ArticlePreview';
-import { useRootState } from '../../src/store';
+import useStore from '../../src/store';
 
-jest.mock('../../src/services');
-jest.mock('../../src/store');
+jest.mock('../../src/store', () => jest.fn());
 
-const getProfileMock = getProfile as jest.Mock<Promise<Profile>>;
-const getArticlesMock = getArticles as jest.Mock<Promise<ArticlesResponse>>;
-const getProfileArticlesMock = getProfileArticles as jest.Mock<Promise<ArticlesResponse>>;
-const useRootStateMock = useRootState as jest.Mock;
+const profile: Profile = {
+	username: 'SmokeTest',
+	following: false,
+};
 
-const loggedUser = generateProfile();
+const profile2: Profile = {
+	username: 'SmokeTest2',
+	following: true,
+};
 
-beforeEach(() => {
-	getProfileMock.mockResolvedValue({} as Profile);
-	getArticlesMock.mockResolvedValue({ articles: [], articlesCount: 0 });
-	getProfileArticlesMock.mockResolvedValue({ articles: [], articlesCount: 0 });
-	useRootStateMock.mockReturnValue([{}, jest.fn()]);
-});
+const server = setupServer(
+	rest.get(
+		`https://conduit.productionready.io/api/profiles/${profile.username}`,
+		(_req, res, ctx) => {
+			return res(
+				ctx.status(200),
+				ctx.json({
+					profile,
+				})
+			);
+		}
+	),
+	rest.get(
+		`https://conduit.productionready.io/api/profiles/${profile2.username}`,
+		(_req, res, ctx) => {
+			return res(
+				ctx.status(200),
+				ctx.json({
+					profile: profile2,
+				})
+			);
+		}
+	)
+);
 
-afterEach(() => {
-	jest.clearAllMocks();
-});
+beforeAll(() => server.listen());
+beforeEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
-describe('# Profile Page', () => {
-	it('should display correct username', () => {
-		const author = generateProfile();
-		const wrapper = shallow(<Profile username={`@${author.username}`} />);
+describe('Profile Page Renders', () => {
+	it('should render the header correctly', () => {
+		render(<Profile username={`@${profile.username}`} />);
 
-		expect(wrapper.find('.user-info h4').text()).toBe(author.username);
-		expect(wrapper.find('.user-info button').text()).toContain(`Follow ${author.username}`);
+		expect(screen.getByRole('img')).toHaveAttribute('src', 'https://static.productionready.io/images/smiley-cyrus.jpg');
+		expect(screen.getByRole('heading', { name: profile.username })).toBeInTheDocument();
 	});
 
-	it('should be request profile when page loaded', async () => {
-		const author = generateProfile();
-		shallow(<Profile username={`@${author.username}`} />);
-		await new Promise(r => setImmediate(r));
+	it('should render the follow button correctly', async () => {
+		render(<Profile username={`@${profile.username}`} />);
 
-		expect(getProfile).toBeCalledTimes(1);
-		expect(getProfile).toBeCalledWith(author.username);
+		expect(screen.getByRole('button', { name: `Follow ${profile.username}` })).toBeInTheDocument();
+
+		cleanup();
+
+		render(<Profile username={`@${profile2.username}`} />);
+
+		await screen.findByRole('button', { name: `Unfollow ${profile2.username}` });
+		expect(screen.getByRole('button', { name: `Unfollow ${profile2.username}` })).toBeInTheDocument();
 	});
 
-	it('should display user profile correctly', async () => {
-		const author = generateProfile();
-		getProfileMock.mockResolvedValue(author);
+	it('should render the tabs/links correctly', () => {
+		((useStore as unknown) as jest.Mock).mockReturnValue('');
+		render(<Profile username={`@${profile.username}`} />);
 
-		const wrapper = shallow(<Profile username={`@${author.username}`} />);
-		await new Promise(r => setImmediate(r));
-		wrapper.update();
-
-		expect(wrapper.find('.user-info p').text()).toBe(author.bio);
-		expect(wrapper.find('.user-info .user-img').prop('src')).toBe(author.image);
+		expect(screen.getByRole('link', { name: 'My Articles' })).toBeInTheDocument();
+		expect(screen.getByRole('link', { name: 'Favorited Articles' })).toBeInTheDocument();
 	});
 
-	it('should request articles that about profile', () => {
-		shallow(<Profile username="foo" />);
+	it('should render header for own profile correctly', () => {
+		((useStore as unknown) as jest.Mock).mockReturnValue('SmokeTest');
 
-		expect(getProfileArticles).toBeCalledTimes(1);
-		expect(getProfileArticles).toBeCalledWith('foo', 1);
-	});
+		render(<Profile username={`@${profile.username}`} />);
 
-	it('should display article preview after articles got', async () => {
-		const articles = generateArticles(2);
-		getProfileArticlesMock.mockResolvedValue({ articles, articlesCount: 2 });
-		const wrapper = shallow(<Profile username="@foo" />);
-		await new Promise(r => setImmediate(r));
-
-		expect(wrapper.find(ArticlePreview)).toHaveLength(2);
-	});
-});
-
-describe('# Follow user', () => {
-	it('should display Follow when user is not following', async () => {
-		const user = generateProfile();
-		user.following = false;
-		getProfileMock.mockResolvedValue(user);
-		const wrapper = shallow(<Profile username={`@${user.username}`} />);
-		await new Promise(r => setImmediate(r));
-		wrapper.update();
-
-		expect(wrapper.find('.user-info button').text()).toContain('Follow');
-	});
-
-	it('should display Unfollow when user is following', async () => {
-		const user = generateProfile();
-		user.following = true;
-		getProfileMock.mockResolvedValue(user);
-		const wrapper = shallow(<Profile username={`@${user.username}`} />);
-		await new Promise(r => setImmediate(r));
-		wrapper.update();
-
-		expect(wrapper.find('.user-info button').text()).toContain('Unfollow');
-	});
-
-	it('should send follow request when Follow button clicked', async () => {
-		const user = generateProfile();
-		getProfileMock.mockResolvedValue({ ...user, following: false });
-		const wrapper = shallow(<Profile username={`@${user.username}`} />);
-		await new Promise(r => setImmediate(r));
-
-		const postFollowProfileMock = postFollowProfile as jest.Mock<Promise<Profile>>;
-		postFollowProfileMock.mockImplementation();
-		wrapper.find('.user-info button').simulate('click');
-
-		expect(postFollowProfileMock).toBeCalledTimes(1);
-	});
-
-	it('should send unfollow request when Unfollow button clicked', async () => {
-		const user = generateProfile();
-		getProfileMock.mockResolvedValue({ ...user, following: true });
-		const wrapper = shallow(<Profile username={`@${user.username}`} />);
-		await new Promise(r => setImmediate(r));
-
-		const deleteFollowProfileMock = deleteFollowProfile as jest.Mock<Promise<Profile>>;
-		deleteFollowProfileMock.mockImplementation();
-		wrapper.find('.user-info button').simulate('click');
-
-		expect(deleteFollowProfileMock).toBeCalledTimes(1);
-	});
-
-	it('should display edit profile instead follow in owner self profile page', async () => {
-		getProfileMock.mockResolvedValue(loggedUser);
-		useRootStateMock.mockReturnValue([{ user: loggedUser }, jest.fn()]);
-		const wrapper = mount(<Profile username="@username" />);
-		await new Promise(r => setImmediate(r));
-		wrapper.update();
-
-		expect(wrapper.find('.user-info .action-btn').props().href).toBe('/settings');
+		expect(screen.getByRole('img')).toHaveAttribute('src', 'https://static.productionready.io/images/smiley-cyrus.jpg');
+		expect(screen.getByRole('heading', { name: profile.username })).toBeInTheDocument();
+		expect(screen.getByRole('link', { name: 'Edit Profile Settings' })).toBeInTheDocument();
 	});
 });
+
+//test('should request articles that about profile', () => {
+//	shallow(<Profile username="foo" />);
+//
+//	expect(getProfileArticles).toBeCalledTimes(1);
+//	expect(getProfileArticles).toBeCalledWith('foo', 1);
+//});
+//
+//test('should display article preview after articles got', async () => {
+//	const articles = generateArticles(2);
+//	getProfileArticlesMock.mockResolvedValue({ articles, articlesCount: 2 });
+//	const wrapper = shallow(<Profile username="@foo" />);
+//	await new Promise(r => setImmediate(r));
+//
+//	expect(wrapper.find(ArticlePreview)).toHaveLength(2);
+//});
+
+//describe('# Follow user', () => {
+//	test('should display Follow when user is not following', async () => {
+//		const user = generateProfile();
+//		user.following = false;
+//		getProfileMock.mockResolvedValue(user);
+//		const wrapper = shallow(<Profile username={`@${user.username}`} />);
+//		await new Promise(r => setImmediate(r));
+//		wrapper.update();
+//
+//		expect(wrapper.find('.user-info button').text()).toContain('Follow');
+//	});
+//
+//	test('should display Unfollow when user is following', async () => {
+//		const user = generateProfile();
+//		user.following = true;
+//		getProfileMock.mockResolvedValue(user);
+//		const wrapper = shallow(<Profile username={`@${user.username}`} />);
+//		await new Promise(r => setImmediate(r));
+//		wrapper.update();
+//
+//		expect(wrapper.find('.user-info button').text()).toContain('Unfollow');
+//	});
+//
+//	test('should send follow request when Follow button clicked', async () => {
+//		const user = generateProfile();
+//		getProfileMock.mockResolvedValue({ ...user, following: false });
+//		const wrapper = shallow(<Profile username={`@${user.username}`} />);
+//		await new Promise(r => setImmediate(r));
+//
+//		const postFollowProfileMock = postFollowProfile as jest.Mock<Promise<Profile>>;
+//		postFollowProfileMock.mockImplementation();
+//		wrapper.find('.user-info button').simulate('click');
+//
+//		expect(postFollowProfileMock).toBeCalledTimes(1);
+//	});
+//
+//	test('should send unfollow request when Unfollow button clicked', async () => {
+//		const user = generateProfile();
+//		getProfileMock.mockResolvedValue({ ...user, following: true });
+//		const wrapper = shallow(<Profile username={`@${user.username}`} />);
+//		await new Promise(r => setImmediate(r));
+//
+//		const deleteFollowProfileMock = deleteFollowProfile as jest.Mock<Promise<Profile>>;
+//		deleteFollowProfileMock.mockImplementation();
+//		wrapper.find('.user-info button').simulate('click');
+//
+//		expect(deleteFollowProfileMock).toBeCalledTimes(1);
+//	});
+//
+//});

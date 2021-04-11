@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should display auth errors when they exist 1`] = `
+<DocumentFragment>
+  <ul
+    class="error-messages"
+  >
+    <li
+      aria-label="username error"
+    >
+      username has already been taken
+    </li>
+    <li
+      aria-label="email error"
+    >
+      email has already been taken
+    </li>
+    <li
+      aria-label="password error"
+    >
+      password is too short (minimum 8 characters)
+    </li>
+  </ul>
+</DocumentFragment>
+`;

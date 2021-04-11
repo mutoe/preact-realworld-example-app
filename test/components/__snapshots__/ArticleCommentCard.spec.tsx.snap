@@ -1,17 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`# Article comment card should render correctly 1`] = `
-<div class="card">
-  <div class="card-block">
-    <p class="card-text">body.</p>
+exports[`should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="card"
+  >
+    <div
+      class="card-block"
+    >
+      <p
+        class="card-text"
+      >
+        foo
+      </p>
+    </div>
+    <div
+      class="card-footer"
+    >
+      <a
+        class="comment-author"
+        href="/@SmokeTest"
+      >
+        <img
+          alt="User's profile picture"
+          class="comment-author-img"
+          src="https://static.productionready.io/images/smiley-cyrus.jpg"
+        />
+      </a>
+       
+      <a
+        class="comment-author"
+        href="/@SmokeTest"
+      >
+        SmokeTest
+      </a>
+      <span
+        class="date-posted"
+      >
+        February 18, 2009
+      </span>
+      <span
+        class="mod-options"
+      />
+    </div>
   </div>
-  <div class="card-footer">
-    <a href="/@Shirley Davis" class="comment-author">
-      <img src="http://dummyimage.com/336x280" class="comment-author-img" />
-    </a> 
-    <a href="/@Shirley Davis" class="comment-author">Shirley Davis</a>
-    <span class="date-posted">February 18</span>
-    <span class="mod-options"></span>
-  </div>
-</div>
+</DocumentFragment>
 `;

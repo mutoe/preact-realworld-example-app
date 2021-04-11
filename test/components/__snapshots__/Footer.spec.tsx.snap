@@ -1,11 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`# Footer should be display normally 1`] = `
-<footer>
-  <div class="container">
-    <a href="/" class="logo-font">conduit</a>
-    <span class="attribution">An interactive learning project from
-      <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed under MIT.</span>
-  </div>
-</footer>
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <footer>
+    <div
+      class="container"
+    >
+      <a
+        class="logo-font"
+        href="/"
+      >
+        conduit
+      </a>
+      <span
+        class="attribution"
+      >
+        An interactive learning project from 
+        <a
+          href="https://thinkster.io"
+        >
+          Thinkster
+        </a>
+        . Code & design licensed under MIT.
+      </span>
+    </div>
+  </footer>
+</DocumentFragment>
 `;

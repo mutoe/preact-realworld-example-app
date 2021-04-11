@@ -1,12 +1,19 @@
 import { h } from 'preact';
-import render from 'preact-render-to-string';
+import { render, screen } from '@testing-library/preact';
 
 import Footer from '../../src/components/Footer';
 
-describe('# Footer', () => {
-	it('should be display normally', () => {
-		const html = render(<Footer />);
+test('renders the Footer component', () => {
+	render(<Footer />);
+	expect(
+		screen.getByRole('link', { name: 'conduit' })
+	).toBeInTheDocument();
+	expect(
+		screen.getByRole('link', { name: 'conduit' })
+	).toBeInTheDocument();
+});
 
-		expect(html).toMatchSnapshot();
-	});
+test('matches snapshot', () => {
+	const { asFragment } = render(<Footer />);
+	expect(asFragment()).toMatchSnapshot();
 });

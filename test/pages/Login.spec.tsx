@@ -1,97 +1,69 @@
 import { h } from 'preact';
-import { route } from 'preact-router';
-import { mount, shallow } from 'enzyme';
+import { fireEvent, render, screen } from '@testing-library/preact';
 
 import Login from '../../src/pages/Login';
-import { postLogin } from '../../src/services';
-import { setInputValue } from '../utils/test-utils';
-import { useRootState } from '../../src/store';
-import { login } from '../../src/store/actions';
 
-jest.mock('../../src/services');
-jest.mock('preact-router');
-jest.mock('../../src/store/actions');
-jest.mock('../../src/store');
-
-const useRootStateMock = useRootState as jest.Mock;
-
-const emailInputSelector = '[placeholder="Email"]';
-const passwordInputSelector = '[placeholder="Password"]';
-
-beforeEach(() => {
-	useRootStateMock.mockReturnValue([{ user: undefined }, jest.fn()]);
-});
-
-afterEach(() => {
-	jest.clearAllMocks();
-});
-
-describe('# Login form validate', () => {
-	it('should set button disabled when submit a empty form field', () => {
-		const wrapper = mount(<Login />);
-
-		setInputValue(wrapper, emailInputSelector, '123');
-
-		const loginButton = wrapper.find('form button.btn-lg.btn-primary');
-		expect(loginButton.props().disabled).toBe(true);
+describe('Login Page Renders', () => {
+	it('renders the Login page', () => {
+		render(<Login />);
+		expect(
+			screen.getByRole('heading', { name: 'Sign in' })
+		).toBeInTheDocument();
 	});
 
-	it('should not send form when given invalid email format', () => {
-		const wrapper = mount(<Login />);
-		setInputValue(wrapper, emailInputSelector, '123');
-		setInputValue(wrapper, passwordInputSelector, '123');
-
-		const loginButton = wrapper.find('form button.btn-lg.btn-primary');
-		loginButton.simulate('click');
-
-		expect(postLogin).not.toBeCalled();
+	it('renders 3 input fields', () => {
+		render(<Login />);
+		expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
+		// input[type="password"] doesn't actually have an implicit role,
+		// so the test has to be a bit different. See:
+		// https://github.com/testing-library/dom-testing-library/issues/567
+		expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
 	});
 
-	it('should display error messages when errors is displayed', async () => {
-		useRootStateMock.mockReturnValue([
-			{
-				user: null,
-				errors: {
-					email: ['is already exists'],
-					password: ['is too long']
-				}
-			},
-			jest.fn()
-		]);
-		const wrapper = shallow(<Login />);
-
-		expect(wrapper.find('.error-messages > li')).toHaveLength(2);
-		expect(wrapper.find('.error-messages').text()).toContain('email is already exists');
-		expect(wrapper.find('.error-messages').text()).toContain('password is too long');
+	it('renders a (disabled) submit button', () => {
+		render(<Login />);
+		const submitButton = screen.getByRole('button', { name: 'Sign in' });
+		expect(submitButton).toBeInTheDocument();
+		expect(submitButton).toBeDisabled();
 	});
 });
 
-describe('# Login request', () => {
-	it('should be dispatch login action when sign in button clicked', async () => {
-		const form = { email: 'test@example.com', password: '12345678' };
-		const wrapper = mount(<Login />);
-		setInputValue(wrapper, emailInputSelector, form.email);
-		setInputValue(wrapper, passwordInputSelector, form.password);
+describe('Login Form Behavior', () => {
+	it('validates email input', () => {
+		render(<Login />);
+		const email = screen.getByRole('textbox', { name: 'Email' });
 
-		wrapper.find('form').simulate('submit');
+		fireEvent.input(email, { target: { value: 'smoketest' } });
+		expect(email).toBeInvalid();
 
-		expect(login).toBeCalledTimes(1);
-		expect(login).toBeCalledWith(form);
+		fireEvent.input(email, { target: { value: 'smoketest@example.com' } });
+		expect(email).toBeValid();
 	});
 
-	it('should not be send when given invalid form', () => {
-		const wrapper = mount(<Login />);
-		setInputValue(wrapper, emailInputSelector, '123');
-		setInputValue(wrapper, passwordInputSelector, '12345678');
-		wrapper.find('form').simulate('submit');
+	it('validates password input', () => {
+		render(<Login />);
+		const password = screen.getByPlaceholderText('Password');
 
-		expect(postLogin).not.toBeCalled();
+		fireEvent.input(password, { target: { value: 'foobar' } });
+		expect(password).toBeInvalid();
+
+		fireEvent.input(password, { target: { value: 'foobarbaz' } });
+		expect(password).toBeValid();
 	});
 
-	it('should can goto home page after logged', async () => {
-		useRootStateMock.mockReturnValue([{ user: {} }, jest.fn()]);
-		shallow(<Login />);
+	it('ensures all fields are required to submit', () => {
+		render(<Login />);
+		const submitButton = screen.getByRole('button', { name: 'Sign in' });
+		expect(submitButton).toBeDisabled();
 
-		expect(route).toBeCalledWith('/');
+		fireEvent.input(screen.getByRole('textbox', { name: 'Email' }), {
+			target: { value: 'smoketest@example.com' }
+		});
+		expect(submitButton).toBeDisabled();
+
+		fireEvent.input(screen.getByPlaceholderText('Password'), {
+			target: { value: 'foobarbaz' }
+		});
+		expect(submitButton).toBeEnabled();
 	});
 });

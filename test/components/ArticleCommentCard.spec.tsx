@@ -1,57 +1,58 @@
 import { h } from 'preact';
-import render from 'preact-render-to-string';
-import { shallow } from 'enzyme';
+import { fireEvent, render, screen, waitFor } from '@testing-library/preact';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
 import ArticleCommentCard from '../../src/components/ArticleCommentCard';
-import { generateProfile, generateComments } from '../utils/test-utils';
-import { useRootState } from '../../src/store';
+import useStore from '../../src/store';
 
-jest.mock('../../src/store');
+jest.mock('../../src/store', () => jest.fn());
 
-const useRootStateMock = useRootState as jest.Mock;
+const comment: ArticleComment = {
+	id: 1,
+	body: 'foo',
+	createdAt: '2009-02-19T00:00:00.000Z',
+	updatedAt: '2008-05-19T00:00:00.000Z',
+	author: {
+		username: 'SmokeTest',
+		following: false
+	}
+};
 
-const loggedUser = generateProfile();
+const articleSlug = '/foo';
 
-beforeEach(() => {
-	useRootStateMock.mockReturnValue([{ user: loggedUser }, jest.fn()]);
+test('should render correctly', () => {
+	const { asFragment } = render(
+		<ArticleCommentCard articleSlug={articleSlug} comment={comment} onDelete={jest.fn()} />
+	);
+
+	expect(asFragment()).toMatchSnapshot();
 });
 
-afterEach(jest.clearAllMocks);
+test("should not display trash icon in other's comment", async () => {
+	((useStore as unknown) as jest.Mock).mockReturnValue({ username: 'SmokeTest' });
+	render(<ArticleCommentCard articleSlug={articleSlug} comment={comment} onDelete={jest.fn()} />);
 
-describe('# Article comment card', () => {
-	it('should render correctly', () => {
-		const comment: ArticleComment = {
-			id: 1,
-			body: 'body.',
-			createdAt: '2009-02-19T00:00:00.000Z',
-			updatedAt: '2008-05-19T00:00:00.000Z',
-			author: {
-				username: 'Shirley Davis',
-				bio: 'bio.',
-				image: 'http://dummyimage.com/336x280',
-				following: true
+	expect(screen.getByLabelText('Delete comment')).toBeInTheDocument();
+});
+
+test('should delete comment when trash icon clicked', () => {
+	const server = setupServer(
+		rest.delete(
+			`https://conduit.productionready.io/api/articles/${articleSlug}/comments/${comment.id}`,
+			(_req, res, ctx) => {
+				return res(ctx.status(200));
 			}
-		};
-		const output = render(<ArticleCommentCard comment={comment} />);
+		)
+	);
+	server.listen();
+	((useStore as unknown) as jest.Mock).mockReturnValue({ username: 'SmokeTest' });
 
-		expect(output).toMatchSnapshot();
-	});
+	const onDelete = jest.fn();
+	render(<ArticleCommentCard articleSlug={articleSlug} comment={comment} onDelete={onDelete} />);
 
-	it("should not display trash icon in other's comment", async () => {
-		const comment = generateComments();
-		const wrapper = shallow(<ArticleCommentCard comment={comment} />);
+	fireEvent.click(screen.getByLabelText('Delete comment'));
+	waitFor(() => expect(onDelete).toHaveBeenCalled());
 
-		expect(wrapper.find('i.ion-trash-a')).toHaveLength(0);
-	});
-
-	it('should trigger onDelete when trash icon clicked', () => {
-		const onDelete = jest.fn();
-		const comment = generateComments();
-		comment.author = loggedUser;
-		const wrapper = shallow(<ArticleCommentCard onDelete={onDelete} comment={comment} />);
-
-		wrapper.find('i.ion-trash-a').simulate('click');
-
-		expect(onDelete).toBeCalledWith(comment.id);
-	});
+	server.close();
 });

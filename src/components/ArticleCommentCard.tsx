@@ -27,7 +27,7 @@ export default function ArticleCommentCard(props: ArticleCommentCardProps) {
 			</div>
 			<div class="card-footer">
 				<a href={`/@${comment.author.username}`} class="comment-author">
-					<img src={comment.author.image || DEFAULT_AVATAR} class="comment-author-img" />
+					<img src={comment.author.image || DEFAULT_AVATAR} class="comment-author-img" alt="User's profile picture" />
 				</a>
 				&nbsp;
 				<a href={`/@${comment.author.username}`} class="comment-author">
@@ -35,7 +35,9 @@ export default function ArticleCommentCard(props: ArticleCommentCardProps) {
 				</a>
 				<span class="date-posted">{dateFormatter(comment.createdAt)}</span>
 				<span class="mod-options">
-					{user?.username === comment.author.username && <i class="ion-trash-a" onClick={onDelete} />}
+					{user?.username === comment.author.username && (
+						<i class="ion-trash-a" onClick={onDelete} aria-label="Delete comment" />
+					)}
 				</span>
 			</div>
 		</div>

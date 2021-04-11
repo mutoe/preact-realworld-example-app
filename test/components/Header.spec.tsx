@@ -1,40 +1,41 @@
 import { h } from 'preact';
-import render from 'preact-render-to-string';
+import { render, screen } from '@testing-library/preact';
 
 import Header from '../../src/components/Header';
-import { useRootState } from '../../src/store';
+import useStore from '../../src/store';
 
-jest.mock('../../src/store');
+jest.mock('../../src/store', () => jest.fn());
 
-const useRootStateMock = useRootState as jest.Mock;
+test('should display "Sign in" and "Sign up" links when not logged in', () => {
+	((useStore as unknown) as jest.Mock).mockReturnValue({ isAuthenticated: false });
 
-beforeEach(() => {
-	useRootStateMock.mockReturnValue([{ user: null }]);
+	render(<Header />);
+
+	expect(screen.getByRole('link', { name: 'Sign in' })).toBeInTheDocument();
+	expect(screen.getByRole('link', { name: 'Sign up' })).toBeInTheDocument();
 });
 
-afterEach(() => {
-	jest.resetAllMocks();
+test('should display "New Article", "Settings", and "Profile" buttons when logged in', () => {
+	((useStore as unknown) as jest.Mock).mockReturnValue({
+		isAuthenticated: true,
+		user: {
+			username: 'Foo'
+		}
+	});
+	render(<Header />);
+
+	expect(screen.getByRole('link', { name: 'New Article' })).toBeInTheDocument();
+	expect(screen.getByRole('link', { name: 'Settings' })).toBeInTheDocument();
+	expect(screen.getByRole('link', { name: 'Foo' })).toBeInTheDocument();
 });
 
-describe('# Header Component', () => {
-	it('should hidden post and settings and display logging buttons when not logged', () => {
-		useRootStateMock.mockReturnValue([{ user: null }]);
-		const html = render(<Header />);
-
-		expect(html).toContain('Sign in');
-	});
-
-	it('should display post and settings and hidden logging buttons when logged', () => {
-		useRootStateMock.mockReturnValue([{ user: {} }]);
-		const html = render(<Header />);
-
-		expect(html).toContain('New Article');
-	});
-
-	it('should display username after user logged', () => {
-		useRootStateMock.mockReturnValue([{ user: { username: 'foo' } }]);
-		const html = render(<Header />);
-
-		expect(html).toContain('foo');
-	});
-});
+// TODO: need a test like this, but preact-router + preact-router/match
+// makes this rather hairy. The WMR rewrite should make this easier as we
+// own the <Link> component there.
+//
+//test('should correctly determine "active" link', () => {
+//	(getCurrentUrl as jest.Mock).mockReturnValue('/settings');
+//	render(<Header />);
+//
+//	expect(screen.getByRole('link', { name: 'Settings' })).toHaveClass('active');
+//});

@@ -45,6 +45,7 @@ export default function Register() {
 									class="form-control form-control-lg"
 									type="email"
 									placeholder="Email"
+									aria-label="Email"
 									required
 									value={form.email}
 									onInput={e => {
@@ -58,7 +59,9 @@ export default function Register() {
 									class="form-control form-control-lg"
 									type="password"
 									placeholder="Password"
+									aria-label="Password"
 									required
+									pattern=".{8,}"
 									value={form.password}
 									onInput={e => {
 										resetErrors();

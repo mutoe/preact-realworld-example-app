@@ -1,6 +1,5 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const DotEnv = require('dotenv-webpack');
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -36,6 +35,5 @@ module.exports = {
 			template: 'public/index.html',
 			favicon: 'public/favicon.ico'
 		}),
-		new DotEnv()
 	]
 };

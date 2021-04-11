@@ -1,110 +1,88 @@
 import { h } from 'preact';
-import { route } from 'preact-router';
-import { mount } from 'enzyme';
+import { fireEvent, render, screen } from '@testing-library/preact';
 
-import { postRegister } from '../../src/services';
 import Register from '../../src/pages/Register';
-import { setInputValue } from '../utils/test-utils';
 
-jest.mock('../../src/services');
-jest.mock('preact-router');
-
-const postRegisterMock = postRegister as jest.Mock<Promise<User>>;
-
-const usernameInputSelector = '[placeholder="Username"]';
-const emailInputSelector = '[placeholder="Email"]';
-const passwordInputSelector = '[placeholder="Password"]';
-
-const resolvedResult = {
-	id: 1,
-	email: 'test@example.com',
-	username: 'test',
-	bio: null,
-	image: null,
-	token: 'foobar'
-};
-
-const mockResolvedPostRegister = () => {
-	postRegisterMock.mockResolvedValue(resolvedResult);
-};
-
-afterEach(() => {
-	jest.clearAllMocks();
-});
-
-describe('# Register form validate', () => {
-	it('should set button disabled when submit a empty form field', () => {
-		const wrapper = mount(<Register />);
-		setInputValue(wrapper, emailInputSelector, '123');
-		wrapper.update();
-
-		const submitButton = wrapper.find('form button.btn-lg.btn-primary');
-		expect(submitButton.props().disabled).toBe(true);
+describe('Register Page Renders', () => {
+	it('renders the Register page', () => {
+		render(<Register />);
+		expect(
+			screen.getByRole('heading', { name: 'Sign up' })
+		).toBeInTheDocument();
 	});
 
-	it('should not be send when given invalid form', () => {
-		const wrapper = mount(<Register />);
-		setInputValue(wrapper, usernameInputSelector, '123');
-		setInputValue(wrapper, emailInputSelector, '123');
-		setInputValue(wrapper, passwordInputSelector, '123');
-		wrapper.find('form button.btn-lg.btn-primary').simulate('click');
+	it('renders 3 input fields', () => {
+		render(<Register />);
+		expect(
+			screen.getByRole('textbox', { name: 'Username' })
+		).toBeInTheDocument();
+		expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
+		// input[type="password"] doesn't actually have an implicit role,
+		// so the test has to be a bit different. See:
+		// https://github.com/testing-library/dom-testing-library/issues/567
+		expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
+	});
 
-		expect(postRegister).not.toBeCalled();
+	it('renders a (disabled) submit button', () => {
+		render(<Register />);
+		const submitButton = screen.getByRole('button', { name: 'Sign up' });
+		expect(submitButton).toBeInTheDocument();
+		expect(submitButton).toBeDisabled();
 	});
 });
 
-describe('# Register request', () => {
-	it('should be send form when sign up button clicked', () => {
-		const wrapper = mount(<Register />);
-		setInputValue(wrapper, usernameInputSelector, 'test');
-		setInputValue(wrapper, emailInputSelector, 'test@example.com');
-		setInputValue(wrapper, passwordInputSelector, '12345678');
+describe('Register Form Behavior', () => {
+	it('validates username input', () => {
+		render(<Register />);
+		const username = screen.getByRole('textbox', { name: 'Username' });
 
-		wrapper.find('form button.btn-lg.btn-primary').simulate('click');
+		fireEvent.input(username, { target: { value: '' } });
+		expect(username).toBeInvalid();
 
-		expect(postRegister).toBeCalledTimes(1);
+		fireEvent.input(username, { target: { value: 'Foo' } });
+		expect(username).toBeValid();
 	});
 
-	it('can set error messages correctly when received error response', async () => {
-		postRegisterMock.mockRejectedValue({
-			errors: { 'email and password': ['is invalid'] }
+	it('validates email input', () => {
+		render(<Register />);
+		const email = screen.getByRole('textbox', { name: 'Email' });
+
+		fireEvent.input(email, { target: { value: 'smoketest' } });
+		expect(email).toBeInvalid();
+
+		fireEvent.input(email, { target: { value: 'smoketest@example.com' } });
+		expect(email).toBeValid();
+	});
+
+	it('validates password input', () => {
+		render(<Register />);
+		const password = screen.getByPlaceholderText('Password');
+
+		fireEvent.input(password, { target: { value: 'foobar' } });
+		expect(password).toBeInvalid();
+
+		fireEvent.input(password, { target: { value: 'foobarbaz' } });
+		expect(password).toBeValid();
+	});
+
+	it('ensures all fields are required to submit', () => {
+		render(<Register />);
+		const submitButton = screen.getByRole('button', { name: 'Sign up' });
+		expect(submitButton).toBeDisabled();
+
+		fireEvent.input(screen.getByRole('textbox', { name: 'Username' }), {
+			target: { value: 'SmokeTest' }
 		});
-		const wrapper = mount(<Register />);
-		setInputValue(wrapper, emailInputSelector, 'bad_account@example.com');
-		setInputValue(wrapper, usernameInputSelector, 'test');
-		setInputValue(wrapper, passwordInputSelector, '12345678');
+		expect(submitButton).toBeDisabled();
 
-		wrapper.find('form button.btn-lg.btn-primary').simulate('click');
-		expect(postRegister).toBeCalled();
-		await new Promise(r => setImmediate(r));
+		fireEvent.input(screen.getByRole('textbox', { name: 'Email' }), {
+			target: { value: 'smoketest@example.com' }
+		});
+		expect(submitButton).toBeDisabled();
 
-		expect(wrapper.find('.error-messages').text()).toContain('email and password');
-	});
-
-	it('should can goto home page when entering the correct account', async () => {
-		mockResolvedPostRegister();
-		const wrapper = mount(<Register />);
-		setInputValue(wrapper, emailInputSelector, 'test@example.com');
-		setInputValue(wrapper, usernameInputSelector, 'test');
-		setInputValue(wrapper, passwordInputSelector, '12345678');
-
-		wrapper.find('form button.btn-lg.btn-primary').simulate('click');
-		await new Promise(r => setImmediate(r));
-
-		expect(route).toBeCalledWith('/');
-	});
-
-	it('should save token locally when register successful', async () => {
-		mockResolvedPostRegister();
-		const wrapper = mount(<Register />);
-		jest.spyOn(global.localStorage, 'setItem');
-		setInputValue(wrapper, emailInputSelector, 'test@example.com');
-		setInputValue(wrapper, usernameInputSelector, 'test');
-		setInputValue(wrapper, passwordInputSelector, '12345678');
-
-		wrapper.find('form button.btn-lg.btn-primary').simulate('click');
-		await new Promise(r => setImmediate(r));
-
-		expect(global.localStorage.setItem).toBeCalledWith('token', JSON.stringify(resolvedResult));
+		fireEvent.input(screen.getByPlaceholderText('Password'), {
+			target: { value: 'foobarbaz' }
+		});
+		expect(submitButton).toBeEnabled();
 	});
 });

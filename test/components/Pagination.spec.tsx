@@ -1,35 +1,32 @@
 import { h } from 'preact';
-import render from 'preact-render-to-string';
-import { shallow } from 'enzyme';
+import { fireEvent, render, screen } from '@testing-library/preact';
 
 import Pagination from '../../src/components/Pagination';
 
-describe('# Pagination Component', () => {
-	const setPage = jest.fn();
+const setPage = jest.fn();
 
-	it('should display normally', () => {
-		const html = render(<Pagination count={1} page={1} setPage={setPage} />);
+test('renders the Pagination component', () => {
+	const { asFragment } = render(<Pagination count={1} page={1} setPage={setPage} />);
 
-		expect(html).toMatchSnapshot();
-	});
+	expect(asFragment()).toMatchSnapshot();
+});
 
-	it('should display multiple items when count is passed in', () => {
-		const wrapper = shallow(<Pagination count={50} page={1} setPage={setPage} />);
+test('should display multiple items when count is passed in', () => {
+	render(<Pagination count={50} page={1} setPage={setPage} />);
 
-		expect(wrapper.find('.page-item')).toHaveLength(5);
-	});
+	expect(screen.getAllByRole('listitem')).toHaveLength(5);
+});
 
-	it('should highlight current page that is passed in props', () => {
-		const wrapper = shallow(<Pagination count={50} page={2} setPage={setPage} />);
+test('should highlight current page that is passed in props', () => {
+	render(<Pagination count={50} page={2} setPage={setPage} />);
 
-		expect(wrapper.find('.page-item').at(1).hasClass('active')).toBeTruthy();
-	});
+	expect(screen.getAllByRole('listitem')[1]).toHaveClass('active');
+});
 
-	it('should can set current page when item clicked', () => {
-		const wrapper = shallow(<Pagination count={50} page={1} setPage={setPage} />);
+test('should set current page when item clicked', () => {
+	render(<Pagination count={50} page={1} setPage={setPage} />);
 
-		wrapper.find('.page-item').at(1).find('a').simulate('click');
+	fireEvent.click(screen.getByText('2'));
 
-		expect(setPage).toBeCalledWith(2);
-	});
+	expect(setPage).toBeCalledWith(2);
 });

@@ -1,31 +1,57 @@
 import { h } from 'preact';
-import { shallow } from 'enzyme';
+import { fireEvent, render, screen } from '@testing-library/preact';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
 import PopularTags from '../../src/components/PopularTags';
-import { getAllTags } from '../../src/services';
 
-jest.mock('../../src/services');
+const onTagClick = jest.fn();
 
-const getAllTagsMock = getAllTags as jest.Mock<Promise<string[]>>;
+const server = setupServer(
+	rest.get(
+		'https://conduit.productionready.io/api/tags',
+		(_req, res, ctx) => {
+			return res(
+				ctx.status(200),
+				ctx.json({
+					tags: [
+						'foo',
+						'bar',
+						'baz'
+					]
+				})
+			);
+		}
+	)
+);
 
-beforeEach(() => {
-	getAllTagsMock.mockResolvedValue([]);
+test('renders the PopularTags component', () => {
+	render(<PopularTags onClick={onTagClick} />);
+	expect(
+		screen.getByText('Popular Tags')
+	).toBeInTheDocument();
 });
 
-afterEach(() => {
-	jest.clearAllMocks();
+test('should set tag when tag clicked', async () => {
+	server.listen();
+
+	render(<PopularTags onClick={onTagClick} />);
+	await screen.findByText('foo');
+
+	fireEvent.click(screen.getByText('foo'));
+
+	expect(onTagClick).toBeCalledWith('foo');
+
+	server.close();
 });
 
-describe('# Popular Tags Component', () => {
-	it('should display title', () => {
-		const wrapper = shallow(<PopularTags />);
+test('matches snapshot', async () => {
+	server.listen();
 
-		expect(wrapper.text()).toContain('Popular Tags');
-	});
+	const { asFragment } = render(<PopularTags onClick={onTagClick} />);
+	await screen.findByText('foo');
 
-	it('should request all tags when component did mounted', () => {
-		shallow(<PopularTags />);
+	expect(asFragment()).toMatchSnapshot();
 
-		expect(getAllTags).toBeCalledTimes(1);
-	});
+	server.close();
 });
