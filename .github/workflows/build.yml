@@ -39,10 +39,7 @@ jobs:
         run: yarn install --skip-integrity-check --non-interactive --no-progress
 
       - name: Build
-        run: |
-          cp .env .env.local
-          sed -i "/BASE_URL/s#/#/preact-realworld-example-app/#" .env.local
-          yarn build
+        run: yarn build
 
       - name: Deploy
         uses: s0/git-publish-subdir-action@master
