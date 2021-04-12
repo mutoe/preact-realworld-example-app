@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthPage renders the Login page correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="auth-page"
+  >
+    <div
+      class="container page"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="col-md-6 offset-md-3 col-xs-12"
+        >
+          <h1
+            class="text-xs-center"
+          >
+            Sign in
+          </h1>
+          <p
+            class="text-xs-center"
+          >
+            <a
+              href="/register"
+            >
+              Need an account?
+            </a>
+          </p>
+          <form>
+            <fieldset
+              class="form-group"
+            >
+              <input
+                aria-label="Email"
+                class="form-control form-control-lg"
+                placeholder="Email"
+                required=""
+                type="email"
+              />
+            </fieldset>
+            <fieldset
+              class="form-group"
+            >
+              <input
+                aria-label="Password"
+                class="form-control form-control-lg"
+                minlength="8"
+                pattern=".{8,}"
+                placeholder="Password"
+                required=""
+                type="password"
+              />
+            </fieldset>
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              disabled=""
+            >
+              Sign in
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`AuthPage renders the Register page correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="auth-page"
+  >
+    <div
+      class="container page"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="col-md-6 offset-md-3 col-xs-12"
+        >
+          <h1
+            class="text-xs-center"
+          >
+            Sign up
+          </h1>
+          <p
+            class="text-xs-center"
+          >
+            <a
+              href="/login"
+            >
+              Have an account?
+            </a>
+          </p>
+          <form>
+            <fieldset
+              class="form-group"
+            >
+              <input
+                aria-label="Username"
+                class="form-control form-control-lg"
+                placeholder="Username"
+                required=""
+                type="text"
+              />
+            </fieldset>
+            <fieldset
+              class="form-group"
+            >
+              <input
+                aria-label="Email"
+                class="form-control form-control-lg"
+                placeholder="Email"
+                required=""
+                type="email"
+              />
+            </fieldset>
+            <fieldset
+              class="form-group"
+            >
+              <input
+                aria-label="Password"
+                class="form-control form-control-lg"
+                minlength="8"
+                pattern=".{8,}"
+                placeholder="Password"
+                required=""
+                type="password"
+              />
+            </fieldset>
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              disabled=""
+            >
+              Sign up
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

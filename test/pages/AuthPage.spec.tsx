@@ -1,18 +1,36 @@
 import { h } from 'preact';
 import { fireEvent, render, screen } from '@testing-library/preact';
 
-import Register from '../../src/pages/Register';
+import AuthPage from '../../src/pages/AuthPage';
 
-describe('Register Page Renders', () => {
-	it('renders the Register page', () => {
-		render(<Register />);
+describe('AuthPage renders', () => {
+	it('the Login page correctly', () => {
+		const { asFragment } = render(<AuthPage />);
+		expect(
+			screen.getByRole('heading', { name: 'Sign in' })
+		).toBeInTheDocument();
+		expect(asFragment()).toMatchSnapshot();
+	});
+
+	it('the Register page correctly', () => {
+		const { asFragment } = render(<AuthPage isRegister />);
 		expect(
 			screen.getByRole('heading', { name: 'Sign up' })
 		).toBeInTheDocument();
+		expect(asFragment()).toMatchSnapshot();
 	});
 
-	it('renders 3 input fields', () => {
-		render(<Register />);
+	it('the Login input fields', () => {
+		render(<AuthPage />);
+		expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
+		// input[type="password"] doesn't actually have an implicit role,
+		// so the test has to be a bit different. See:
+		// https://github.com/testing-library/dom-testing-library/issues/567
+		expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
+	});
+
+	it('the Register input fields', () => {
+		render(<AuthPage isRegister />);
 		expect(
 			screen.getByRole('textbox', { name: 'Username' })
 		).toBeInTheDocument();
@@ -23,17 +41,24 @@ describe('Register Page Renders', () => {
 		expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
 	});
 
-	it('renders a (disabled) submit button', () => {
-		render(<Register />);
+	it('a (disabled) Login button', () => {
+		render(<AuthPage />);
+		const submitButton = screen.getByRole('button', { name: 'Sign in' });
+		expect(submitButton).toBeInTheDocument();
+		expect(submitButton).toBeDisabled();
+	});
+
+	it('a (disabled) Register button', () => {
+		render(<AuthPage isRegister />);
 		const submitButton = screen.getByRole('button', { name: 'Sign up' });
 		expect(submitButton).toBeInTheDocument();
 		expect(submitButton).toBeDisabled();
 	});
 });
 
-describe('Register Form Behavior', () => {
-	it('validates username input', () => {
-		render(<Register />);
+describe('AuthPage form validates', () => {
+	it('username input', () => {
+		render(<AuthPage isRegister />);
 		const username = screen.getByRole('textbox', { name: 'Username' });
 
 		fireEvent.input(username, { target: { value: '' } });
@@ -43,8 +68,8 @@ describe('Register Form Behavior', () => {
 		expect(username).toBeValid();
 	});
 
-	it('validates email input', () => {
-		render(<Register />);
+	it('email input', () => {
+		render(<AuthPage />);
 		const email = screen.getByRole('textbox', { name: 'Email' });
 
 		fireEvent.input(email, { target: { value: 'smoketest' } });
@@ -54,8 +79,8 @@ describe('Register Form Behavior', () => {
 		expect(email).toBeValid();
 	});
 
-	it('validates password input', () => {
-		render(<Register />);
+	it('password input', () => {
+		render(<AuthPage />);
 		const password = screen.getByPlaceholderText('Password');
 
 		fireEvent.input(password, { target: { value: 'foobar' } });
@@ -65,8 +90,24 @@ describe('Register Form Behavior', () => {
 		expect(password).toBeValid();
 	});
 
-	it('ensures all fields are required to submit', () => {
-		render(<Register />);
+	it('login submission requirements', () => {
+		render(<AuthPage />);
+		const submitButton = screen.getByRole('button', { name: 'Sign in' });
+		expect(submitButton).toBeDisabled();
+
+		fireEvent.input(screen.getByRole('textbox', { name: 'Email' }), {
+			target: { value: 'smoketest@example.com' }
+		});
+		expect(submitButton).toBeDisabled();
+
+		fireEvent.input(screen.getByPlaceholderText('Password'), {
+			target: { value: 'foobarbaz' }
+		});
+		expect(submitButton).toBeEnabled();
+	});
+
+	it('registration submission requirements', () => {
+		render(<AuthPage isRegister />);
 		const submitButton = screen.getByRole('button', { name: 'Sign up' });
 		expect(submitButton).toBeDisabled();
 
