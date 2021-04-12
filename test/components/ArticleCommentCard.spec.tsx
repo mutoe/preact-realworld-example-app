@@ -3,10 +3,10 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/preact';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-import ArticleCommentCard from '../../src/components/ArticleCommentCard';
-import useStore from '../../src/store';
+import ArticleCommentCard from '../../public/components/ArticleCommentCard';
+import useStore from '../../public/store';
 
-jest.mock('../../src/store', () => jest.fn());
+jest.mock('../../public/store', () => jest.fn());
 
 const comment: ArticleComment = {
 	id: 1,

@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { fireEvent, render, screen } from '@testing-library/preact';
 
-import Pagination from '../../src/components/Pagination';
+import Pagination from '../../public/components/Pagination';
 
 const setPage = jest.fn();
 

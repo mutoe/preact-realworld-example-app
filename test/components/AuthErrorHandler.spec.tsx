@@ -1,10 +1,10 @@
 import { h } from 'preact';
 import { render, screen } from '@testing-library/preact';
 
-import AuthErrorHandler from '../../src/components/AuthErrorHandler';
-import useStore from '../../src/store';
+import AuthErrorHandler from '../../public/components/AuthErrorHandler';
+import useStore from '../../public/store';
 
-jest.mock('../../src/store', () => jest.fn());
+jest.mock('../../public/store', () => jest.fn());
 
 test('should return null when there are no errors', () => {
 	((useStore as unknown) as jest.Mock).mockReturnValue({ error: {} });

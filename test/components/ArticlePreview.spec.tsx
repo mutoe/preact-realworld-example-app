@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/preact';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-import ArticlePreview from '../../src/components/ArticlePreview';
+import ArticlePreview from '../../public/components/ArticlePreview';
 
 const article: Article = {
 	title: 'Foo',

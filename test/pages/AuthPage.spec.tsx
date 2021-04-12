@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { fireEvent, render, screen } from '@testing-library/preact';
 
-import AuthPage from '../../src/pages/AuthPage';
+import AuthPage from '../../public/pages/AuthPage';
 
 describe('AuthPage renders', () => {
 	it('the Login page correctly', () => {

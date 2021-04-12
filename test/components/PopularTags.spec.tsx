@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/preact';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-import PopularTags from '../../src/components/PopularTags';
+import PopularTags from '../../public/components/PopularTags';
 
 const onTagClick = jest.fn();
 

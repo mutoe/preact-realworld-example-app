@@ -3,10 +3,10 @@ import { cleanup, render, screen } from '@testing-library/preact';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-import Profile from '../../src/pages/Profile';
-import useStore from '../../src/store';
+import Profile from '../../public/pages/Profile';
+import useStore from '../../public/store';
 
-jest.mock('../../src/store', () => jest.fn());
+jest.mock('../../public/store', () => jest.fn());
 
 const profile: Profile = {
 	username: 'SmokeTest',

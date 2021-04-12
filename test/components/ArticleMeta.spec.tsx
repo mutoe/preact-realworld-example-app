@@ -3,8 +3,8 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/preact';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-import ArticleMeta from '../../src/components/ArticleMeta';
-import { dateFormatter } from '../../src/utils/dateFormatter';
+import ArticleMeta from '../../public/components/ArticleMeta';
+import { dateFormatter } from '../../public/utils/dateFormatter';
 
 const article: Article = {
 	title: 'Foo',

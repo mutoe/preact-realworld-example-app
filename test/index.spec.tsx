@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { render, screen } from '@testing-library/preact';
 
-import App from '../src/App';
+import App from '../public';
 
 describe('App Renders', () => {
 	it('renders the App', () => {

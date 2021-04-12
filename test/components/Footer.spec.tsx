@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { render, screen } from '@testing-library/preact';
 
-import Footer from '../../src/components/Footer';
+import Footer from '../../public/components/Footer';
 
 test('renders the Footer component', () => {
 	render(<Footer />);

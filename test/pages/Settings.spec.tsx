@@ -1,9 +1,9 @@
 import { h } from 'preact';
 import { fireEvent, render, screen } from '@testing-library/preact';
 
-import Settings from '../../src/pages/Settings';
+import Settings from '../../public/pages/Settings';
 
-jest.mock('../../src/store', () =>
+jest.mock('../../public/store', () =>
 	jest.fn().mockReturnValue({
 		error: {},
 		resetErrors: () => void 0,

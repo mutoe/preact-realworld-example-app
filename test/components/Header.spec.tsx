@@ -1,10 +1,10 @@
 import { h } from 'preact';
 import { render, screen } from '@testing-library/preact';
 
-import Header from '../../src/components/Header';
-import useStore from '../../src/store';
+import Header from '../../public/components/Header';
+import useStore from '../../public/store';
 
-jest.mock('../../src/store', () => jest.fn());
+jest.mock('../../public/store', () => jest.fn());
 
 test('should display "Sign in" and "Sign up" links when not logged in', () => {
 	((useStore as unknown) as jest.Mock).mockReturnValue({ isAuthenticated: false });
