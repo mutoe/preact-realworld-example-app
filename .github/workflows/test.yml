@@ -41,7 +41,7 @@ jobs:
     - name: lint and tests
       run: |
         yarn lint
-        yarn test --coverage
+        yarn test:ci --coverage
 
     - name: collect coverage
       uses: coverallsapp/github-action@v1.0.1
