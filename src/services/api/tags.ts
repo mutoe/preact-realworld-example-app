@@ -1,10 +1,10 @@
-import { apiService } from './index';
+import { apiService, errorHandler } from './index';
 
 export async function apiGetAllTags(): Promise<string[]> {
 	try {
 		const { data } = await apiService.get('tags');
 		return data.tags;
 	} catch (error) {
-		throw error?.data?.errors[0] ? error.data.errors[0] : 'Unknown error while fetching tags';
+		throw errorHandler(error, 'error while fetching tags');
 	}
 }
