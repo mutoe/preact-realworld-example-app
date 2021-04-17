@@ -2,6 +2,7 @@ import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { route } from 'preact-router';
 
+import LoadingIndicator from '../components/LoadingIndicator';
 import { apiCreateArticle, apiGetArticle, apiUpdateArticle } from '../services/api/article';
 
 interface EditorProps {
@@ -22,10 +23,12 @@ export default function Editor(props: EditorProps) {
 		body: '',
 		tagList: []
 	});
+	const [inProgress, setInProgress] = useState(false);
 
 	async function onSubmit(e: Event) {
 		e.preventDefault();
 
+		setInProgress(true);
 		const article = props.slug ? await apiUpdateArticle(props.slug, form) : await apiCreateArticle(form);
 		route(`/article/${article.slug}`);
 	}
@@ -98,6 +101,12 @@ export default function Editor(props: EditorProps) {
 									disabled={!(form.title && form.description && form.body)}
 								>
 									Publish Article
+									<LoadingIndicator
+										show={inProgress}
+										style={{ marginLeft: '0.5rem' }}
+										strokeColor="#fff"
+										width="1rem"
+									/>
 								</button>
 							</fieldset>
 						</form>

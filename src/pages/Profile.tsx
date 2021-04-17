@@ -4,6 +4,7 @@ import { getCurrentUrl } from 'preact-router';
 import { Link } from 'preact-router/match';
 
 import ArticlePreview from '../components/ArticlePreview';
+import LoadingIndicator from '../components/LoadingIndicator';
 import Pagination from '../components/Pagination';
 import { apiGetArticles } from '../services/api/article';
 import { apiFollowProfile, apiUnfollowProfile, apiGetProfile } from '../services/api/profile';
@@ -21,6 +22,7 @@ export default function Profile(props: ProfileProps) {
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
 	const [page, setPage] = useState(1);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const onFollowUser = async () => {
 		if (user.following) {
@@ -40,12 +42,14 @@ export default function Profile(props: ProfileProps) {
 
 	useEffect(() => {
 		(async function fetchArticles() {
+			setIsLoading(true);
 			const { articles, articlesCount } = await apiGetArticles(page, {
 				[/.*\/favorites/g.test(currentUrl) ? 'favorited' : 'author']: username
 			});
 
 			setArticles(articles);
 			setArticlesCount(articlesCount);
+			setIsLoading(false);
 		})();
 	}, [currentUrl, page, username]);
 
@@ -93,13 +97,14 @@ export default function Profile(props: ProfileProps) {
 							</ul>
 						</div>
 
-						{articles.length > 0 ? (
-							articles.map((article) => (
-								<ArticlePreview
-									key={article.slug}
-									article={article}
-								/>
-							))
+						{isLoading ? (
+							<LoadingIndicator
+								show={isLoading}
+								style={{ margin: '1rem auto', display: 'flex' }}
+								width="2rem"
+							/>
+						) : articles.length > 0 ? (
+							articles.map(article => <ArticlePreview key={article.slug} article={article} />)
 						) : (
 							<div class="article-preview">No articles are here... yet.</div>
 						)}

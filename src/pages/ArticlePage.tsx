@@ -4,6 +4,7 @@ import snarkdown from 'snarkdown';
 
 import ArticleMeta from '../components/ArticleMeta';
 import ArticleCommentCard from '../components/ArticleCommentCard';
+import LoadingIndicator from '../components/LoadingIndicator';
 import { apiGetArticle } from '../services/api/article';
 import { apiCreateComment, apiGetComments } from '../services/api/comments';
 import useStore from '../store';
@@ -17,6 +18,7 @@ export default function ArticlePage(props: ArticlePageProps) {
 	const [article, setArticle] = useState<Article | undefined>(undefined);
 	const [comments, setComments] = useState<ArticleComment[]>([]);
 	const [commentBody, setCommentBody] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 	const user = useStore(state => state.user);
 
 	const onPostComment = async () => {
@@ -27,12 +29,16 @@ export default function ArticlePage(props: ArticlePageProps) {
 
 	useEffect(() => {
 		(async function () {
+			setIsLoading(true);
 			setArticle(await apiGetArticle(props.slug));
 			setComments(await apiGetComments(props.slug));
+			setIsLoading(false);
 		})();
 	}, [props.slug]);
 
-	return !article ? null : (
+	return !article ? (
+		<LoadingIndicator show={isLoading} style={{ margin: '1rem auto', display: 'flex' }} width="2rem" />
+	) : (
 		<div class="article-page">
 			<div class="banner">
 				<div class="container">

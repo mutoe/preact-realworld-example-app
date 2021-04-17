@@ -1,8 +1,9 @@
 import { h } from 'preact';
-import { useEffect, useRef, useReducer } from 'preact/hooks';
+import { useEffect, useReducer, useRef, useState } from 'preact/hooks';
 import { Link } from 'preact-router';
 
 import AuthErrorHandler from '../components/AuthErrorHandler';
+import LoadingIndicator from '../components/LoadingIndicator';
 import useStore from '../store';
 
 const UPDATE_INPUT = (_state: string, e: Event) => (e.target as HTMLInputElement).value;
@@ -18,10 +19,12 @@ export default function AuthPage({ isRegister }: { isRegister?: boolean }) {
 	const [username, setUsername] = useReducer(UPDATE_INPUT, '');
 	const [email, setEmail] = useReducer(UPDATE_INPUT, '');
 	const [password, setPassword] = useReducer(UPDATE_INPUT, '');
+	const [inProgress, setInProgress] = useState(false);
 
 	const submit = async (e: Event) => {
 		e.preventDefault();
 		if (!formRef.current?.checkValidity()) return;
+		setInProgress(true);
 		isRegister ? await register({ username, email, password }) : await login({ email, password });
 	};
 
@@ -88,6 +91,7 @@ export default function AuthPage({ isRegister }: { isRegister?: boolean }) {
 								disabled={(isRegister && !username) || !email || !password}
 							>
 								{isRegister ? 'Sign up' : 'Sign in'}
+								<LoadingIndicator show={inProgress} style={{ marginLeft: '0.5rem' }} strokeColor="#fff" width="1rem" />
 							</button>
 						</form>
 					</div>
