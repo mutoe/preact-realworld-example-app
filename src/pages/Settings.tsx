@@ -1,7 +1,8 @@
 import { h } from 'preact';
 import { useEffect, useState, useRef } from 'preact/hooks';
 
-import AuthErrorHandler from '../components/AuthErrorHandler'
+import AuthErrorHandler from '../components/AuthErrorHandler';
+import LoadingIndicator from '../components/LoadingIndicator';
 import useStore from '../store';
 
 export default function Settings() {
@@ -22,14 +23,16 @@ export default function Settings() {
 		email: '',
 		password: ''
 	});
+	const [inProgress, setInProgress] = useState(false);
 
 	const onSubmit = async (e: Event) => {
 		e.preventDefault();
 		if (!formRef.current?.checkValidity()) return;
 		// filter empty fields from form
 		const filteredForm = Object.entries(form).reduce((a, [k, v]) => (v == null ? a : { ...a, [k]: v }), {});
+		setInProgress(true);
 		updateUserDetails(filteredForm);
-	}
+	};
 
 	useEffect(() => {
 		setForm({
@@ -37,7 +40,7 @@ export default function Settings() {
 			username: user.username,
 			bio: user.bio,
 			email: user.email,
-			password: '',
+			password: ''
 		});
 	}, [user]);
 
@@ -126,6 +129,12 @@ export default function Settings() {
 								</fieldset>
 								<button class="btn btn-lg btn-primary pull-xs-right" disabled={buttonDisabled}>
 									Update Settings
+									<LoadingIndicator
+										show={inProgress}
+										style={{ marginLeft: '0.5rem' }}
+										strokeColor="#fff"
+										width="1rem"
+									/>
 								</button>
 							</fieldset>
 						</form>
@@ -136,7 +145,7 @@ export default function Settings() {
 							Or click here to logout.
 						</button>
 					</div>
-			</div>
+				</div>
 			</div>
 		</div>
 	);

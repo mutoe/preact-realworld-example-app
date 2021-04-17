@@ -58,6 +58,21 @@ exports[`AuthPage renders the Login page correctly 1`] = `
               disabled=""
             >
               Sign in
+              <svg
+                id="loading-spinner"
+                style="margin-left: 0.5rem; display: none;"
+                viewBox="0 0 100 100"
+                width="1rem"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  id="circle"
+                  r="45"
+                  style="stroke: #fff;"
+                />
+              </svg>
             </button>
           </form>
         </div>
@@ -136,6 +151,21 @@ exports[`AuthPage renders the Register page correctly 1`] = `
               disabled=""
             >
               Sign up
+              <svg
+                id="loading-spinner"
+                style="margin-left: 0.5rem; display: none;"
+                viewBox="0 0 100 100"
+                width="1rem"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  id="circle"
+                  r="45"
+                  style="stroke: #fff;"
+                />
+              </svg>
             </button>
           </form>
         </div>

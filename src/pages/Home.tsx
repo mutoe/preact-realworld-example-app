@@ -2,6 +2,7 @@ import { h } from 'preact';
 import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
 
 import ArticlePreview from '../components/ArticlePreview';
+import LoadingIndicator from '../components/LoadingIndicator';
 import Pagination from '../components/Pagination';
 import PopularTags from '../components/PopularTags';
 import { apiGetArticles, apiGetFeed } from '../services/api/article';
@@ -15,6 +16,7 @@ export default function Home() {
 	const [page, setPage] = useState(1);
 	const [currentActiveTab, setCurrentActiveTab] = useState('');
 	const [tag, setTag] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
 	useLayoutEffect(() => {
 		setCurrentActiveTab(isAuthenticated ? 'personal' : 'global');
@@ -28,6 +30,7 @@ export default function Home() {
 	// 'personal'. This can lead to a flash of content.
 	useEffect(() => {
 		(async function fetchFeeds() {
+			setIsLoading(true);
 			let articles: Article[] = [];
 			let articlesCount = 0;
 			switch (currentActiveTab) {
@@ -40,6 +43,7 @@ export default function Home() {
 			}
 			setArticles(articles);
 			setArticlesCount(articlesCount);
+			setIsLoading(false);
 		})();
 	}, [currentActiveTab, page, tag]);
 
@@ -89,13 +93,10 @@ export default function Home() {
 							</ul>
 						</div>
 
-						{articles.length > 0 ? (
-							articles.map((article) => (
-								<ArticlePreview
-									key={article.slug}
-									article={article}
-								/>
-							))
+						{isLoading ? (
+							<LoadingIndicator show={isLoading} style={{ margin: '1rem auto', display: 'flex' }} width="2rem" />
+						) : articles.length > 0 ? (
+							articles.map(article => <ArticlePreview key={article.slug} article={article} />)
 						) : (
 							<div class="article-preview">No articles are here... yet.</div>
 						)}
