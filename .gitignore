@@ -37,3 +37,6 @@ package-lock.json
 
 # WMR Cache
 .cache
+
+# Built test files
+test/.build

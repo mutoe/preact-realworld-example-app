@@ -1,0 +1,25 @@
+{
+	"presets": [
+		[
+			"@babel/preset-typescript",
+			{
+				"isTSX": true,
+				"jsxPragma": "preserve",
+				"allExtensions": true
+			}
+		]
+	],
+	"plugins": [
+		[
+			"babel-plugin-transform-jsx-to-htm",
+			{
+				"import": {
+					"module": "htm/preact/index.js",
+					"export": "html"
+				},
+				"tag": "$$html"
+			}
+		],
+		"babel-plugin-add-import-extension"
+	]
+}
