@@ -84,24 +84,16 @@ export default function Profile(props: ProfileProps) {
 						<div class="articles-toggle">
 							<ul class="nav nav-pills outline-active">
 								<li class="nav-item">
-									<Link href={`/@${user.username}`}>
-										My Articles
-									</Link>
+									<Link href={`/@${user.username}`}>My Articles</Link>
 								</li>
 								<li class="nav-item">
-									<Link href={`/@${user.username}/favorites`}>
-										Favorited Articles
-									</Link>
+									<Link href={`/@${user.username}/favorites`}>Favorited Articles</Link>
 								</li>
 							</ul>
 						</div>
 
 						{isLoading ? (
-							<LoadingIndicator
-								show={isLoading}
-								style={{ margin: '1rem auto', display: 'flex' }}
-								width="2rem"
-							/>
+							<LoadingIndicator show={isLoading} style={{ margin: '1rem auto', display: 'flex' }} width="2rem" />
 						) : articles.length > 0 ? (
 							articles.map(article => <ArticlePreview key={article.slug} article={article} />)
 						) : (

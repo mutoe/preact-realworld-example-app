@@ -18,5 +18,5 @@ export default function LoadingIndicator(props: LoadingIndicatorProps) {
 		>
 			<circle id="circle" cx="50" cy="50" r="45" style={{ stroke: props.strokeColor }} />
 		</svg>
-	)
+	);
 }

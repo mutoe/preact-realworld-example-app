@@ -34,7 +34,7 @@ export default function Settings() {
 		setInProgress(true);
 		await updateUserDetails(filteredForm);
 		location.route(`/@${form.username}`);
-	}
+	};
 
 	useEffect(() => {
 		setForm({

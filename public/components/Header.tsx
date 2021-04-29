@@ -15,9 +15,7 @@ export default function Header() {
 				</a>
 				<ul class="nav navbar-nav pull-xs-right">
 					<li class="nav-item">
-						<Link href="/">
-							Home
-						</Link>
+						<Link href="/">Home</Link>
 					</li>
 					{isAuthenticated ? (
 						<>
@@ -32,10 +30,7 @@ export default function Header() {
 								</Link>
 							</li>
 							<li class="nav-item">
-								<Link
-									matcher={(url) => /^\/@.*/g.test(url)}
-									href={`/@${user?.username}`}
-								>
+								<Link matcher={url => /^\/@.*/g.test(url)} href={`/@${user?.username}`}>
 									{user?.username}
 								</Link>
 							</li>
@@ -43,14 +38,10 @@ export default function Header() {
 					) : (
 						<>
 							<li class="nav-item">
-								<Link href="/login">
-									Sign in
-								</Link>
+								<Link href="/login">Sign in</Link>
 							</li>
 							<li class="nav-item">
-								<Link href="/register">
-									Sign up
-								</Link>
+								<Link href="/register">Sign up</Link>
 							</li>
 						</>
 					)}

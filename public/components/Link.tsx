@@ -18,5 +18,5 @@ export default function Link(props: LinkProps) {
 		>
 			{props.children}
 		</a>
-	)
+	);
 }
