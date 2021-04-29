@@ -3,7 +3,7 @@ import { useLocation } from 'preact-iso/router';
 
 import { apiDeleteArticle, apiFavoriteArticle, apiUnfavoriteArticle } from '../services/api/article';
 import { apiFollowProfile, apiUnfollowProfile } from '../services/api/profile';
-import useStore from '../store';
+import { useStore } from '../store';
 import { dateFormatter } from '../utils/dateFormatter';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
@@ -11,7 +11,7 @@ interface ArticleMetaProps {
 	article: Article;
 }
 
-export default function ArticleMeta(props: ArticleMetaProps) {
+export function ArticleMeta(props: ArticleMetaProps) {
 	const [article, setArticle] = useState(props.article);
 	const user = useStore(state => state.user);
 	const location = useLocation();

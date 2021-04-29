@@ -1,5 +1,5 @@
 import { apiDeleteComment } from '../services/api/comments';
-import useStore from '../store';
+import { useStore } from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
 import { dateFormatter } from '../utils/dateFormatter';
 
@@ -9,7 +9,7 @@ interface ArticleCommentCardProps {
 	onDelete: () => void;
 }
 
-export default function ArticleCommentCard(props: ArticleCommentCardProps) {
+export function ArticleCommentCard(props: ArticleCommentCardProps) {
 	const { comment } = props;
 	const user = useStore(state => state.user);
 

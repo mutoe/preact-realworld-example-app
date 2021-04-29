@@ -7,7 +7,7 @@ interface ArticlePreviewProps {
 	article: Article;
 }
 
-export default function ArticlePreview(props: ArticlePreviewProps) {
+export function ArticlePreview(props: ArticlePreviewProps) {
 	const [article, setArticle] = useState(props.article);
 
 	async function onFavorite() {

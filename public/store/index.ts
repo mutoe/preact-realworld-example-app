@@ -15,7 +15,7 @@ type State = {
 	updateUserDetails: (user: Partial<Profile>) => Promise<void>;
 };
 
-const useStore = create<State>(
+export const useStore = create<State>(
 	persist(
 		set => ({
 			isAuthenticated: false,
@@ -62,5 +62,3 @@ const useStore = create<State>(
 		}
 	)
 );
-
-export default useStore;

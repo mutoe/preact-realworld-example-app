@@ -1,5 +1,3 @@
-import { h } from 'preact';
-
 interface LoadingIndicatorProps {
 	show: boolean;
 	style?: Record<string, string>;
@@ -7,7 +5,7 @@ interface LoadingIndicatorProps {
 	width?: string;
 }
 
-export default function LoadingIndicator(props: LoadingIndicatorProps) {
+export function LoadingIndicator(props: LoadingIndicatorProps) {
 	return (
 		<svg
 			id="loading-spinner"
