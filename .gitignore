@@ -25,14 +25,15 @@ report.*.json
 
 # Build files
 /dist
-/stats.json
+/stats.html
 
 # Env file
 .env.local
 .env.*.local
 
-
 # Lock files
 yarn.lock
 package-lock.json
 
+# WMR Cache
+.cache

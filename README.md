@@ -5,7 +5,7 @@
 
 > Forked from [hassanbazzi/preact-realworld-example-app](https://github.com/hassanbazzi/preact-realworld-example-app)
 
-> ### [Preact X](https://github.com/developit/preact) codebase containing real world examples (typescript, hooks, preact-router, fetch, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
+> ### [Preact X](https://github.com/preactjs/preact) codebase containing real world examples (typescript, hooks, wmr, fetch, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
 
 ### [Demo](https://github.com/gothinkster/realworld) [RealWorld](https://github.com/gothinkster/realworld)
@@ -22,35 +22,14 @@ For more information on how to this works with other frontends/backends, head ov
 
 ```shell script
 # install dependencies
-yarn install
+yarn 
 
 # start development
 yarn start
 
-# run tests (with coverage)
-yarn test --coverage
-
 # build
 yarn build
 
-# analyzer bundle size
-yarn analyzer
+# visualize bundle size
+yarn build:visualize
 ```
-
-# Bundle size
-
-![Bundle analyzer](.github/bundle-analyzer.png)
-
-There is 72KB left after gzip for the whole project, It was larger than I expected because I didn't introduce redux/mobx, using preact hooks.
-
-`history.js` is too big, I don't want it, but I have to use it to hash history.
-
-I used `axios` before, and later I created a fetch tool myself to further reduce the packet size.
-
-According to the [report](https://www.infoq.com/news/2019/04/real-world-framework-benchmark/), Preact isn't much ahead of React.
-
-However, if `history.js` is removed, I think it can be compared with the data of Vue.
-
-Here's what happens when you remove history.
-
-![Bundle analyzer(no history.js)](./.github/bundle-size-after-remove-history.png)

@@ -3,7 +3,9 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Conduit</title>
-		<link rel="shortcut icon" href="{%=o.htmlWebpackPlugin.files.favicon%}" />
+		<meta name="description" content="Conduit" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<link rel="shortcut icon" href="data:" />
 		<!-- Import Ionicon icons & Google Fonts our Bootstrap theme relies on -->
 		<link href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 		<link
@@ -13,6 +15,7 @@
 		/>
 		<!-- Import the custom Bootstrap 4 theme from our hosted CDN -->
 		<link rel="stylesheet" href="//demo.productionready.io/main.css" />
+		<link rel="preload" as="script" href="/index.tsx" crossorigin />
 		<style>
 			#loading-spinner {
 				animation: 2s linear infinite svg-animation;
@@ -60,6 +63,6 @@
 		</style>
 	</head>
 	<body>
-		<div id="app"></div>
+		<script type="module" src="/index.tsx"></script>
 	</body>
 </html>

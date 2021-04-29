@@ -1,51 +1,40 @@
 {
 	"name": "preact-realworld-example-app",
-	"version": "0.1.2",
 	"private": true,
 	"scripts": {
-		"start": "webpack-dev-server",
-		"build": "cross-env NODE_ENV=production webpack",
-		"lint": "eslint '{src,test}/**/*.{ts,tsx}' --fix && prettier '{src,test}/**/*{ts,tsx}' --write",
-		"test": "cross-env TZ=America/New_York jest --maxWorkers=50%",
-		"test:ci": "cross-env TZ=America/New_York jest --runInBand",
-		"analyzer": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json dist -s gzip"
+		"start": "wmr",
+		"build": "wmr build --prerender",
+		"build:visualize": "wmr build --prerender --visualize",
+		"serve": "wmr serve",
+		"lint": "eslint 'public/**/*.{ts,tsx}' --fix && prettier 'public/**/*{ts,tsx}' --write"
+	},
+	"alias": {
+		"react": "preact/compat",
+		"react-dom": "preact/compat"
 	},
 	"dependencies": {
-		"history": "^4.10.1",
-		"preact": "^10.1.0",
-		"preact-router": "^3.1.0",
+		"preact": "^10.5.13",
+		"preact-iso": "^1.1.0",
 		"snarkdown": "^2.0.0",
 		"ts-api-toolkit": "^2.0.15",
-		"zustand": "3.3.3"
+		"zustand": "^3.4.1"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "^5.11.10",
-		"@testing-library/preact": "^2.0.1",
-		"@types/history": "^4.7.3",
-		"@types/jest": "^26.0.22",
 		"@typescript-eslint/eslint-plugin": "^4.18.0",
 		"@typescript-eslint/parser": "^4.18.0",
-		"cross-env": "^7.0.2",
 		"eslint": "^7.22.0",
 		"eslint-config-preact": "^1.1.3",
-		"html-webpack-plugin": "^3.2.0",
 		"husky": "^5.2.0",
-		"jest": "^26.6.3",
 		"lint-staged": "^10.5.4",
-		"msw": "^0.28.0",
-		"node-fetch": "^2.6.1",
-		"preact-render-to-string": "^5.1.1",
+		"preact-render-to-string": "^5.1.17",
 		"prettier": "^2.2.1",
-		"ts-jest": "^26.5.4",
-		"ts-loader": "^6.2.1",
-		"typescript": "^3.7.2",
-		"webpack": "^4.41.2",
-		"webpack-bundle-analyzer": "^3.6.0",
-		"webpack-cli": "^3.3.10",
-		"webpack-dev-server": "^3.9.0"
+		"typescript": "^4.2.3",
+		"wmr": "^1.5.1"
 	},
 	"lint-staged": {
-		"**/*.{js,jsx,ts,tsx,json}": ["prettier --write"]
+		"**/*.{js,jsx,ts,tsx,json}": [
+			"prettier --write"
+		]
 	},
 	"husky": {
 		"hooks": {
@@ -54,7 +43,10 @@
 	},
 	"eslintConfig": {
 		"parser": "@typescript-eslint/parser",
-		"extends": ["preact", "plugin:@typescript-eslint/recommended"],
+		"extends": [
+			"preact",
+			"plugin:@typescript-eslint/recommended"
+		],
 		"rules": {
 			"@typescript-eslint/explicit-module-boundary-types": "off",
 			"@typescript-eslint/no-explicit-any": "off",
@@ -68,19 +60,5 @@
 		"useTabs": true,
 		"printWidth": 120,
 		"arrowParens": "avoid"
-	},
-	"jest": {
-		"preset": "ts-jest",
-		"testPathIgnorePatterns": ["<rootDir>/{dist,src}"],
-		"setupFilesAfterEnv": ["<rootDir>/test/setup-tests.ts"],
-		"collectCoverageFrom": [
-			"<rootDir>/src/**/*.{ts,tsx}",
-			"!<rootDir>/src/types/**/*"
-		],
-		"moduleNameMapper": {
-			"^react$": "preact/compat",
-			"^react-dom/test-utils$": "preact/test-utils",
-			"^react-dom$": "preact/compat"
-		}
 	}
 }

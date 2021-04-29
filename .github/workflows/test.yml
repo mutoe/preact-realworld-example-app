@@ -38,12 +38,7 @@ jobs:
     - name: install dependencies
       run: yarn install --skip-integrity-check --non-interactive --no-progress
 
-    - name: lint and tests
+    - name: build & lint
       run: |
+        yarn build
         yarn lint
-        yarn test:ci --coverage
-
-    - name: collect coverage
-      uses: coverallsapp/github-action@v1.0.1
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
