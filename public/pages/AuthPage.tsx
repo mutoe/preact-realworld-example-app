@@ -1,4 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from 'preact/hooks';
+import { useLocation } from 'preact-iso/router';
 
 import { AuthErrorHandler } from '../components/AuthErrorHandler';
 import { Link } from '../components/Link';
@@ -8,6 +9,7 @@ import { useStore } from '../store';
 const UPDATE_INPUT = (_state: string, e: Event) => (e.target as HTMLInputElement).value;
 
 export default function AuthPage({ isRegister }: { isRegister?: boolean }) {
+	const location = useLocation();
 	const { login, register, resetErrors } = useStore(state => ({
 		login: state.login,
 		register: state.register,
@@ -25,6 +27,7 @@ export default function AuthPage({ isRegister }: { isRegister?: boolean }) {
 		if (!formRef.current?.checkValidity()) return;
 		setInProgress(true);
 		isRegister ? await register({ username, email, password }) : await login({ email, password });
+		location.route('/');
 	};
 
 	useEffect(() => {
