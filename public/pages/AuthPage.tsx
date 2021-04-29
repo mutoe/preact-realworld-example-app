@@ -93,7 +93,7 @@ export default function AuthPage({ isRegister }: { isRegister?: boolean }) {
 								disabled={(isRegister && !username) || !email || !password}
 							>
 								{isRegister ? 'Sign up' : 'Sign in'}
-								<LoadingIndicator show={inProgress} style={{ marginLeft: '0.5rem' }} strokeColor="#fff" width="1rem" />
+								<LoadingIndicator show={inProgress} style={{ marginLeft: '0.5rem' }} strokeColor="#fff" width="1em" />
 							</button>
 						</form>
 					</div>

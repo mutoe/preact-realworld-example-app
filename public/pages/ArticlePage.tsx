@@ -36,7 +36,7 @@ export default function ArticlePage(props: ArticlePageProps) {
 	}, [props.slug]);
 
 	return !article ? (
-		<LoadingIndicator show={isLoading} style={{ margin: '1rem auto', display: 'flex' }} width="2rem" />
+		<LoadingIndicator show={isLoading} style={{ margin: '1rem auto', display: 'flex' }} width="2em" />
 	) : (
 		<div class="article-page">
 			<div class="banner">

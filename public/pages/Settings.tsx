@@ -131,12 +131,7 @@ export default function Settings() {
 								</fieldset>
 								<button class="btn btn-lg btn-primary pull-xs-right" disabled={buttonDisabled}>
 									Update Settings
-									<LoadingIndicator
-										show={inProgress}
-										style={{ marginLeft: '0.5rem' }}
-										strokeColor="#fff"
-										width="1rem"
-									/>
+									<LoadingIndicator show={inProgress} style={{ marginLeft: '0.5rem' }} strokeColor="#fff" width="1em" />
 								</button>
 							</fieldset>
 						</form>

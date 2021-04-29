@@ -101,12 +101,7 @@ export default function Editor(props: EditorProps) {
 									disabled={!(form.title && form.description && form.body)}
 								>
 									Publish Article
-									<LoadingIndicator
-										show={inProgress}
-										style={{ marginLeft: '0.5rem' }}
-										strokeColor="#fff"
-										width="1rem"
-									/>
+									<LoadingIndicator show={inProgress} style={{ marginLeft: '0.5rem' }} strokeColor="#fff" width="1em" />
 								</button>
 							</fieldset>
 						</form>

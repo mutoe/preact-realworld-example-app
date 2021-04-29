@@ -93,7 +93,7 @@ export default function Home() {
 						</div>
 
 						{isLoading ? (
-							<LoadingIndicator show={isLoading} style={{ margin: '1rem auto', display: 'flex' }} width="2rem" />
+							<LoadingIndicator show={isLoading} style={{ margin: '1rem auto', display: 'flex' }} width="2em" />
 						) : articles.length > 0 ? (
 							articles.map(article => <ArticlePreview key={article.slug} article={article} />)
 						) : (
