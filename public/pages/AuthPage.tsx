@@ -1,10 +1,9 @@
 import { useEffect, useReducer, useRef, useState } from 'preact/hooks';
 
-import Link from '../components/Link';
-
-import AuthErrorHandler from '../components/AuthErrorHandler';
-import LoadingIndicator from '../components/LoadingIndicator';
-import useStore from '../store';
+import { AuthErrorHandler } from '../components/AuthErrorHandler';
+import { Link } from '../components/Link';
+import { LoadingIndicator } from '../components/LoadingIndicator';
+import { useStore } from '../store';
 
 const UPDATE_INPUT = (_state: string, e: Event) => (e.target as HTMLInputElement).value;
 

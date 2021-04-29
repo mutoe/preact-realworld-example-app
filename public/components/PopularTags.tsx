@@ -6,7 +6,7 @@ interface PopularTagsProps {
 	onClick: (tag: string) => void;
 }
 
-export default function PopularTags(props: PopularTagsProps) {
+export function PopularTags(props: PopularTagsProps) {
 	const [tags, setTags] = useState<string[]>([]);
 
 	useEffect(() => {

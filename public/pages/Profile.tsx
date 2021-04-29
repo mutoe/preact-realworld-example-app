@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'preact/hooks';
 import { useLocation } from 'preact-iso/router';
 
-import ArticlePreview from '../components/ArticlePreview';
-import Link from '../components/Link';
-import LoadingIndicator from '../components/LoadingIndicator';
-import Pagination from '../components/Pagination';
+import { ArticlePreview } from '../components/ArticlePreview';
+import { Link } from '../components/Link';
+import { LoadingIndicator } from '../components/LoadingIndicator';
+import { Pagination } from '../components/Pagination';
 import { apiGetArticles } from '../services/api/article';
 import { apiFollowProfile, apiUnfollowProfile, apiGetProfile } from '../services/api/profile';
-import useStore from '../store';
+import { useStore } from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ProfileProps {

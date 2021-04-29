@@ -1,11 +1,11 @@
 import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
 
-import ArticlePreview from '../components/ArticlePreview';
-import LoadingIndicator from '../components/LoadingIndicator';
-import Pagination from '../components/Pagination';
-import PopularTags from '../components/PopularTags';
+import { ArticlePreview } from '../components/ArticlePreview';
+import { LoadingIndicator } from '../components/LoadingIndicator';
+import { Pagination } from '../components/Pagination';
+import { PopularTags } from '../components/PopularTags';
 import { apiGetArticles, apiGetFeed } from '../services/api/article';
-import useStore from '../store';
+import { useStore } from '../store';
 
 export default function Home() {
 	const isAuthenticated = useStore(state => state.isAuthenticated);

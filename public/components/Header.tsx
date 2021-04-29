@@ -1,7 +1,7 @@
-import Link from './Link';
-import useStore from '../store';
+import { Link } from './Link';
+import { useStore } from '../store';
 
-export default function Header() {
+export function Header() {
 	const { isAuthenticated, user } = useStore(state => ({
 		isAuthenticated: state.isAuthenticated,
 		user: state.user

@@ -8,7 +8,7 @@ interface LinkProps {
 	matcher?: (url: string) => boolean;
 }
 
-export default function Link(props: LinkProps) {
+export function Link(props: LinkProps) {
 	const { url } = useLocation();
 
 	return (

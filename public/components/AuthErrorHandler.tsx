@@ -1,8 +1,6 @@
-import { h } from 'preact';
+import { useStore } from '../store';
 
-import useStore from '../store';
-
-export default function AuthErrorHandler() {
+export function AuthErrorHandler() {
 	const { error } = useStore(state => ({
 		error: state.error
 	}));

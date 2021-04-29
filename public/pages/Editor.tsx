@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { useLocation } from 'preact-iso';
 
-import LoadingIndicator from '../components/LoadingIndicator';
+import { LoadingIndicator } from '../components/LoadingIndicator';
 import { apiCreateArticle, apiGetArticle, apiUpdateArticle } from '../services/api/article';
 
 interface EditorProps {

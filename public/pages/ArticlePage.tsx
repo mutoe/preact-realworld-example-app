@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'preact/hooks';
 import snarkdown from 'snarkdown';
 
-import ArticleMeta from '../components/ArticleMeta';
-import ArticleCommentCard from '../components/ArticleCommentCard';
-import LoadingIndicator from '../components/LoadingIndicator';
+import { ArticleMeta } from '../components/ArticleMeta';
+import { ArticleCommentCard } from '../components/ArticleCommentCard';
+import { LoadingIndicator } from '../components/LoadingIndicator';
 import { apiGetArticle } from '../services/api/article';
 import { apiCreateComment, apiGetComments } from '../services/api/comments';
-import useStore from '../store';
+import { useStore } from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticlePageProps {

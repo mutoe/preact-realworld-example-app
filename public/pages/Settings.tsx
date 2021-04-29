@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'preact/hooks';
 import { useLocation } from 'preact-iso/router';
 
-import AuthErrorHandler from '../components/AuthErrorHandler';
-import LoadingIndicator from '../components/LoadingIndicator';
-import useStore from '../store';
+import { AuthErrorHandler } from '../components/AuthErrorHandler';
+import { LoadingIndicator } from '../components/LoadingIndicator';
+import { useStore } from '../store';
 
 export default function Settings() {
 	const location = useLocation();
