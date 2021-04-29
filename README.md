@@ -32,7 +32,4 @@ yarn build
 
 # visualize bundle size
 yarn build:visualize
-
-# run tests (with coverage)
-yarn test --coverage
 ```
