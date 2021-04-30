@@ -1,3 +1,5 @@
+import '../assets/spinner.css';
+
 interface LoadingIndicatorProps {
 	show: boolean;
 	style?: Record<string, string>;
