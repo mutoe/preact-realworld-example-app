@@ -7,9 +7,9 @@ import { LocationProvider, Route, Router, useLocation } from 'preact-iso/router'
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { useStore } from './store';
-//import HomePage from './pages/Home';
+import HomePage from './pages/Home';
 
-const HomePage = lazy(() => import('./pages/Home'));
+//const HomePage = lazy(() => import('./pages/Home'));
 const AuthPage = lazy(() => import('./pages/Auth'));
 const ArticlePage = lazy(() => import('./pages/Article'));
 const EditorPage = lazy(() => import('./pages/Editor'));
