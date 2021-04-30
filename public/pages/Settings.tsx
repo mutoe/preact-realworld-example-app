@@ -1,9 +1,14 @@
-import { useEffect, useState, useRef } from 'preact/hooks';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'preact/hooks';
 import { useLocation } from 'preact-iso/router';
 
 import { AuthErrorHandler } from '../components/AuthErrorHandler';
 import { LoadingIndicator } from '../components/LoadingIndicator';
 import { useStore } from '../store';
+
+const UPDATE_INPUT = (state: SettingsUser, e: Event) => {
+	const { name, value } = e.target as HTMLInputElement;
+	return { ...state, [name]: value };
+};
 
 export default function Settings() {
 	const location = useLocation();
@@ -11,51 +16,29 @@ export default function Settings() {
 		logout: state.logout,
 		resetErrors: state.resetErrors,
 		updateUserDetails: state.updateUserDetails,
-		// We do the `as User` here as this route is protected by a route guard.
-		// There's no way `user` could be undefined
 		user: state.user as User
 	}));
 
 	const formRef = useRef<HTMLFormElement>();
-	const [form, setForm] = useState({
-		image: '',
-		username: '',
-		bio: '',
-		email: '',
+	const [profile, updateProfile] = useReducer(UPDATE_INPUT, {
+		image: user.image,
+		username: user.username,
+		bio: user.bio,
+		email: user.email,
 		password: ''
 	});
 	const [inProgress, setInProgress] = useState(false);
 
-	const onSubmit = async (e: Event) => {
-		e.preventDefault();
+	const onSubmit = useCallback(async () => {
 		if (!formRef.current?.checkValidity()) return;
-		// filter empty fields from form
-		const filteredForm = Object.entries(form).reduce((a, [k, v]) => (v == null ? a : { ...a, [k]: v }), {});
 		setInProgress(true);
-		await updateUserDetails(filteredForm);
-		location.route(`/@${form.username}`);
-	};
-
-	useEffect(() => {
-		setForm({
-			image: user.image,
-			username: user.username,
-			bio: user.bio,
-			email: user.email,
-			password: ''
-		});
-	}, [user]);
+		await updateUserDetails(profile);
+		location.route(`/@${profile.username}`);
+	}, [location, profile, updateUserDetails]);
 
 	useEffect(() => {
 		resetErrors();
 	}, [resetErrors]);
-
-	const buttonDisabled =
-		form.image === user.image &&
-		form.username === user.username &&
-		form.email === user.email &&
-		form.bio === user.bio &&
-		!form.password;
 
 	return (
 		<div class="settings-page">
@@ -66,70 +49,63 @@ export default function Settings() {
 
 						<AuthErrorHandler />
 
-						<form ref={formRef} onSubmit={onSubmit}>
+						<form ref={formRef} onSubmit={onSubmit} action="javascript:">
 							<fieldset>
 								<fieldset class="form-group">
 									<input
 										class="form-control"
 										type="url"
+										name="image"
 										placeholder="URL of profile picture"
-										aria-label="URL of profile picture"
-										value={form.image}
-										onInput={e => setForm(prev => ({ ...prev, image: e.currentTarget.value }))}
+										value={profile.image}
+										onInput={updateProfile}
 									/>
 								</fieldset>
 								<fieldset class="form-group">
 									<input
 										class="form-control form-control-lg"
 										type="text"
+										name="username"
 										placeholder="Username"
-										aria-label="Username"
-										value={form.username}
-										onInput={e => setForm(prev => ({ ...prev, username: e.currentTarget.value }))}
+										value={profile.username}
+										onInput={updateProfile}
 									/>
 								</fieldset>
 								<fieldset class="form-group">
 									<textarea
 										class="form-control form-control-lg"
+										name="bio"
 										placeholder="Short bio about you"
-										aria-label="Short bio about you"
 										rows={8}
-										value={form.bio}
-										onInput={e => setForm(prev => ({ ...prev, bio: e.currentTarget.value }))}
+										value={profile.bio}
+										onInput={updateProfile}
 									/>
 								</fieldset>
-								{/*
-									These fields are absurdly broken in the spec and have been for years. For some
-									reason they're absolutely required by backends which means users have to just
-									overwrite their emails and passwords when they want to say change their username.
-									These fields shouldn't be required, it makes no sense to be required, but the API
-									will throw errors if they're not provided, so I guess we need to require them here.
-								*/}
 								<fieldset class="form-group">
 									<input
 										class="form-control form-control-lg"
 										type="email"
+										name="email"
 										placeholder="Email"
-										aria-label="Email"
 										required
-										value={form.email}
-										onInput={e => setForm(prev => ({ ...prev, email: e.currentTarget.value }))}
+										value={profile.email}
+										onInput={updateProfile}
 									/>
 								</fieldset>
 								<fieldset class="form-group">
 									<input
 										class="form-control form-control-lg"
 										type="password"
-										placeholder="New Password"
-										aria-label="New Password"
+										name="password"
+										placeholder="Password"
 										required
 										pattern=".{8,}"
 										autocomplete="new-password"
-										value={form.password}
-										onInput={e => setForm(prev => ({ ...prev, password: e.currentTarget.value }))}
+										value={profile.password}
+										onInput={updateProfile}
 									/>
 								</fieldset>
-								<button class="btn btn-lg btn-primary pull-xs-right" disabled={buttonDisabled}>
+								<button class="btn btn-lg btn-primary pull-xs-right" type="submit">
 									Update Settings
 									<LoadingIndicator show={inProgress} style={{ marginLeft: '0.5rem' }} strokeColor="#fff" width="1em" />
 								</button>

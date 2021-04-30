@@ -24,3 +24,11 @@ interface RegistrationUser {
 	email: string;
 	password: string;
 }
+
+interface SettingsUser {
+	image?: string;
+	username: string;
+	bio?: string;
+	email: string;
+	password: string;
+}
