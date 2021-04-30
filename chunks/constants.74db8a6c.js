@@ -1,1 +1,0 @@
-const s="https://static.productionready.io/images/smiley-cyrus.jpg";export{s as D};
