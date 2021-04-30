@@ -27,10 +27,10 @@ export default function App() {
 						<Route path="/article/:slug" component={ArticlePage} />
 						<Route path="/login" component={AuthPage} />
 						<Route path="/register" component={AuthPage} isRegister />
-						<Route path="/:username" component={ProfilePage} />
-						<Route path="/:username/favorites" component={ProfilePage} />
 						<AuthenticatedRoute path="/editor/:slug?" component={EditorPage} />
 						<AuthenticatedRoute path="/settings" component={SettingsPage} />
+						<Route path="/:username" component={ProfilePage} />
+						<Route path="/:username/favorites" component={ProfilePage} />
 					</Router>
 				</ErrorBoundary>
 				<Footer />
