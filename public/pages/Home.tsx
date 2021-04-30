@@ -7,7 +7,7 @@ import { PopularTags } from '../components/PopularTags';
 import { apiGetArticles, apiGetFeed } from '../services/api/article';
 import { useStore } from '../store';
 
-export default function Home() {
+export default function HomePage() {
 	const isAuthenticated = useStore(state => state.isAuthenticated);
 
 	const [articles, setArticles] = useState<Article[]>([]);

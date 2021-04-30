@@ -14,7 +14,7 @@ interface ProfileProps {
 	username: string;
 }
 
-export default function Profile(props: ProfileProps) {
+export default function ProfilePage(props: ProfileProps) {
 	const username = props.username?.replace(/^@/, '') || '';
 	const { url } = useLocation();
 	const [user, setUser] = useState({} as Profile);

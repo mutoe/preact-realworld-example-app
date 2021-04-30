@@ -15,7 +15,7 @@ interface FormState {
 	tagList: string[];
 }
 
-export default function Editor(props: EditorProps) {
+export default function EditorPage(props: EditorProps) {
 	const location = useLocation();
 	const [form, setForm] = useState<FormState>({
 		title: '',

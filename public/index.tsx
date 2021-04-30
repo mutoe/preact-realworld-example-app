@@ -6,14 +6,15 @@ import { LocationProvider, Route, Router, useLocation } from 'preact-iso/router'
 
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import Home from './pages/Home';
 import { useStore } from './store';
+//import HomePage from './pages/Home';
 
-const AuthPage = lazy(() => import('./pages/AuthPage'));
-const ArticlePage = lazy(() => import('./pages/ArticlePage'));
-const Editor = lazy(() => import('./pages/Editor'));
-const Profile = lazy(() => import('./pages/Profile'));
-const Settings = lazy(() => import('./pages/Settings'));
+const HomePage = lazy(() => import('./pages/Home'));
+const AuthPage = lazy(() => import('./pages/Auth'));
+const ArticlePage = lazy(() => import('./pages/Article'));
+const EditorPage = lazy(() => import('./pages/Editor'));
+const ProfilePage = lazy(() => import('./pages/Profile'));
+const SettingsPage = lazy(() => import('./pages/Settings'));
 
 export default function App() {
 	return (
@@ -22,14 +23,14 @@ export default function App() {
 				<Header />
 				<ErrorBoundary>
 					<Router>
-						<Route path="/" component={Home} />
+						<Route path="/" component={HomePage} />
+						<Route path="/article/:slug" component={ArticlePage} />
 						<Route path="/login" component={AuthPage} />
 						<Route path="/register" component={AuthPage} isRegister />
-						<Route path="/editor/:slug?" component={Editor} />
-						<Route path="/article/:slug" component={ArticlePage} />
-						<AuthenticatedRoute path="/settings" component={Settings} />
-						<Route path="/:username" component={Profile} />
-						<Route path="/:username/favorites" component={Profile} />
+						<Route path="/:username" component={ProfilePage} />
+						<Route path="/:username/favorites" component={ProfilePage} />
+						<AuthenticatedRoute path="/editor/:slug?" component={EditorPage} />
+						<AuthenticatedRoute path="/settings" component={SettingsPage} />
 					</Router>
 				</ErrorBoundary>
 				<Footer />
@@ -45,7 +46,7 @@ export async function prerender() {
 	return await prerender(<App />);
 }
 
-function AuthenticatedRoute(props: { path: string; component: () => JSX.Element | null }) {
+function AuthenticatedRoute(props: { path: string; component: (props: any) => JSX.Element | null }) {
 	const isAuthenticated = useStore(state => state.isAuthenticated);
 	const location = useLocation();
 

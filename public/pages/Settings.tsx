@@ -10,7 +10,7 @@ const UPDATE_INPUT = (state: SettingsUser, e: Event) => {
 	return { ...state, [name]: value };
 };
 
-export default function Settings() {
+export default function SettingsPage() {
 	const location = useLocation();
 	const { logout, resetErrors, user, updateUserDetails } = useStore(state => ({
 		logout: state.logout,
