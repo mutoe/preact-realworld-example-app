@@ -4,7 +4,7 @@ import { useStore } from '../store';
 export function Header() {
 	const { isAuthenticated, user } = useStore(state => ({
 		isAuthenticated: state.isAuthenticated,
-		user: state.user
+		user: state.user as User
 	}));
 
 	return (
@@ -31,7 +31,7 @@ export function Header() {
 							</li>
 							<li class="nav-item">
 								<Link matcher={url => /^\/@.*/g.test(url)} href={`/@${user?.username}`}>
-									{user?.username}
+									{user.image && <img src={user.image} class="user-pic" />} {user.username}
 								</Link>
 							</li>
 						</>
