@@ -47,7 +47,7 @@ export async function prerender() {
 }
 
 function AuthenticatedRoute(props: { path: string; component: (props: any) => JSX.Element | null }) {
-	const isAuthenticated = useStore(state => state.isAuthenticated);
+	const isAuthenticated = useStore(state => !!state.user);
 	const location = useLocation();
 
 	useEffect(() => {
