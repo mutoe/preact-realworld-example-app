@@ -13,6 +13,8 @@ type State = {
 	updateUserDetails: (user: Partial<Profile>) => Promise<void>;
 };
 
+const isBrowser = typeof window !== 'undefined';
+
 const writeUserToStorage = (user: User) => localStorage.setItem('user', JSON.stringify(user));
 const removeUserFromStorage = () => localStorage.removeItem('user');
 
@@ -23,7 +25,7 @@ export const useStore = create<State>(set => ({
 	//
 	// eslint-disable-next-line
 	// @ts-ignore
-	user: JSON.parse(localStorage.getItem('user')) || undefined,
+	user: JSON.parse(isBrowser && localStorage.getItem('user')) || undefined,
 	error: {},
 	login: async user => {
 		set({ error: {} });
