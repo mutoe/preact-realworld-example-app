@@ -2,10 +2,7 @@ import { Link } from './Link';
 import { useStore } from '../store';
 
 export function Header() {
-	const { isAuthenticated, user } = useStore(state => ({
-		isAuthenticated: state.isAuthenticated,
-		user: state.user as User
-	}));
+	const user = useStore(state => state.user);
 
 	return (
 		<nav class="navbar navbar-light">
@@ -17,7 +14,7 @@ export function Header() {
 					<li class="nav-item">
 						<Link href="/">Home</Link>
 					</li>
-					{isAuthenticated ? (
+					{user ? (
 						<>
 							<li class="nav-item">
 								<Link href="/editor">

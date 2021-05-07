@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 
 import { ArticlePreview } from '../components/ArticlePreview';
 import { LoadingIndicator } from '../components/LoadingIndicator';
@@ -8,25 +8,15 @@ import { apiGetArticles, apiGetFeed } from '../services/api/article';
 import { useStore } from '../store';
 
 export default function HomePage() {
-	const isAuthenticated = useStore(state => state.isAuthenticated);
+	const isAuthenticated = useStore(state => !!state.user);
 
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [articlesCount, setArticlesCount] = useState(0);
 	const [page, setPage] = useState(1);
-	const [currentActiveTab, setCurrentActiveTab] = useState('');
+	const [currentActiveTab, setCurrentActiveTab] = useState(isAuthenticated ? 'personal' : 'global');
 	const [tag, setTag] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 
-	useLayoutEffect(() => {
-		setCurrentActiveTab(isAuthenticated ? 'personal' : 'global');
-	}, [isAuthenticated]);
-
-	// This has a problem when refreshing the page. Zustand, when restoring state
-	// from localStorage (for persistance) will assume the default value for
-	// `isAuthenticated` on the first render -- false. The layout effect will then
-	// trigger, setting the state to 'global', which causes a fetch request for global
-	// articles to occur. Zustand will then correctly hydrate, and switch back to
-	// 'personal'. This can lead to a flash of content.
 	useEffect(() => {
 		(async function fetchFeeds() {
 			setIsLoading(true);
@@ -100,7 +90,7 @@ export default function HomePage() {
 							<div class="article-preview">No articles are here... yet.</div>
 						)}
 
-						<Pagination count={articlesCount} page={page} setPage={setPage} />
+						{!isLoading && <Pagination count={articlesCount} page={page} setPage={setPage} />}
 					</div>
 
 					<div class="col-md-3">
