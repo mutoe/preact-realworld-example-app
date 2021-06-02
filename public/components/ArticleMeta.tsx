@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks';
-import { useLocation } from 'preact-iso/router';
+import { useLocation } from 'preact-iso';
 
 import { apiDeleteArticle, apiFavoriteArticle, apiUnfavoriteArticle } from '../services/api/article';
 import { apiFollowProfile, apiUnfollowProfile } from '../services/api/profile';

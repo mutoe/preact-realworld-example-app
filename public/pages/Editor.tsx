@@ -5,7 +5,9 @@ import { LoadingIndicator } from '../components/LoadingIndicator';
 import { apiCreateArticle, apiGetArticle, apiUpdateArticle } from '../services/api/article';
 
 interface EditorProps {
-	slug?: string;
+	params: {
+		slug?: string;
+	};
 }
 
 interface FormState {
@@ -29,12 +31,12 @@ export default function EditorPage(props: EditorProps) {
 		e.preventDefault();
 
 		setInProgress(true);
-		const article = props.slug ? await apiUpdateArticle(props.slug, form) : await apiCreateArticle(form);
+		const article = props.params.slug ? await apiUpdateArticle(props.params.slug, form) : await apiCreateArticle(form);
 		location.route(`/article/${article.slug}`);
 	}
 
 	useEffect(() => {
-		if (props.slug) {
+		if (props.params.slug) {
 			(async function (slug: string) {
 				const article = await apiGetArticle(slug);
 				setForm({
@@ -43,13 +45,13 @@ export default function EditorPage(props: EditorProps) {
 					body: article.body,
 					tagList: article.tagList
 				});
-			})(props.slug);
+			})(props.params.slug);
 		} else {
 			// Needed in case user switches from editing to creating a new
 			// -- state initializer will not fire again as it's the same component
 			setForm({ title: '', description: '', body: '', tagList: [] });
 		}
-	}, [props.slug]);
+	}, [props.params.slug]);
 
 	return (
 		<div class="editor-page">

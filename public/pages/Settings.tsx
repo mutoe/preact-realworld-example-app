@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from 'preact/hooks';
-import { useLocation } from 'preact-iso/router';
+import { useLocation } from 'preact-iso';
 
 import { AuthErrorHandler } from '../components/AuthErrorHandler';
 import { LoadingIndicator } from '../components/LoadingIndicator';

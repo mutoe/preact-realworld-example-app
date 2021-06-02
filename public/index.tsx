@@ -1,8 +1,6 @@
 import { JSX } from 'preact';
 import { useEffect } from 'preact/hooks';
-import hydrate from 'preact-iso/hydrate';
-import lazy, { ErrorBoundary } from 'preact-iso/lazy';
-import { LocationProvider, Route, Router, useLocation } from 'preact-iso/router';
+import { ErrorBoundary, hydrate, lazy, LocationProvider, Route, Router, useLocation } from 'preact-iso';
 
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';

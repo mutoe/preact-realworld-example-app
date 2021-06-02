@@ -1,5 +1,5 @@
 import { ComponentChildren } from 'preact';
-import { useLocation } from 'preact-iso/router';
+import { useLocation } from 'preact-iso';
 
 interface LinkProps {
 	class?: string;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
-import { useLocation } from 'preact-iso/router';
+import { useLocation } from 'preact-iso';
 
 import { ArticlePreview } from '../components/ArticlePreview';
 import { Link } from '../components/Link';
@@ -11,11 +11,13 @@ import { useStore } from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ProfileProps {
-	username: string;
+	params: {
+		username: string;
+	};
 }
 
 export default function ProfilePage(props: ProfileProps) {
-	const username = props.username?.replace(/^@/, '') || '';
+	const username = props.params.username.replace(/^@/, '') || '';
 	const { url } = useLocation();
 	const [user, setUser] = useState({} as Profile);
 	const [articles, setArticles] = useState<Article[]>([]);

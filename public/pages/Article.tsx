@@ -10,7 +10,9 @@ import { useStore } from '../store';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
 interface ArticlePageProps {
-	slug: string;
+	params: {
+		slug: string;
+	};
 }
 
 export default function ArticlePage(props: ArticlePageProps) {
@@ -21,7 +23,7 @@ export default function ArticlePage(props: ArticlePageProps) {
 	const user = useStore(state => state.user);
 
 	const onPostComment = async () => {
-		const comment: ArticleComment = await apiCreateComment(props.slug, commentBody);
+		const comment: ArticleComment = await apiCreateComment(props.params.slug, commentBody);
 		setCommentBody('');
 		setComments(prevComments => [comment, ...prevComments]);
 	};
@@ -29,11 +31,11 @@ export default function ArticlePage(props: ArticlePageProps) {
 	useEffect(() => {
 		(async function () {
 			setIsLoading(true);
-			setArticle(await apiGetArticle(props.slug));
-			setComments(await apiGetComments(props.slug));
+			setArticle(await apiGetArticle(props.params.slug));
+			setComments(await apiGetComments(props.params.slug));
 			setIsLoading(false);
 		})();
-	}, [props.slug]);
+	}, [props.params.slug]);
 
 	return !article ? (
 		<LoadingIndicator show={isLoading} style={{ margin: '1rem auto', display: 'flex' }} width="2em" />
@@ -80,7 +82,7 @@ export default function ArticlePage(props: ArticlePageProps) {
 						{comments.map(comment => (
 							<ArticleCommentCard
 								key={comment.id}
-								articleSlug={props.slug}
+								articleSlug={props.params.slug}
 								comment={comment}
 								onDelete={() => setComments(prevState => prevState.filter(c => c.id !== comment.id))}
 							/>
