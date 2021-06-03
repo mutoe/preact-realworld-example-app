@@ -22,7 +22,8 @@ export default function ArticlePage(props: ArticlePageProps) {
 	const [isLoading, setIsLoading] = useState(false);
 	const user = useStore(state => state.user);
 
-	const onPostComment = async () => {
+	const postComment = async (e: Event) => {
+		e.preventDefault();
 		const comment: ArticleComment = await apiCreateComment(props.params.slug, commentBody);
 		setCommentBody('');
 		setComments(prevComments => [comment, ...prevComments]);
@@ -61,7 +62,7 @@ export default function ArticlePage(props: ArticlePageProps) {
 
 				<div class="row">
 					<div class="col-xs-12 col-md-8 offset-md-2">
-						<form class="card comment-form">
+						<form class="card comment-form" onSubmit={postComment}>
 							<div class="card-block">
 								<textarea
 									value={commentBody}
@@ -73,9 +74,7 @@ export default function ArticlePage(props: ArticlePageProps) {
 							</div>
 							<div class="card-footer">
 								<img src={user?.image || DEFAULT_AVATAR} class="comment-author-img" />
-								<button class="btn btn-sm btn-primary" onClick={onPostComment}>
-									Post Comment
-								</button>
+								<button class="btn btn-sm btn-primary">Post Comment</button>
 							</div>
 						</form>
 
