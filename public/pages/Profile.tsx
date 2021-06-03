@@ -65,14 +65,11 @@ export default function ProfilePage(props: ProfileProps) {
 							<p>{user.bio}</p>
 							{username == useStore(state => state.user?.username) ? (
 								<Link href="/settings" class="btn btn-sm btn-outline-secondary action-btn">
-									<i class="ion-gear-a" />
-									&nbsp; Edit Profile Settings
+									<i class="ion-gear-a" /> Edit Profile Settings
 								</Link>
 							) : (
 								<button class="btn btn-sm btn-outline-secondary action-btn" onClick={onFollowUser}>
-									<i class="ion-plus-round" />
-									&nbsp;
-									{user.following ? 'Unfollow' : 'Follow'} {username}
+									<i class="ion-plus-round" /> {user.following ? 'Unfollow' : 'Follow'} {username}
 								</button>
 							)}
 						</div>

@@ -26,8 +26,7 @@ export function ArticleCommentCard(props: ArticleCommentCardProps) {
 			<div class="card-footer">
 				<a href={`/@${comment.author.username}`} class="comment-author">
 					<img src={comment.author.image || DEFAULT_AVATAR} class="comment-author-img" alt="User's profile picture" />
-				</a>
-				&nbsp;
+				</a>{' '}
 				<a href={`/@${comment.author.username}`} class="comment-author">
 					{comment.author.username}
 				</a>

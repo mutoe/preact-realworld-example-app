@@ -46,8 +46,7 @@ export function ArticleMeta(props: ArticleMetaProps) {
 				<>
 					<a class="btn btn-sm btn-outline-secondary" href={`/editor/${article.slug}`}>
 						<i class="ion-edit" /> Edit Article
-					</a>
-					&nbsp;&nbsp;
+					</a>{' '}
 					<button class="btn btn-sm btn-outline-danger" onClick={onDelete}>
 						<i class="ion-trash-a" /> Delete Article
 					</button>
@@ -59,14 +58,12 @@ export function ArticleMeta(props: ArticleMetaProps) {
 						onClick={onFollow}
 					>
 						<i class="ion-plus-round" /> {article.author.following ? 'Unfollow' : 'Follow'} {article.author.username}
-					</button>
-					&nbsp;&nbsp;
+					</button>{' '}
 					<button
 						class={`btn btn-sm ${article.favorited ? 'btn-primary' : 'btn-outline-primary'}`}
 						onClick={onFavorite}
 					>
-						<i class="ion-heart" />
-						&nbsp; Favorite Article <span class="counter">({article.favoritesCount})</span>
+						<i class="ion-heart" /> Favorite Article <span class="counter">({article.favoritesCount})</span>
 					</button>
 				</>
 			)}
