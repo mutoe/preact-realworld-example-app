@@ -31,9 +31,5 @@ report.*.json
 .env.local
 .env.*.local
 
-# Lock files
-yarn.lock
-package-lock.json
-
 # WMR Cache
 .cache
