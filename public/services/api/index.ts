@@ -1,6 +1,6 @@
 import { apiService } from 'ts-api-toolkit';
 
-apiService.changeBaseUrl('https://conduit.productionready.io/api');
+apiService.changeBaseUrl('https://api.realworld.io/api');
 apiService.changeAuthSchema('Token');
 
 export function errorHandler(error: { data?: { [key: string]: string[] } }, fallbackMessage: string) {

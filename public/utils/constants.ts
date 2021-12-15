@@ -1,1 +1,1 @@
-export const DEFAULT_AVATAR = 'https://static.productionready.io/images/smiley-cyrus.jpg';
+export const DEFAULT_AVATAR = 'https://static.realworld.io/images/smiley-cyrus.jpg';
